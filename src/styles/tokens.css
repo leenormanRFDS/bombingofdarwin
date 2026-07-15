@@ -1,0 +1,51 @@
+/* ============================================================
+   Design tokens — the brand, pulled straight from the poster.
+   Change a value here and it cascades across the whole site.
+   ============================================================ */
+:root {
+  /* --- Colour: ink & smoke --- */
+  --ink: #0c0a08;          /* page background (near-black, warm) */
+  --char: #14110d;         /* raised surface */
+  --char-2: #1e1912;       /* card / panel */
+  --smoke: #4a4034;        /* muted warm grey-brown */
+  --smoke-2: #6b5d4c;
+
+  /* --- Colour: fire & gold --- */
+  --ember: #cf5a1e;
+  --ember-bright: #f5872f;
+  --gold: #d9a441;
+  --gold-bright: #f2d488;
+
+  /* --- Colour: HUD cyan (the AR targeting layer) --- */
+  --hud: #4fdfff;
+  --hud-dim: rgba(79, 223, 255, 0.55);
+  --hud-faint: rgba(79, 223, 255, 0.14);
+
+  /* --- Colour: text (cream / spray) --- */
+  --cream: #ede7d8;
+  --cream-dim: rgba(237, 231, 216, 0.66);
+  --cream-mute: rgba(237, 231, 216, 0.42);
+  --signal: #a8503f;
+  --line: rgba(237, 231, 216, 0.13);
+
+  /* --- Type --- */
+  --font-display: 'Oswald', system-ui, -apple-system, sans-serif;
+  --font-body: 'Work Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  /* --- Layout --- */
+  --container: 1200px;
+  --gutter: clamp(20px, 5vw, 56px);
+  --nav-h: 68px;
+
+  /* --- Radii & shadows --- */
+  --radius: 10px;
+  --radius-lg: 18px;
+  --radius-pill: 100px;
+  --shadow-card: 0 24px 60px rgba(0, 0, 0, 0.5);
+  --shadow-pill: 0 8px 24px rgba(0, 0, 0, 0.4);
+
+  /* --- Motion --- */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur: 0.5s;
+}
