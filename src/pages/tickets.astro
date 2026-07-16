@@ -1,0 +1,70 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { SITE } from '../consts';
+
+const tiers = [
+  { tier: 'Adult', price: 30, who: 'One adult' },
+  { tier: 'Child', price: 18, who: 'Ages 5–15' },
+  { tier: 'Concession', price: 26, who: 'Seniors & concession card holders, on presentation of proof' },
+  { tier: 'Family', price: 90, who: '2 adults + 3 children', best: true },
+];
+---
+<Base title="Tickets" description="Tickets to the Bombing of Darwin Experience — every ticket includes the Royal Flying Doctor Service Experience. Adult $30, Child $18, Concession $26, Family $90.">
+  <PageHeader
+    record="Admission"
+    title="Tickets"
+    lede="One ticket, both experiences. Every admission includes full entry to the Bombing of Darwin Experience and the Royal Flying Doctor Service Experience."
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="tiers">
+        {tiers.map((t) => (
+          <div class={`card tier ${t.best ? 'tier--best' : ''}`}>
+            {t.best && <span class="tier__flag">Best value</span>}
+            <span class="record tier__name">{t.tier}</span>
+            <span class="tier__price">${t.price}</span>
+            <span class="tier__who">{t.who}</span>
+          </div>
+        ))}
+      </div>
+
+      <div class="book">
+        <a class="btn-book" href={SITE.bookPath}>Book Tickets</a>
+        <p class="record">Secure checkout via Rezdy</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight" style="border-top:1px solid var(--line);">
+    <div class="container">
+      <div class="facts">
+        <div>
+          <p class="eyebrow eyebrow--gold">Locals Boarding Pass</p>
+          <p class="prose">Territorians can enjoy unlimited entry for twelve months. Ask our team and present valid proof of residency.</p>
+        </div>
+        <div>
+          <p class="eyebrow eyebrow--gold">Concessions & Seniors</p>
+          <p class="prose">Valid for Australian and international seniors and eligible concession card holders, on presentation of proof.</p>
+        </div>
+        <div>
+          <p class="eyebrow eyebrow--gold">Combination packages</p>
+          <p class="prose">Pair your visit with other Darwin harbour experiences. Ask at the desk or enquire about group and trade rates.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .tiers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 44px; }
+  .tier { position: relative; display: flex; flex-direction: column; gap: 8px; padding: 26px 22px; }
+  .tier--best { border-color: var(--gold); }
+  .tier__flag { position: absolute; top: -1px; right: -1px; font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); background: var(--gold); padding: 4px 9px; border-radius: 0 var(--radius) 0 var(--radius); }
+  .tier__price { font-family: var(--font-display-xl); font-weight: 400; font-size: 3rem; color: var(--gold-bright); line-height: 1; }
+  .tier__who { font-size: 0.86rem; color: var(--bone-dim); }
+  .book { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(24px, 4vw, 48px); }
+  @media (max-width: 760px) { .tiers { grid-template-columns: repeat(2, 1fr); } .facts { grid-template-columns: 1fr; } }
+</style>

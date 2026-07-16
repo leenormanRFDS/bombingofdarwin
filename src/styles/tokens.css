@@ -1,51 +1,59 @@
 /* ============================================================
-   Design tokens — the brand, pulled straight from the poster.
-   Change a value here and it cascades across the whole site.
+   Design tokens — the memorial system.
+   Ink & bone. One gold hairline. Type is architecture.
+   Cyan has been retired from the interface; warmth lives only
+   inside the photography.
    ============================================================ */
 :root {
-  /* --- Colour: ink & smoke --- */
-  --ink: #0c0a08;          /* page background (near-black, warm) */
-  --char: #14110d;         /* raised surface */
-  --char-2: #1e1912;       /* card / panel */
-  --smoke: #4a4034;        /* muted warm grey-brown */
-  --smoke-2: #6b5d4c;
+  /* --- ink & surfaces --- */
+  --ink: #0b0a08;      /* the ground — near-black, warm */
+  --char: #141110;     /* raised surface */
+  --char-2: #1c1815;   /* card / panel */
+  --char-3: #241e1a;   /* hover / inset */
 
-  /* --- Colour: fire & gold --- */
+  /* --- text: bone / parchment --- */
+  --bone: #ece7db;
+  --bone-dim: rgba(236, 231, 219, 0.66);
+  --bone-mute: rgba(236, 231, 219, 0.40);
+
+  /* --- accent: gold, hairline & emphasis ONLY (never a fill of scale) --- */
+  --gold: #c6a15b;
+  --gold-bright: #e4c583;
+
+  /* --- the red string / restricted stamp --- */
+  --signal: #9e3b2e;
+
+  /* --- photographic warmth (grades only, never UI) --- */
   --ember: #cf5a1e;
-  --ember-bright: #f5872f;
-  --gold: #d9a441;
-  --gold-bright: #f2d488;
 
-  /* --- Colour: HUD cyan (the AR targeting layer) --- */
-  --hud: #4fdfff;
-  --hud-dim: rgba(79, 223, 255, 0.55);
-  --hud-faint: rgba(79, 223, 255, 0.14);
+  /* --- functional cue: a restrained steel for focus, not the old game-cyan --- */
+  --focus: #6fa8b5;
+  --hud: #6fa8b5;      /* legacy alias so nothing breaks */
 
-  /* --- Colour: text (cream / spray) --- */
-  --cream: #ede7d8;
-  --cream-dim: rgba(237, 231, 216, 0.66);
-  --cream-mute: rgba(237, 231, 216, 0.42);
-  --signal: #a8503f;
-  --line: rgba(237, 231, 216, 0.13);
+  --line: rgba(236, 231, 219, 0.12);
+  --line-strong: rgba(236, 231, 219, 0.22);
 
-  /* --- Type --- */
-  --font-display: 'Oswald', system-ui, -apple-system, sans-serif;
-  --font-body: 'Work Sans', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  /* --- type roles: each earns its place by function --- */
+  --font-display: 'guildhall-condensed', 'Oswald', system-ui, sans-serif;     /* titles */
+  --font-display-xl: 'guildhall-compressed', 'Oswald', system-ui, sans-serif; /* monuments */
+  --font-display-reg: 'guildhall', 'Oswald', system-ui, sans-serif;           /* display, regular width */
+  --font-serif: 'Spectral', Georgia, 'Times New Roman', serif;  /* the human voice */
+  --font-sans: 'Work Sans', system-ui, -apple-system, sans-serif; /* UI / logistics */
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace; /* records */
 
-  /* --- Layout --- */
-  --container: 1200px;
-  --gutter: clamp(20px, 5vw, 56px);
-  --nav-h: 68px;
+  /* --- layout --- */
+  --container: 1180px;
+  --measure: 64ch;
+  --gutter: clamp(22px, 5vw, 64px);
+  --nav-h: 64px;
 
-  /* --- Radii & shadows --- */
-  --radius: 10px;
-  --radius-lg: 18px;
+  /* --- radii & shadow (museum crispness, not app softness) --- */
+  --radius: 4px;
   --radius-pill: 100px;
-  --shadow-card: 0 24px 60px rgba(0, 0, 0, 0.5);
-  --shadow-pill: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
 
-  /* --- Motion --- */
+  /* --- motion: memory. measured, weighted. --- */
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --dur: 0.5s;
+  --ease-solemn: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 0.6s;
 }

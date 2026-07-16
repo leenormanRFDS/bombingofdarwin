@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import BookingForm from '../components/BookingForm.astro';
+---
+<Base title="Book Tickets" description="Book your visit to the Bombing of Darwin Experience at Stokes Hill Wharf. One ticket includes both the Bombing of Darwin and the Royal Flying Doctor Service experiences.">
+  <PageHeader
+    record="Admission · Book"
+    title="Book Your Visit"
+    lede="Choose a date and time. One ticket includes both the Bombing of Darwin Experience and the Royal Flying Doctor Service Experience."
+  />
+
+  <section class="section">
+    <BookingForm />
+  </section>
+</Base>

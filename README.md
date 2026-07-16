@@ -42,7 +42,24 @@ src/
 source/          Raw high-res artwork (kept locally, not deployed — .gitignored).
 ```
 
+## Configuration you control
+
+**Fonts (Adobe Fonts).** The display face is Guildhall, loaded via the web-project kit
+`https://use.typekit.net/hoe3ija.css`. Adobe Fonts web projects have **no domain allowlist** —
+the kit works on any domain automatically, so there's nothing to configure. Just make sure the
+three Guildhall styles (Regular, Condensed, Compressed) are in that web project and it's
+published. If Guildhall can't load, the type falls back to a system sans.
+
+**Booking (Rezdy).** The booking skin at `/book` runs on realistic mock availability until
+you connect Rezdy. In Vercel → Settings → Environment Variables, add:
+
+- `REZDY_API_KEY` — the Supplier API key (secret; stays server-side in `/api/availability.js`)
+- `REZDY_PRODUCT_CODE` — the product/booking code
+
+The Book button hands off to your Rezdy checkout (`rfdsdarwin1.rezdy.com`) for secure payment.
+Full in-site "headless" payment is a later phase.
+
 ## To do next
-- Optimise the big artwork in `source/` into fast web images.
-- Chapter I hero (the cinematic raid reveal).
-- The rest of the chapters, the "Meet the People" wheel, tickets + booking.
+- The cinematic Experience opening, the narrative chapters, the "Meet the People" wheel, the Desk home.
+- In Memoriam (last).
+- Full headless payment (Stripe tokenisation) once Rezdy API access is confirmed.

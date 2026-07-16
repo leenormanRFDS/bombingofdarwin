@@ -1,0 +1,169 @@
+---
+import { BOOKING_TIERS, SITE } from '../consts';
+---
+<section class="booking" aria-label="Book tickets">
+  <div class="step">
+    <div class="step__head"><span class="step__n">01</span><h2 class="step__t">Choose a date</h2></div>
+    <div class="dates" data-dates><p class="record loading">Loading availability…</p></div>
+    <p class="record mock-note" data-mocknote hidden>Example times shown — live availability connects once Rezdy is linked.</p>
+  </div>
+
+  <div class="step" data-step-session hidden>
+    <div class="step__head"><span class="step__n">02</span><h2 class="step__t">Choose a time</h2></div>
+    <div class="sessions" data-sessions></div>
+  </div>
+
+  <div class="step" data-step-tickets hidden>
+    <div class="step__head"><span class="step__n">03</span><h2 class="step__t">Tickets</h2></div>
+    <div class="tickets" data-tickets></div>
+    <p class="record incl">Every ticket includes both the Bombing of Darwin and the Royal Flying Doctor Service experiences.</p>
+  </div>
+
+  <div class="summary" data-summary hidden>
+    <div class="summary__total"><span class="record">Total</span><span class="summary__amt" data-total>$0</span></div>
+    <button class="btn-book" data-book disabled>Book Tickets</button>
+    <p class="record summary__secure">Secure payment via Rezdy</p>
+  </div>
+
+  <script type="application/json" data-tiers set:html={JSON.stringify(BOOKING_TIERS)}></script>
+  <script type="application/json" data-config set:html={JSON.stringify({ bookingUrl: SITE.bookingUrl })}></script>
+</section>
+
+<style>
+  .booking { max-width: 720px; margin-inline: auto; }
+  .step { padding: 30px 0; border-top: 1px solid var(--line); }
+  .step:first-of-type { border-top: 0; padding-top: 0; }
+  .step__head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 20px; }
+  .step__n { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.1em; color: var(--gold); }
+  .step__t { font-family: var(--font-display-reg); font-weight: 500; text-transform: none; font-size: 1.3rem; margin: 0; letter-spacing: 0; }
+
+  .dates { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: thin; }
+  .chip {
+    flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 3px;
+    min-width: 66px; padding: 13px 10px; background: var(--char-2); border: 1px solid var(--line);
+    border-radius: var(--radius); color: var(--bone-dim); cursor: pointer;
+    transition: border-color 0.2s var(--ease), color 0.2s var(--ease), background 0.2s var(--ease);
+  }
+  .chip:hover { border-color: var(--line-strong); color: var(--bone); }
+  .chip[aria-current='true'] { border-color: var(--gold); color: var(--bone); background: var(--char-3); }
+  .chip__wd { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bone-mute); }
+  .chip__day { font-family: var(--font-display-reg); font-weight: 500; font-size: 1.5rem; line-height: 1; }
+  .chip__mo { font-family: var(--font-mono); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--bone-mute); }
+
+  .sessions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip--time { flex-direction: row; align-items: center; gap: 9px; min-width: 0; padding: 12px 18px; }
+  .chip__time { font-family: var(--font-mono); font-size: 0.92rem; letter-spacing: 0.05em; }
+  .chip__seats { font-family: var(--font-mono); font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--signal); }
+
+  .tickets { }
+  .trow { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 0; border-top: 1px solid var(--line); }
+  .trow:first-child { border-top: 0; }
+  .trow__info { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .trow__label { color: var(--bone); font-weight: 500; }
+  .trow__note { color: var(--bone-mute); font-size: 0.8rem; }
+  .trow__price { color: var(--gold); font-family: var(--font-mono); font-size: 0.82rem; }
+  .stepper { display: flex; align-items: center; gap: 16px; }
+  .stepper__b { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line-strong); background: transparent; color: var(--bone); font-size: 1.15rem; line-height: 1; cursor: pointer; display: grid; place-items: center; transition: border-color 0.2s var(--ease), color 0.2s var(--ease); }
+  .stepper__b:hover { border-color: var(--gold); color: var(--gold); }
+  .stepper__n { min-width: 20px; text-align: center; font-family: var(--font-mono); }
+
+  .incl { margin-top: 18px; color: var(--bone-mute); }
+  .summary { display: flex; flex-direction: column; align-items: center; gap: 16px; padding-top: 30px; border-top: 1px solid var(--line); }
+  .summary__total { display: flex; align-items: baseline; gap: 14px; }
+  .summary__amt { font-family: var(--font-display-xl); font-weight: 400; font-size: 2.4rem; color: var(--bone); line-height: 1; }
+  .summary__secure { color: var(--bone-mute); }
+  .mock-note, .loading { color: var(--bone-mute); }
+  .mock-note { margin-top: 12px; }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('.booking');
+  if (root) {
+    const tiers = JSON.parse(root.querySelector('[data-tiers]')!.textContent || '[]');
+    const config = JSON.parse(root.querySelector('[data-config]')!.textContent || '{}');
+    const el = (s: string) => root.querySelector(s) as HTMLElement;
+
+    const state: any = { byDate: {}, dates: [], date: null, session: null, qty: {} };
+    tiers.forEach((t: any) => (state.qty[t.code] = 0));
+
+    const WD = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const MO = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const fmt = (iso: string) => { const d = new Date(iso + 'T00:00:00'); return { wd: WD[d.getDay()], day: d.getDate(), mo: MO[d.getMonth()] }; };
+    const money = (n: number) => '$' + n.toLocaleString();
+
+    async function load() {
+      let data: any = null;
+      try { const r = await fetch('/api/availability'); data = await r.json(); } catch (e) { data = null; }
+      if (!data || !data.sessions) data = { mock: true, sessions: [] };
+      if (data.mock) el('[data-mocknote]').hidden = false;
+      state.byDate = {};
+      data.sessions.forEach((s: any) => { if (s.seatsAvailable === 0) return; (state.byDate[s.date] = state.byDate[s.date] || []).push(s); });
+      state.dates = Object.keys(state.byDate).sort();
+      renderDates();
+    }
+
+    function renderDates() {
+      const c = el('[data-dates]'); c.innerHTML = '';
+      if (!state.dates.length) { c.innerHTML = '<p class="record">No sessions available right now. Please check back soon.</p>'; return; }
+      state.dates.forEach((iso: string) => {
+        const f = fmt(iso); const b = document.createElement('button');
+        b.className = 'chip'; b.type = 'button'; b.setAttribute('aria-current', 'false');
+        b.innerHTML = `<span class="chip__wd">${f.wd}</span><span class="chip__day">${f.day}</span><span class="chip__mo">${f.mo}</span>`;
+        b.addEventListener('click', () => selectDate(iso, b)); c.appendChild(b);
+      });
+    }
+    function selectDate(iso: string, btn: HTMLElement) {
+      state.date = iso; state.session = null;
+      root!.querySelectorAll('[data-dates] .chip').forEach((x) => x.setAttribute('aria-current', 'false'));
+      btn.setAttribute('aria-current', 'true');
+      el('[data-step-session]').hidden = false; renderSessions();
+      el('[data-step-tickets]').hidden = true; el('[data-summary]').hidden = true;
+    }
+    function renderSessions() {
+      const c = el('[data-sessions]'); c.innerHTML = '';
+      state.byDate[state.date].sort((a: any, b: any) => a.time.localeCompare(b.time)).forEach((s: any) => {
+        const b = document.createElement('button'); b.className = 'chip chip--time'; b.type = 'button'; b.setAttribute('aria-current', 'false');
+        const low = s.seatsAvailable != null && s.seatsAvailable <= 8;
+        b.innerHTML = `<span class="chip__time">${s.time}</span>${low ? `<span class="chip__seats">${s.seatsAvailable} left</span>` : ''}`;
+        b.addEventListener('click', () => selectSession(s, b)); c.appendChild(b);
+      });
+    }
+    function selectSession(s: any, btn: HTMLElement) {
+      state.session = s;
+      root!.querySelectorAll('[data-sessions] .chip').forEach((x) => x.setAttribute('aria-current', 'false'));
+      btn.setAttribute('aria-current', 'true');
+      el('[data-step-tickets]').hidden = false; el('[data-summary]').hidden = false;
+      if (!el('[data-tickets]').childElementCount) renderTickets();
+      update();
+    }
+    function renderTickets() {
+      const c = el('[data-tickets]'); c.innerHTML = '';
+      tiers.forEach((t: any) => {
+        const row = document.createElement('div'); row.className = 'trow';
+        row.innerHTML =
+          `<div class="trow__info"><span class="trow__label">${t.label}</span>${t.note ? `<span class="trow__note">${t.note}</span>` : ''}<span class="trow__price">${money(t.price)}</span></div>` +
+          `<div class="stepper"><button type="button" class="stepper__b" data-dec aria-label="Fewer ${t.label}">–</button><span class="stepper__n" data-count>0</span><button type="button" class="stepper__b" data-inc aria-label="More ${t.label}">+</button></div>`;
+        const count = row.querySelector('[data-count]') as HTMLElement;
+        row.querySelector('[data-dec]')!.addEventListener('click', () => { state.qty[t.code] = Math.max(0, state.qty[t.code] - 1); count.textContent = state.qty[t.code]; update(); });
+        row.querySelector('[data-inc]')!.addEventListener('click', () => { state.qty[t.code] = Math.min(t.max || 20, state.qty[t.code] + 1); count.textContent = state.qty[t.code]; update(); });
+        c.appendChild(row);
+      });
+    }
+    const total = () => tiers.reduce((s: number, t: any) => s + t.price * state.qty[t.code], 0);
+    const count = () => tiers.reduce((s: number, t: any) => s + state.qty[t.code], 0);
+    function update() {
+      el('[data-total]').textContent = money(total());
+      (el('[data-book]') as HTMLButtonElement).disabled = !(state.session && count() > 0);
+    }
+
+    el('[data-book]').addEventListener('click', () => {
+      if (!state.session || count() === 0) return;
+      const params = new URLSearchParams({ date: state.date, time: state.session.time });
+      tiers.forEach((t: any) => { if (state.qty[t.code]) params.set(t.code, String(state.qty[t.code])); });
+      // Hand off to Rezdy's secure checkout, carrying the selection.
+      window.open(`${config.bookingUrl}?${params.toString()}`, '_blank', 'noopener');
+    });
+
+    load();
+  }
+</script>

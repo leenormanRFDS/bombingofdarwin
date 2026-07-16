@@ -1,60 +1,45 @@
 ---
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
-import { SITE, PRICES } from '../consts';
+import { PRICES } from '../consts';
 ---
 <Base>
   <Hero />
 
-  <!-- ============ INTRO / TICKETS TASTER (Chapters II–V land below over the next bricks) ============ -->
-  <section class="intro" id="experience">
-    <div class="container intro__inner">
+  <!-- Intro — the narrative chapters land below over the coming bricks -->
+  <section class="section" id="experience">
+    <div class="container">
       <p class="eyebrow">The Experience</p>
-      <h2 class="intro__h">Step into the day that changed Australia.</h2>
-      <p class="intro__p">
+      <h2 class="title measure">Step into the day the war reached Australia.</h2>
+      <p class="prose prose--serif measure">
         On the morning of 19 February 1942, more bombs fell on Darwin than on Pearl Harbour. At Stokes Hill
-        Wharf you don't just read about it — you're placed inside it: the Window to Darwin Harbour, the people
-        who lived it, and a First Nations story told through generations of Tiwi tradition. Every ticket
-        includes the Bombing of Darwin Experience and the Royal Flying Doctor Service Experience.
+        Wharf you don't read about it — you're placed inside it: the Window to Darwin Harbour, the people who
+        lived it, and a First Nations story carried through generations of Tiwi tradition. Every ticket
+        includes both the Bombing of Darwin Experience and the Royal Flying Doctor Service Experience.
       </p>
 
       <div class="tiers">
         {PRICES.map((t) => (
-          <div class="tier">
-            <span class="tier__name">{t.tier}</span>
+          <div class="card tier">
+            <span class="record tier__name">{t.tier}</span>
             <span class="tier__price">${t.price}</span>
-            {t.note && <span class="tier__note">{t.note}</span>}
+            <span class="tier__note">{t.note ?? ' '}</span>
           </div>
         ))}
       </div>
 
-      <a class="btn" href={SITE.bookingUrl} target="_blank" rel="noopener">Book Your Experience</a>
+      <a class="btn" href="/book">Book Tickets</a>
     </div>
   </section>
 </Base>
 
 <style>
-  .intro { position: relative; z-index: 2; padding: clamp(70px, 12vw, 140px) 0; background: var(--ink); }
-  .intro__inner { max-width: 780px; }
-  .intro__h {
-    font-size: clamp(1.8rem, 5vw, 3rem);
-    color: var(--cream);
-    max-width: 18ch;
-    margin-bottom: 24px;
-  }
-  .intro__p { color: var(--cream-dim); font-size: 1.06rem; margin-bottom: 40px; }
-
+  .title { max-width: 20ch; margin-bottom: 24px; }
+  .section .prose { margin-bottom: 44px; }
   .tiers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 40px; }
-  .tier {
-    display: flex; flex-direction: column; gap: 4px;
-    padding: 18px; background: var(--char-2);
-    border: 1px solid var(--line); border-radius: var(--radius);
-    transition: border-color 0.25s var(--ease), transform 0.25s var(--ease);
-  }
-  .tier:hover { border-color: var(--hud-dim); transform: translateY(-3px); }
-  .tier__name { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream-mute); }
-  .tier__price { font-family: var(--font-display); font-size: 1.9rem; color: var(--gold-bright); line-height: 1; }
-  .tier__note { font-size: 0.72rem; color: var(--cream-mute); }
-
+  .tier { display: flex; flex-direction: column; gap: 6px; padding: 20px; }
+  .tier:hover { border-color: var(--gold); transform: translateY(-3px); }
+  .tier__price { font-family: var(--font-display-xl); font-weight: 400; font-size: 2.4rem; color: var(--gold-bright); line-height: 1; }
+  .tier__note { font-size: 0.74rem; color: var(--bone-mute); }
   @media (max-width: 680px) { .tiers { grid-template-columns: repeat(2, 1fr); } }
 </style>

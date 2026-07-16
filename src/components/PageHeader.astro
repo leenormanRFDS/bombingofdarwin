@@ -1,0 +1,24 @@
+---
+interface Props {
+  record: string;   // the mono "record" line, e.g. "PLAN YOUR VISIT / SECTION 04"
+  title: string;    // the monument
+  lede?: string;    // optional serif line
+}
+const { record, title, lede } = Astro.props;
+---
+<header class="pagehead">
+  <div class="container">
+    <p class="eyebrow">{record}</p>
+    <h1 class="monument monument--sm">{title}</h1>
+    <div class="rule rule--short" style="margin-top: 26px;"></div>
+    {lede && <p class="lede measure" style="margin-top: 26px;">{lede}</p>}
+  </div>
+</header>
+
+<style>
+  .pagehead {
+    padding-top: calc(var(--nav-h) + clamp(48px, 9vw, 104px));
+    padding-bottom: clamp(28px, 5vw, 52px);
+    border-bottom: 1px solid var(--line);
+  }
+</style>

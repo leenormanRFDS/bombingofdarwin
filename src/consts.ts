@@ -7,15 +7,25 @@ export const SITE = {
   domain: 'thebombingofdarwin.com.au',
   description:
     'Stand on Stokes Hill Wharf and live the day the war reached Australia. An immersive VR, hologram and theatre experience of the 19 February 1942 Bombing of Darwin, with the Royal Flying Doctor Service.',
-  // TODO: replace with the real Rezdy checkout URL once confirmed (e.g. https://<company>.rezdy.com/...)
+  // Our own booking skin lives here:
+  bookPath: '/book',
+  // The Rezdy hosted checkout the skin hands off to for secure payment.
   bookingUrl: 'https://rfdsdarwin1.rezdy.com',
 };
 
+// Booking tiers shown in the seamless booking skin.
+export const BOOKING_TIERS: { code: string; label: string; price: number; note?: string; max?: number }[] = [
+  { code: 'adult', label: 'Adult', price: 30, max: 20 },
+  { code: 'child', label: 'Child', price: 18, note: 'Ages 5–15', max: 20 },
+  { code: 'concession', label: 'Concession', price: 26, note: 'Seniors & concession', max: 20 },
+  { code: 'family', label: 'Family', price: 90, note: '2 adults + 3 children', max: 10 },
+];
+
 export const NAV: { label: string; href: string }[] = [
   { label: 'The Experience', href: '/#experience' },
-  { label: 'The Story', href: '/#story' },
   { label: 'Visit', href: '/visit' },
   { label: 'Tickets', href: '/tickets' },
+  { label: 'Schools & Groups', href: '/schools' },
 ];
 
 export const LOCALES: { code: string; label: string; name: string }[] = [
