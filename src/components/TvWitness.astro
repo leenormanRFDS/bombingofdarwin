@@ -1,0 +1,112 @@
+---
+// The vintage television as artifact — a 3D model that turns slowly in the dark.
+---
+<figure class="tv" data-tv aria-label="A 1940s television set, turning slowly">
+  <div class="tv__stage">
+    <canvas class="tv__canvas" data-canvas></canvas>
+    <div class="tv__loading record" data-loading>Loading…</div>
+  </div>
+  <figcaption class="tv__cap record">Period television · the window to the archive</figcaption>
+</figure>
+
+<style>
+  .tv { margin: 0; display: flex; flex-direction: column; align-items: center; }
+  .tv__stage {
+    position: relative; width: 100%; height: min(64vh, 600px);
+    display: grid; place-items: center;
+  }
+  .tv__stage::before {
+    content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background: radial-gradient(50% 55% at 50% 48%, rgba(198, 161, 91, 0.06), transparent 70%);
+  }
+  .tv__canvas { position: relative; z-index: 1; width: 100%; height: 100%; display: block; }
+  .tv__loading { position: absolute; z-index: 0; color: var(--bone-mute); }
+  .tv[data-ready] .tv__loading { display: none; }
+  .tv__cap { margin-top: 8px; color: var(--bone-mute); }
+</style>
+
+<script>
+  import * as THREE from 'three';
+  import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+  import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
+
+  const mount = document.querySelector('[data-tv]');
+  const canvas = mount?.querySelector('[data-canvas]');
+
+  if (mount && canvas) {
+    let started = false;
+    const startObserver = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting && !started) { started = true; init(); } });
+    }, { rootMargin: '250px' });
+    startObserver.observe(mount);
+
+    function init() {
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.05;
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+
+      const pmrem = new THREE.PMREMGenerator(renderer);
+      scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.03).texture;
+
+      const key = new THREE.DirectionalLight(0xffe9c8, 2.4); key.position.set(2.5, 3, 3);
+      const rim = new THREE.DirectionalLight(0x9fb8c8, 1.2); rim.position.set(-3, 2, -2.5);
+      const amb = new THREE.AmbientLight(0x40372e, 0.7);
+      const screenGlow = new THREE.PointLight(0xe6ecff, 0.0, 3.5);
+      scene.add(key, rim, amb, screenGlow);
+
+      const group = new THREE.Group();
+      group.rotation.y = -0.4;
+      scene.add(group);
+
+      new GLTFLoader().load('/models/tv.glb', (gltf) => {
+        const model = gltf.scene;
+        const box = new THREE.Box3().setFromObject(model);
+        const size = box.getSize(new THREE.Vector3());
+        const center = box.getCenter(new THREE.Vector3());
+        model.position.sub(center);
+        group.add(model);
+
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const fov = (camera.fov * Math.PI) / 180;
+        const dist = (maxDim / 2 / Math.tan(fov / 2)) * 1.75;
+        camera.position.set(0, size.y * 0.03, dist);
+        camera.lookAt(0, 0, 0);
+
+        screenGlow.position.set(0, 0, size.z * 0.5 + 0.06);
+        screenGlow.intensity = 1.3;
+
+        mount.setAttribute('data-ready', '');
+        resize();
+        animate();
+      });
+
+      let visible = true;
+      const t0 = performance.now();
+      function animate() {
+        requestAnimationFrame(animate);
+        if (!visible) return;
+        if (!reduce) group.rotation.y = -0.4 + ((performance.now() - t0) / 1000) * 0.16;
+        renderer.render(scene, camera);
+      }
+
+      function resize() {
+        const w = canvas.clientWidth, h = canvas.clientHeight;
+        if (!w || !h) return;
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+      }
+      window.addEventListener('resize', resize);
+
+      const visObserver = new IntersectionObserver((entries) => { visible = entries[0].isIntersecting; }, { threshold: 0 });
+      visObserver.observe(mount);
+    }
+  }
+</script>
