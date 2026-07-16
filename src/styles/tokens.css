@@ -6,7 +6,7 @@
    ============================================================ */
 :root {
   /* --- ink & surfaces --- */
-  --ink: #0b0a08;      /* the ground — near-black, warm */
+  --ink: #0c0c0b;      /* Archival Void — bruised charcoal that absorbs light, never pure black */
   --char: #141110;     /* raised surface */
   --char-2: #1c1815;   /* card / panel */
   --char-3: #241e1a;   /* hover / inset */
@@ -39,7 +39,7 @@
   --font-display-reg: 'guildhall', 'Oswald', system-ui, sans-serif;           /* display, regular width */
   --font-serif: 'Spectral', Georgia, 'Times New Roman', serif;  /* the human voice */
   --font-sans: 'Work Sans', system-ui, -apple-system, sans-serif; /* UI / logistics */
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace; /* records */
+  --font-mono: 'Atlas Grotesk', 'Work Sans', system-ui, sans-serif; /* records / labels (self-hosted @font-face) */
 
   /* --- layout --- */
   --container: 1180px;
