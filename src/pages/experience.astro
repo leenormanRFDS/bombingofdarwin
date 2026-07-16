@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import CulturalWarning from '../components/CulturalWarning.astro';
+import PeopleCarousel from '../components/PeopleCarousel.astro';
+import { SITE } from '../consts';
+
+const features = [
+  ['Step Into History', 'Stand where it happened, through immersive theatre, virtual reality and the panoramic Window to Darwin Harbour.'],
+  ['Meet the People', 'The leaders, the airmen and the ordinary lives changed forever on a single morning.'],
+  ['Hear Ampiyartiliwayi’s Story', 'A First Nations account of 19 February 1942, carried through generations of Tiwi storytelling, song and dance.'],
+];
+---
+<Base title="The Experience" description="Step into the day the war reached Australia — immersive theatre, virtual reality, the Window to Darwin Harbour, and the people behind 19 February 1942.">
+  <PageHeader
+    record="Chapter III · The Experience"
+    title="The Experience"
+    lede="You don't read about 19 February 1942. You're placed inside it — through immersive theatre, virtual reality, and the people who lived it."
+  />
+
+  <section class="section">
+    <div class="container pillars">
+      {features.map(([t, d]) => (
+        <div class="pillar">
+          <div class="rule rule--short rule--gold"></div>
+          <h2 class="title pillar__t">{t}</h2>
+          <p class="prose prose--serif">{d}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <CulturalWarning />
+
+  <section class="section" id="people">
+    <div class="container">
+      <p class="eyebrow" style="text-align:center;">Meet the People</p>
+      <p class="lede measure" style="margin: 0 auto 48px; text-align:center;">
+        Behind the date are people — those who decided, those who fought, and those whose lives were changed forever.
+      </p>
+      <PeopleCarousel />
+    </div>
+  </section>
+
+  <section class="section--tight" style="border-top:1px solid var(--line);">
+    <div class="container" style="text-align:center; padding-block: clamp(48px,7vw,84px);">
+      <a class="btn-book" href={SITE.bookPath}>Book Your Visit</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(28px, 4vw, 52px); }
+  .pillar__t { margin-top: 20px; font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
+  @media (max-width: 760px) { .pillars { grid-template-columns: 1fr; gap: 40px; } }
+</style>

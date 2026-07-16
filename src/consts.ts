@@ -22,7 +22,7 @@ export const BOOKING_TIERS: { code: string; label: string; price: number; note?:
 ];
 
 export const NAV: { label: string; href: string }[] = [
-  { label: 'The Experience', href: '/#experience' },
+  { label: 'The Experience', href: '/experience' },
   { label: 'Visit', href: '/visit' },
   { label: 'Tickets', href: '/tickets' },
   { label: 'Schools & Groups', href: '/schools' },
