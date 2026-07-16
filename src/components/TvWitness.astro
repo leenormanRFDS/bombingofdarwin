@@ -1,112 +1,65 @@
 ---
-// The vintage television as artifact — a 3D model that turns slowly in the dark.
+// The period television as artefact — static, its screen a window to the archive.
+// A short montage crossfades through the transparent screen; when the real
+// footage exists, swap the <img> frames for a <video> in .tv__screen.
+const frames = ['frame1', 'frame2', 'frame3'];
 ---
-<figure class="tv" data-tv aria-label="A 1940s television set, turning slowly">
-  <div class="tv__stage">
-    <canvas class="tv__canvas" data-canvas></canvas>
-    <div class="tv__loading record" data-loading>Loading…</div>
+<figure class="tv" data-tv aria-label="A period television showing archival scenes of 19 February 1942">
+  <div class="tv__set-wrap">
+    <div class="tv__screen" aria-hidden="true">
+      {frames.map((f, i) => (
+        <img class:list={['tv__frame', { 'is-on': i === 0 }]} src={`/images/witness/${f}.webp`} alt="" loading="lazy" decoding="async" />
+      ))}
+      <div class="tv__crt"></div>
+    </div>
+    <img class="tv__set" src="/images/witness/tv-set.webp" alt="A period television set" width="1600" height="1160" loading="lazy" decoding="async" />
   </div>
   <figcaption class="tv__cap record">Period television · the window to the archive</figcaption>
 </figure>
 
 <style>
-  .tv { margin: 0; display: flex; flex-direction: column; align-items: center; }
-  .tv__stage {
-    position: relative; width: 100%; height: min(64vh, 600px);
-    display: grid; place-items: center;
+  .tv { display: flex; flex-direction: column; align-items: center; gap: 18px; margin: 0; }
+  .tv__set-wrap { position: relative; width: 100%; max-width: 760px; aspect-ratio: 1600 / 1160; }
+
+  /* screen positioned over the transparent hole (15.5% / 22% · 37% × 41%), slightly over-covered */
+  .tv__screen {
+    position: absolute; left: 14.6%; top: 20.8%; width: 39.2%; height: 43.4%;
+    z-index: 1; overflow: hidden; background: #070a0c;
   }
-  .tv__stage::before {
-    content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
-    background: radial-gradient(50% 55% at 50% 48%, rgba(198, 161, 91, 0.06), transparent 70%);
+  .tv__frame {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    opacity: 0; transition: opacity 1.6s ease;
   }
-  .tv__canvas { position: relative; z-index: 1; width: 100%; height: 100%; display: block; }
-  .tv__loading { position: absolute; z-index: 0; color: var(--bone-mute); }
-  .tv[data-ready] .tv__loading { display: none; }
-  .tv__cap { margin-top: 8px; color: var(--bone-mute); }
+  .tv__frame.is-on { opacity: 1; }
+  .tv__crt {
+    position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    background:
+      repeating-linear-gradient(to bottom, rgba(0,0,0,0) 0 2px, rgba(0,0,0,0.16) 2px 3px),
+      radial-gradient(120% 120% at 50% 42%, rgba(150,180,200,0.05), transparent 55%),
+      radial-gradient(130% 130% at 50% 50%, transparent 52%, rgba(0,0,0,0.5) 100%);
+  }
+  .tv__set { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; }
+
+  .tv__cap { color: var(--bone-mute); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .tv__crt { animation: crtFlicker 6s steps(48) infinite; }
+  }
+  @keyframes crtFlicker { 0%, 100% { opacity: 1; } 48% { opacity: 0.94; } 72% { opacity: 0.98; } 90% { opacity: 0.95; } }
 </style>
 
 <script>
-  import * as THREE from 'three';
-  import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-  import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
-
-  const mount = document.querySelector('[data-tv]');
-  const canvas = mount?.querySelector('[data-canvas]');
-
-  if (mount && canvas) {
-    let started = false;
-    const startObserver = new IntersectionObserver((entries) => {
-      entries.forEach((e) => { if (e.isIntersecting && !started) { started = true; init(); } });
-    }, { rootMargin: '250px' });
-    startObserver.observe(mount);
-
-    function init() {
-      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.outputColorSpace = THREE.SRGBColorSpace;
-      renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.05;
-
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-
-      const pmrem = new THREE.PMREMGenerator(renderer);
-      scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.03).texture;
-
-      const key = new THREE.DirectionalLight(0xffe9c8, 2.4); key.position.set(2.5, 3, 3);
-      const rim = new THREE.DirectionalLight(0x9fb8c8, 1.2); rim.position.set(-3, 2, -2.5);
-      const amb = new THREE.AmbientLight(0x40372e, 0.7);
-      const screenGlow = new THREE.PointLight(0xe6ecff, 0.0, 3.5);
-      scene.add(key, rim, amb, screenGlow);
-
-      const group = new THREE.Group();
-      group.rotation.y = -0.4;
-      scene.add(group);
-
-      new GLTFLoader().load('/models/tv.glb', (gltf) => {
-        const model = gltf.scene;
-        const box = new THREE.Box3().setFromObject(model);
-        const size = box.getSize(new THREE.Vector3());
-        const center = box.getCenter(new THREE.Vector3());
-        model.position.sub(center);
-        group.add(model);
-
-        const maxDim = Math.max(size.x, size.y, size.z);
-        const fov = (camera.fov * Math.PI) / 180;
-        const dist = (maxDim / 2 / Math.tan(fov / 2)) * 1.75;
-        camera.position.set(0, size.y * 0.03, dist);
-        camera.lookAt(0, 0, 0);
-
-        screenGlow.position.set(0, 0, size.z * 0.5 + 0.06);
-        screenGlow.intensity = 1.3;
-
-        mount.setAttribute('data-ready', '');
-        resize();
-        animate();
-      });
-
-      let visible = true;
-      const t0 = performance.now();
-      function animate() {
-        requestAnimationFrame(animate);
-        if (!visible) return;
-        if (!reduce) group.rotation.y = -0.4 + ((performance.now() - t0) / 1000) * 0.16;
-        renderer.render(scene, camera);
-      }
-
-      function resize() {
-        const w = canvas.clientWidth, h = canvas.clientHeight;
-        if (!w || !h) return;
-        renderer.setSize(w, h, false);
-        camera.aspect = w / h;
-        camera.updateProjectionMatrix();
-      }
-      window.addEventListener('resize', resize);
-
-      const visObserver = new IntersectionObserver((entries) => { visible = entries[0].isIntersecting; }, { threshold: 0 });
-      visObserver.observe(mount);
+  const tv = document.querySelector('[data-tv]');
+  if (tv) {
+    const frames = Array.from(tv.querySelectorAll<HTMLElement>('.tv__frame'));
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce && frames.length > 1) {
+      let i = 0;
+      setInterval(() => {
+        frames[i].classList.remove('is-on');
+        i = (i + 1) % frames.length;
+        frames[i].classList.add('is-on');
+      }, 4500);
     }
   }
 </script>

@@ -71,13 +71,13 @@ const layers = [
   .whero__cta { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
 
   .whero__window {
-    position: relative; margin: 0; width: 100%; height: min(76svh, 740px);
+    position: relative; margin: 0; width: 100%; aspect-ratio: 16 / 17; max-height: 74svh;
     border: 1px solid var(--line-strong); overflow: hidden; justify-self: end;
   }
   .whero__scene { position: absolute; inset: 0; }
   .whero__scene .l {
     position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-    object-position: 50% 56%; scale: 1.08; will-change: translate;
+    object-position: 50% 72%; scale: 1.08; will-change: translate;
   }
   .whero__window .tk { position: absolute; width: 15px; height: 15px; border: 1px solid var(--bone); opacity: 0.55; z-index: 3; }
   .tk.tl { top: 9px; left: 9px; border-right: 0; border-bottom: 0; }
@@ -93,9 +93,9 @@ const layers = [
   /* Mobile: the window becomes the full-bleed field; type sits over it */
   @media (max-width: 919px) {
     .whero__grid { grid-template-columns: 1fr; align-items: end; }
-    .whero__window { position: absolute; inset: 0; height: auto; width: auto; border: 0; z-index: 0; }
+    .whero__window { position: absolute; inset: 0; height: auto; width: auto; aspect-ratio: auto; max-height: none; border: 0; z-index: 0; }
     .whero__window .tk, .whero__plate { display: none; }
-    .whero__scene .l { object-position: 50% 50%; }
+    .whero__scene .l { object-position: 50% 55%; }
     .whero__void { align-self: end; max-width: none; padding-bottom: 8px; }
     .whero::after { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
       background: linear-gradient(to bottom, rgba(12,12,11,0.55) 0%, transparent 26% 48%, rgba(12,12,11,0.94) 100%); }

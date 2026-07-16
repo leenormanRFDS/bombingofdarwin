@@ -19,3 +19,4 @@ node_modules/
 
 # raw source artwork (kept locally; optimised versions live in /public)
 source/
+public/brand/tv.svg
