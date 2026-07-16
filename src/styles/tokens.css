@@ -39,7 +39,7 @@
   --font-display-reg: 'guildhall', 'Oswald', system-ui, sans-serif;           /* display, regular width */
   --font-serif: 'Spectral', Georgia, 'Times New Roman', serif;  /* the human voice */
   --font-sans: 'Work Sans', system-ui, -apple-system, sans-serif; /* UI / logistics */
-  --font-mono: 'Atlas Grotesk', 'Work Sans', system-ui, sans-serif; /* records / labels (self-hosted @font-face) */
+  --font-mono: 'aktiv-grotesk', 'Work Sans', system-ui, sans-serif; /* records / labels (Adobe Fonts) */
 
   /* --- layout --- */
   --container: 1180px;

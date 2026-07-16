@@ -1,108 +1,105 @@
 ---
 import { SITE } from '../consts';
 
-// Hero parallax layers, back → front.
 const layers = [
-  { src: 'deep-bg',           alt: '',                       mouse: 5,  scroll: -4,  z: 1 },
-  { src: 'smoke',             alt: '',                       mouse: 9,  scroll: -11, z: 2 },
-  { src: 'splashes',          alt: '',                       mouse: 7,  scroll: -6,  z: 3 },
-  { src: 'foreground',        alt: 'A family on Stokes Hill Wharf', mouse: 14, scroll: -14, z: 4 },
-  { src: 'plane-upper-right', alt: '',                       mouse: 22, scroll: -30, z: 5 },
-  { src: 'plane-upper',       alt: '',                       mouse: 20, scroll: -26, z: 5 },
-  { src: 'plane-right',       alt: '',                       mouse: 26, scroll: -34, z: 6 },
-  { src: 'bomb-big',          alt: '',                       mouse: 16, scroll: -22, z: 6 },
-  { src: 'bomb-small',        alt: '',                       mouse: 18, scroll: -24, z: 6 },
-  { src: 'plane-lead',        alt: 'A Japanese Zero over the harbour', mouse: 34, scroll: -44, z: 7 },
+  { src: 'deep-bg',           mouse: 4 },
+  { src: 'smoke',             mouse: 8 },
+  { src: 'splashes',          mouse: 6 },
+  { src: 'foreground',        mouse: 12 },
+  { src: 'plane-upper-right', mouse: 20 },
+  { src: 'plane-upper',       mouse: 18 },
+  { src: 'plane-right',       mouse: 24 },
+  { src: 'bomb-big',          mouse: 14 },
+  { src: 'bomb-small',        mouse: 16 },
+  { src: 'plane-lead',        mouse: 30 },
 ];
 ---
-<section class="hero" id="top" aria-label="The Bombing of Darwin, 19 February 1942">
-  <div class="hero__scene" data-scene aria-hidden="true">
-    {layers.map((l) => (
-      <img class="l" src={`/images/hero/${l.src}.webp`} alt={l.alt} width="1600" height="2210"
-        style={`z-index:${l.z}`} data-mouse={l.mouse} data-scroll={l.scroll} loading="eager" decoding="async" />
-    ))}
-  </div>
-
-  <div class="hero__grade" aria-hidden="true"></div>
-
-  <!-- restrained record overlay (no targeting, no game HUD) -->
-  <div class="hero__rec" aria-hidden="true">
-    <span class="rec-tl">DARWIN HARBOUR</span>
-    <span class="rec-tr">12°27′S 130°50′E</span>
-    <span class="rec-bl">09:58 ACST · 19 FEBRUARY 1942</span>
-  </div>
-
-  <div class="hero__content container">
-    <p class="hero__kicker">WW2 · HAPPENED · HERE</p>
-    <img class="hero__logo" src="/brand/logo-1942.svg" alt={SITE.name} width="820" height="260" />
-    <p class="hero__lede">
-      Stand on the wharf where the war reached Australia and live the raid of
-      <em>19 February 1942</em> — immersive VR, holograms and theatre, with the Royal Flying Doctor Service.
-    </p>
-    <div class="hero__cta">
-      <a class="btn" href={SITE.bookPath}>Book Tickets</a>
-      <a class="btn-quiet" href="/experience">Enter the Experience</a>
+<section class="whero" id="top" aria-label="The Bombing of Darwin, 19 February 1942">
+  <div class="whero__grid container">
+    <div class="whero__void">
+      <p class="record whero__rec">19 February 1942 — 09:58 ACST</p>
+      <div class="whero__morse" aria-hidden="true">–··&nbsp;&nbsp;·–&nbsp;&nbsp;·–·&nbsp;&nbsp;·––&nbsp;&nbsp;··&nbsp;&nbsp;–·</div>
+      <h1 class="whero__tagline"><span>WW2</span><span>Happened</span><span>Here</span></h1>
+      <p class="whero__lede">
+        Stand on the wharf where the war reached Australia — the raid of <em>19 February 1942</em>,
+        in immersive VR, holograms and theatre, with the Royal Flying Doctor Service.
+      </p>
+      <div class="whero__cta">
+        <a class="btn-book" href={SITE.bookPath}>Book Tickets</a>
+        <a class="btn-quiet" href="/experience">Enter the Experience</a>
+      </div>
     </div>
+
+    <figure class="whero__window" data-window>
+      <div class="whero__scene" data-scene aria-hidden="true">
+        {layers.map((l, i) => (
+          <img class="l" src={`/images/hero/${l.src}.webp`} alt="" width="1600" height="2210"
+            style={`z-index:${i + 1}`} data-mouse={l.mouse} loading="eager" decoding="async" />
+        ))}
+      </div>
+      <span class="tk tl"></span><span class="tk tr"></span><span class="tk bl"></span><span class="tk br"></span>
+      <figcaption class="whero__plate record">Plate 01 · Darwin Harbour · 12°27′S 130°50′E</figcaption>
+    </figure>
   </div>
 
-  <a class="hero__scroll" href="#experience" aria-label="Scroll to explore">
-    <span class="hero__scroll-line"></span>
-    <span class="hero__scroll-txt">SCROLL</span>
-  </a>
+  <a class="whero__scroll" href="#experience" aria-label="Scroll to explore"><span></span>Scroll</a>
 </section>
 
 <style>
-  .hero { position: relative; height: 100svh; min-height: 600px; overflow: hidden; background: var(--ink); isolation: isolate; }
-
-  .hero__scene { position: absolute; inset: 0; }
-  .hero__scene .l {
-    position: absolute; inset: 0; width: 100%; height: 100%;
-    object-fit: cover; object-position: 50% 68%;
-    scale: 1.1; will-change: transform, translate; transform: translateZ(0);
+  .whero { position: relative; min-height: 100svh; background: var(--ink); overflow: hidden; }
+  .whero__grid {
+    display: grid; gap: clamp(32px, 5vw, 72px); align-items: center; min-height: 100svh;
+    padding-block: calc(var(--nav-h) + 32px) 64px;
+  }
+  @media (min-width: 920px) {
+    .whero__grid { grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr); }
   }
 
-  .hero__grade {
-    position: absolute; inset: 0; z-index: 8; pointer-events: none;
-    background:
-      linear-gradient(to bottom, rgba(11,10,8,0.6) 0%, transparent 24% 58%, rgba(11,10,8,0.9) 100%),
-      radial-gradient(130% 80% at 72% 28%, transparent 42%, rgba(11,10,8,0.5) 100%);
+  .whero__void { position: relative; z-index: 3; max-width: 42ch; }
+  .whero__rec { color: var(--bone-dim); margin: 0 0 14px; }
+  .whero__morse { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.24em; color: var(--bone-mute); margin: 0 0 24px; }
+  .whero__tagline {
+    margin: 0 0 26px; font-family: var(--font-display-xl); font-weight: 400; text-transform: uppercase;
+    line-height: 0.9; letter-spacing: 0.012em; color: var(--bone); text-shadow: 0 0 44px rgba(236, 231, 219, 0.16);
   }
-
-  .hero__rec { position: absolute; inset: 0; z-index: 9; pointer-events: none; }
-  .hero__rec span {
-    position: absolute; font-family: var(--font-mono); font-size: 0.62rem;
-    letter-spacing: 0.2em; color: var(--bone-mute); text-transform: uppercase;
+  .whero__tagline span { display: block; font-size: clamp(3.3rem, 8.4vw, 6.6rem); }
+  .whero__lede {
+    font-family: var(--font-serif); font-size: clamp(1.04rem, 1.5vw, 1.24rem); line-height: 1.55;
+    color: var(--bone-dim); margin: 0 0 32px; max-width: 44ch;
   }
-  .rec-tl { top: calc(var(--nav-h) + 16px); left: var(--gutter); }
-  .rec-tr { top: calc(var(--nav-h) + 16px); right: var(--gutter); }
-  .rec-bl { bottom: 18px; left: var(--gutter); }
+  .whero__lede em { color: var(--gold-bright); font-style: italic; }
+  .whero__cta { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
 
-  .hero__content { position: absolute; z-index: 10; left: 0; right: 0; bottom: clamp(64px, 12vh, 128px); max-width: 620px; }
-  .hero__kicker {
-    font-family: var(--font-mono); font-size: clamp(0.68rem, 1.5vw, 0.84rem);
-    letter-spacing: 0.42em; color: var(--bone); margin: 0 0 18px; text-shadow: 0 2px 20px rgba(0,0,0,0.6);
+  .whero__window {
+    position: relative; margin: 0; width: 100%; height: min(76svh, 740px);
+    border: 1px solid var(--line-strong); overflow: hidden; justify-self: end;
   }
-  .hero__logo { width: min(90%, 560px); height: auto; margin: 0 0 22px; filter: drop-shadow(0 14px 44px rgba(0,0,0,0.7)); }
-  .hero__lede {
-    font-family: var(--font-serif); max-width: 46ch; margin: 0 0 30px; color: var(--bone);
-    font-size: clamp(1.02rem, 2vw, 1.24rem); line-height: 1.55; text-shadow: 0 2px 18px rgba(0,0,0,0.7);
+  .whero__scene { position: absolute; inset: 0; }
+  .whero__scene .l {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    object-position: 50% 56%; scale: 1.08; will-change: translate;
   }
-  .hero__lede em { color: var(--gold-bright); font-style: italic; }
-  .hero__cta { display: flex; gap: 22px; align-items: center; flex-wrap: wrap; }
+  .whero__window .tk { position: absolute; width: 15px; height: 15px; border: 1px solid var(--bone); opacity: 0.55; z-index: 3; }
+  .tk.tl { top: 9px; left: 9px; border-right: 0; border-bottom: 0; }
+  .tk.tr { top: 9px; right: 9px; border-left: 0; border-bottom: 0; }
+  .tk.bl { bottom: 9px; left: 9px; border-right: 0; border-top: 0; }
+  .tk.br { bottom: 9px; right: 9px; border-left: 0; border-top: 0; }
+  .whero__plate { position: absolute; bottom: 12px; left: 15px; z-index: 3; color: var(--bone-dim); font-size: 0.66rem; text-shadow: 0 1px 10px rgba(0, 0, 0, 0.85); }
 
-  .hero__scroll { position: absolute; z-index: 10; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; }
-  .hero__scroll-line { width: 1px; height: 42px; background: linear-gradient(to bottom, transparent, var(--bone)); animation: heroDrop 2.6s var(--ease) infinite; }
-  @keyframes heroDrop { 0% { transform: scaleY(0); transform-origin: top; } 45% { transform: scaleY(1); transform-origin: top; } 46% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
-  .hero__scroll-txt { font-family: var(--font-mono); font-size: 0.56rem; letter-spacing: 0.3em; color: var(--bone-mute); }
+  .whero__scroll { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 4; display: flex; flex-direction: column; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--bone-mute); }
+  .whero__scroll span { width: 1px; height: 38px; background: linear-gradient(to bottom, transparent, var(--bone-mute)); animation: wheroDrop 2.6s var(--ease) infinite; }
+  @keyframes wheroDrop { 0% { transform: scaleY(0); transform-origin: top; } 45% { transform: scaleY(1); transform-origin: top; } 46% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
 
-  @media (prefers-reduced-motion: no-preference) {
-    .l[data-scroll='-11'] { animation: smokeRise 28s ease-in-out infinite alternate; }
-    .l[data-scroll='-44'] { animation: planeBob 12s ease-in-out infinite alternate; }
+  /* Mobile: the window becomes the full-bleed field; type sits over it */
+  @media (max-width: 919px) {
+    .whero__grid { grid-template-columns: 1fr; align-items: end; }
+    .whero__window { position: absolute; inset: 0; height: auto; width: auto; border: 0; z-index: 0; }
+    .whero__window .tk, .whero__plate { display: none; }
+    .whero__scene .l { object-position: 50% 50%; }
+    .whero__void { align-self: end; max-width: none; padding-bottom: 8px; }
+    .whero::after { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: linear-gradient(to bottom, rgba(12,12,11,0.55) 0%, transparent 26% 48%, rgba(12,12,11,0.94) 100%); }
   }
-  @keyframes smokeRise { to { object-position: 50% 36%; } }
-  @keyframes planeBob { to { transform: translateY(-1.4%); } }
-
-  @media (max-width: 640px) { .hero__content { bottom: 92px; } .hero__cta { gap: 18px; } }
 </style>
 
 <script>
@@ -111,37 +108,33 @@ const layers = [
   import Lenis from 'lenis';
   gsap.registerPlugin(ScrollTrigger);
 
-  const hero = document.querySelector<HTMLElement>('.hero');
-  if (hero) {
-    const layers = gsap.utils.toArray<HTMLElement>('.hero .l');
+  const whero = document.querySelector<HTMLElement>('.whero');
+  if (whero) {
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const layers = gsap.utils.toArray<HTMLElement>('.whero__scene .l');
 
     if (!reduce) {
-      gsap.from('.hero__content > *', { autoAlpha: 0, y: 26, duration: 1, stagger: 0.14, ease: 'power3.out', delay: 0.2 });
+      gsap.from('.whero__void > *', { autoAlpha: 0, y: 26, duration: 0.9, stagger: 0.1, ease: 'power3.out', delay: 0.15 });
+      gsap.from('.whero__window', { autoAlpha: 0, duration: 1.2, ease: 'power2.out', delay: 0.1 });
 
       const lenis = new Lenis({ lerp: 0.1 });
       lenis.on('scroll', ScrollTrigger.update);
       gsap.ticker.add((t) => lenis.raf(t * 1000));
       gsap.ticker.lagSmoothing(0);
-      (window as any).__lenis = lenis;
-
-      const tl = gsap.timeline({ scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } });
-      layers.forEach((el) => { tl.to(el, { yPercent: parseFloat(el.dataset.scroll || '0'), ease: 'none' }, 0); });
-      gsap.to('.hero__content', { autoAlpha: 0, y: -40, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: '55% top', scrub: true } });
 
       if (matchMedia('(pointer:fine)').matches) {
         let tx = 0, ty = 0, cx = 0, cy = 0;
-        hero.addEventListener('mousemove', (e) => {
-          const r = hero.getBoundingClientRect();
+        whero.addEventListener('mousemove', (e) => {
+          const r = whero.getBoundingClientRect();
           tx = (e.clientX - r.left) / r.width - 0.5;
           ty = (e.clientY - r.top) / r.height - 0.5;
         });
-        hero.addEventListener('mouseleave', () => { tx = 0; ty = 0; });
+        whero.addEventListener('mouseleave', () => { tx = 0; ty = 0; });
         gsap.ticker.add(() => {
           cx += (tx - cx) * 0.06; cy += (ty - cy) * 0.06;
           layers.forEach((el) => {
             const d = parseFloat(el.dataset.mouse || '0');
-            el.style.translate = `${(-cx * d).toFixed(1)}px ${(-cy * d * 0.6).toFixed(1)}px`;
+            el.style.translate = `${(-cx * d).toFixed(1)}px ${(-cy * d * 0.7).toFixed(1)}px`;
           });
         });
       }

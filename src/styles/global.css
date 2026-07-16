@@ -50,13 +50,15 @@ h1, h2, h3, h4 {
 /* ---------- type roles ---------- */
 .eyebrow {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.26em;
+  font-size: 0.86rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--bone-mute);
+  color: var(--bone-dim);
   margin: 0 0 1.2rem;
+  text-shadow: 0 0 20px rgba(236, 231, 219, 0.22);
 }
-.eyebrow--gold { color: var(--gold); }
+.eyebrow--gold { color: var(--gold); text-shadow: 0 0 20px rgba(198, 161, 91, 0.28); }
 
 .monument {
   font-family: var(--font-display-xl);
@@ -84,7 +86,7 @@ h1, h2, h3, h4 {
 .prose p { margin: 0 0 1.1em; }
 .prose--serif { font-family: var(--font-serif); font-size: 1.12rem; line-height: 1.72; }
 
-.record { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bone-mute); }
+.record { font-family: var(--font-mono); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.13em; text-transform: uppercase; color: var(--bone-dim); text-shadow: 0 0 16px rgba(236, 231, 219, 0.16); }
 
 .rule { height: 1px; background: var(--line-strong); border: 0; margin: 0; }
 .rule--short { width: 64px; }
@@ -193,9 +195,9 @@ h1, h2, h3, h4 {
 }
 .grain::after {
   content: ''; position: fixed; inset: 0; z-index: 61; pointer-events: none;
-  opacity: 0.03;
-  background-size: 180px 180px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.075;
+  background-size: 230px 230px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* ---------- skip link ---------- */
