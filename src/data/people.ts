@@ -1,52 +1,54 @@
 // The people behind 19 February 1942.
-// NOTE: historical copy is drafted for accuracy but should be verified with the
-// Australian War Memorial and, for Matthias Ulungura, with the Tiwi community
-// before publishing. Items marked `draft` especially need confirmation.
+// NOTE: historical copy should be verified with the Australian War Memorial, and
+// Matthias Ulungura's story (and image) confirmed with the Tiwi community, before
+// publishing. `draft` items especially need confirmation.
 
 export interface Person {
+  id: string;
   name: string;
   role: string;
-  years: string;
-  side: string;
+  faction: string;
+  desc: string;
   initials: string;
-  bio: string;
+  image?: string;     // e.g. '/matthias.jpg' in /public — falls back to initials
   cultural?: boolean; // deceased First Nations person — cultural warning applies
   draft?: boolean;    // copy needs verification before publish
 }
 
 export const PEOPLE: Person[] = [
   {
+    id: 'curtin',
     name: 'John Curtin',
     role: 'Prime Minister of Australia',
-    years: '1885–1945',
-    side: 'Australia',
+    faction: 'Australian Government',
+    desc: 'Recognised the severity of the Japanese threat and made the controversial decision to bring Australian troops home from the Middle East to defend the mainland.',
     initials: 'JC',
-    bio: 'Prime Minister through the nation’s darkest hour. In the weeks after Darwin he told Australians the plain truth about a war that had reached their own shore, and turned the country’s defence toward the Pacific.',
   },
   {
-    name: 'Rear Admiral Etheridge Grant',
-    role: 'Naval Commander',
-    years: '—',
-    side: 'Allied Forces',
+    id: 'grant',
+    name: 'Etheridge Grant',
+    role: 'Rear Admiral',
+    faction: 'Allied Naval Forces',
+    desc: 'Commanded the naval defence of Darwin Harbour. Despite immense losses, he coordinated the rescue of hundreds of sailors from burning waters.',
     initials: 'EG',
-    bio: 'A senior naval commander during the defence of Darwin Harbour on 19 February 1942.',
     draft: true,
   },
   {
+    id: 'toyoshima',
     name: 'Hajime Toyoshima',
-    role: 'Naval Airman, A6M Zero',
-    years: '1920–1944',
-    side: 'Japan',
+    role: 'A6M Zero Pilot',
+    faction: 'Imperial Japanese Navy',
+    desc: 'His Zero fighter was damaged during the raid. He crash-landed on Melville Island, becoming the first Japanese prisoner of war captured in Australia.',
     initials: 'HT',
-    bio: 'A Zero pilot in the first raid. His aircraft, its fuel tank pierced by gunfire, came down on Melville Island. Disarmed and taken, he became the first Japanese prisoner of war held on Australian soil. He died in 1944 during the Cowra breakout.',
   },
   {
+    id: 'ulungura',
     name: 'Matthias Ampiyartiliwayi Ulungura',
-    role: 'Tiwi Man, Melville Island',
-    years: '—',
-    side: 'Tiwi Nation',
+    role: 'Tiwi Man',
+    faction: 'Melville Island',
+    desc: "A Tiwi man who captured Toyoshima using only a tomahawk, famously saying, 'Stick 'em up, two-fella'. His story endures through generations of Tiwi storytelling.",
     initials: 'MU',
-    bio: 'The day after the raid, in the bush of Melville Island, he disarmed the downed pilot and walked him some fifteen kilometres to the mission — the first prisoner taken on Australian soil. His story endures through Tiwi storytelling, song and dance.',
+    image: '/matthias.jpg',
     cultural: true,
   },
 ];

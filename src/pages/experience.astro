@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import CulturalWarning from '../components/CulturalWarning.astro';
-import PeopleCarousel from '../components/PeopleCarousel.astro';
+import PeopleWheel from '../components/PeopleWheel.astro';
 import { SITE } from '../consts';
 
 const features = [
@@ -32,15 +32,8 @@ const features = [
 
   <CulturalWarning />
 
-  <section class="section" id="people">
-    <div class="container">
-      <p class="eyebrow" style="text-align:center;">Meet the People</p>
-      <p class="lede measure" style="margin: 0 auto 48px; text-align:center;">
-        Behind the date are people — those who decided, those who fought, and those whose lives were changed forever.
-      </p>
-      <PeopleCarousel />
-    </div>
-  </section>
+  <PeopleWheel />
+
 
   <section class="section--tight" style="border-top:1px solid var(--line);">
     <div class="container" style="text-align:center; padding-block: clamp(48px,7vw,84px);">
