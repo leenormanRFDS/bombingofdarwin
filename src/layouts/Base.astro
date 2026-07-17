@@ -54,5 +54,20 @@ const fullTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} · ${SITE.t
       <span class="bookbar__from">FROM <b>$18</b> · CHILD</span>
       <a class="btn" href={SITE.bookPath}>Book Tickets</a>
     </div>
+
+    <!-- Global weighted smooth scroll, synced to GSAP ScrollTrigger -->
+    <script>
+      import Lenis from 'lenis';
+      import gsap from 'gsap';
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+      gsap.registerPlugin(ScrollTrigger);
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 1 });
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((t) => lenis.raf(t * 1000));
+        gsap.ticker.lagSmoothing(0);
+        (window as any).__lenis = lenis;
+      }
+    </script>
   </body>
 </html>

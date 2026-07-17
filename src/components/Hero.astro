@@ -104,9 +104,6 @@ const layers = [
 
 <script>
   import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  import Lenis from 'lenis';
-  gsap.registerPlugin(ScrollTrigger);
 
   const whero = document.querySelector<HTMLElement>('.whero');
   if (whero) {
@@ -116,11 +113,6 @@ const layers = [
     if (!reduce) {
       gsap.from('.whero__void > *', { autoAlpha: 0, y: 26, duration: 0.9, stagger: 0.1, ease: 'power3.out', delay: 0.15 });
       gsap.from('.whero__window', { autoAlpha: 0, duration: 1.2, ease: 'power2.out', delay: 0.1 });
-
-      const lenis = new Lenis({ lerp: 0.1 });
-      lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add((t) => lenis.raf(t * 1000));
-      gsap.ticker.lagSmoothing(0);
 
       if (matchMedia('(pointer:fine)').matches) {
         let tx = 0, ty = 0, cx = 0, cy = 0;
