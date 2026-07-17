@@ -20,10 +20,10 @@ import { SITE } from '../consts';
     <figure class="whero__window" data-reveal-window>
       <div class="rv" data-rv>
         <!-- Present day (base) -->
-        <img class="rv__img" src="/images/hero/then-now.webp" alt="A family walks toward the visitor pavilion on Stokes Hill Wharf today" width="1500" height="1898" loading="eager" decoding="async" />
+        <img class="rv__img" src="/images/hero/then-now.webp" alt="A family walks toward the visitor pavilion on Stokes Hill Wharf today" width="1500" height="1898" loading="eager" fetchpriority="high" decoding="async" />
         <!-- 1942 (clipped reveal) -->
         <div class="rv__then" data-then>
-          <img class="rv__img" src="/images/hero/then-1942.webp" alt="The same wharf on 19 February 1942, under attack" width="1500" height="1898" loading="eager" decoding="async" />
+          <img class="rv__img" src="/images/hero/then-1942.webp" alt="The same wharf on 19 February 1942, under attack" width="1500" height="1898" loading="eager" fetchpriority="high" decoding="async" />
         </div>
 
         <!-- Divider + handle -->
@@ -81,7 +81,10 @@ import { SITE } from '../consts';
   }
   .rv { position: absolute; inset: 0; cursor: ew-resize; --p: 50%; }
   .rv__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%; user-select: none; -webkit-user-drag: none; }
-  .rv__then { position: absolute; inset: 0; clip-path: inset(0 calc(100% - var(--p)) 0 0); }
+  /* explicit paint order — without it some engines composite the base image
+     above the clipped 1942 layer (the mobile "empty slider" bug) */
+  .rv > .rv__img { z-index: 1; }
+  .rv__then { position: absolute; inset: 0; z-index: 2; clip-path: inset(0 calc(100% - var(--p)) 0 0); }
 
   .rv__bar { position: absolute; top: 0; bottom: 0; left: var(--p); z-index: 5; transform: translateX(-50%); display: flex; align-items: center; justify-content: center; pointer-events: none; }
   .rv__stem { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(236, 231, 219, 0.85); box-shadow: 0 0 14px rgba(0, 0, 0, 0.8); }

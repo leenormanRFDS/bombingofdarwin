@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
+import { SITE } from '../consts';
 const groupEmail = 'bookingsdrw@flyingdoctor.net.au';
 ---
 <Base title="Schools & Groups" description="Curriculum-linked immersive learning at the Bombing of Darwin Experience — history, STEM, aviation and innovation. Step inside 'PAPA', a decommissioned RFDS Pilatus PC-12.">
@@ -12,16 +13,24 @@ const groupEmail = 'bookingsdrw@flyingdoctor.net.au';
 
   <section class="section">
     <div class="container">
-      <div class="grid">
-        <div>
-          <p class="eyebrow">Step inside “PAPA”</p>
-          <p class="prose--serif prose">
-            Students climb aboard <em>PAPA</em> — a decommissioned Royal Flying Doctor Service Pilatus PC-12 —
-            and discover how medicine reaches the most remote corners of the country. History and hope, in one visit.
+      <div class="papa card">
+        <div class="papa__media">
+          <img src="/images/BOD_PC12.webp" alt="Students boarding PAPA, a decommissioned RFDS Pilatus PC-12, inside the museum" loading="lazy" decoding="async" />
+        </div>
+        <div class="papa__body">
+          <p class="eyebrow eyebrow--gold">Step inside “PAPA”</p>
+          <h2 class="papa__h">A real Flying Doctor aircraft, on the wharf.</h2>
+          <p class="prose prose--serif">
+            Students climb aboard <em>PAPA</em> — a decommissioned RFDS Pilatus PC-12, fully aeromedically
+            equipped — and discover how pilots, engineers, doctors and nurses carry medicine to the most
+            remote corners of the country. History and hope, in one visit.
           </p>
         </div>
+      </div>
+
+      <div class="grid">
         <div>
-          <p class="eyebrow">At a glance</p>
+          <p class="eyebrow">The visit</p>
           <dl class="deflist">
             <div><dt>Audience</dt><dd>Primary, secondary and tertiary students</dd></div>
             <div><dt>Group size</dt><dd>Up to 150 students per slot</dd></div>
@@ -29,21 +38,44 @@ const groupEmail = 'bookingsdrw@flyingdoctor.net.au';
             <div><dt>Funding</dt><dd>Eligible schools may access the NT Learning Adventures “Save &amp; Learn” program</dd></div>
           </dl>
         </div>
+        <div>
+          <p class="eyebrow">Curriculum links</p>
+          <ul class="curric">
+            <li>Australian history &amp; wartime studies</li>
+            <li>STEM, aviation &amp; innovation</li>
+            <li>Geography &amp; remote Australia</li>
+            <li>First Nations perspectives — Ampiyartiliwayi’s story</li>
+          </ul>
+        </div>
       </div>
 
       <div class="cta">
-        <p class="prose--serif prose measure" style="margin-bottom:22px;">
-          Bespoke rates and resources are available for schools, tour operators and groups. Tell us your dates and numbers and we'll tailor the visit.
+        <p class="prose prose--serif measure" style="margin-bottom:26px;">
+          Bespoke rates and resources are available for schools, tour operators and groups. Tell us your
+          dates and numbers and we'll tailor the visit.
         </p>
-        <a class="btn" href={`mailto:${groupEmail}`}>Enquire about group bookings</a>
-        <p class="record" style="margin-top:14px;">{groupEmail}</p>
+        <a class="btn-book" href={`mailto:${groupEmail}`}>Enquire About Group Bookings</a>
+        <p class="record" style="margin-top:16px;">{groupEmail} · (08) 8983 5700</p>
       </div>
     </div>
   </section>
 </Base>
 
 <style>
+  .papa { display: grid; overflow: hidden; margin-bottom: clamp(44px, 7vw, 80px); }
+  @media (min-width: 820px) { .papa { grid-template-columns: 52% 1fr; } }
+  .papa__media { position: relative; aspect-ratio: 16 / 10; }
+  @media (min-width: 820px) { .papa__media { aspect-ratio: auto; min-height: 320px; } }
+  .papa__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .papa__body { padding: clamp(26px, 4vw, 44px); display: flex; flex-direction: column; justify-content: center; }
+  .papa__h { font-family: var(--font-display); font-weight: 400; text-transform: uppercase; font-size: clamp(1.5rem, 3vw, 2.2rem); line-height: 1.05; margin: 0 0 18px; color: var(--bone); }
+
   .grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 80px); margin-bottom: clamp(40px, 7vw, 72px); }
+  .curric { list-style: none; padding: 0; margin: 0; }
+  .curric li { font-family: var(--font-serif); font-size: 1.08rem; color: var(--bone); padding: 14px 0; border-top: 1px solid var(--line); }
+  .curric li:last-child { border-bottom: 1px solid var(--line); }
+  .curric li::before { content: '—'; color: var(--gold); margin-right: 12px; }
+
   .cta { padding-top: clamp(32px, 5vw, 56px); border-top: 1px solid var(--line); }
   @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
 </style>
