@@ -1,33 +1,31 @@
 ---
 import { SITE, CONTACT } from '../consts';
 const year = new Date().getFullYear();
-const explore = [
-  { label: 'The Experience', href: '/experience' },
-  { label: 'The Story', href: '/story' },
-  { label: 'The Witness', href: '/witness' },
-  { label: 'Visit', href: '/visit' },
-  { label: 'Schools & Groups', href: '/schools' },
-  { label: 'Accessibility', href: '/accessibility' },
-  { label: 'Contact', href: '/contact' },
-];
+const mapSrc = 'https://www.google.com/maps?q=Royal%20Flying%20Doctor%20Service%20Darwin%20Tourist%20Facility%2C%2045%20Stokes%20Hill%20Road%2C%20Darwin%20NT&output=embed';
 ---
 <footer class="foot">
   <div class="container foot__grid">
     <div class="foot__brand">
       <img src="/brand/logo-1942.svg" alt={SITE.name} width="180" height="58" />
       <p class="foot__tag">Presented with the Royal Flying Doctor Service, on Stokes Hill Wharf, Darwin.</p>
+      <img class="foot__trip" src="/images/badges/tripadvisor-2025.webp" alt="Tripadvisor Travelers' Choice Awards 2025" width="500" height="500" loading="lazy" decoding="async" />
     </div>
-
-    <nav class="foot__nav" aria-label="Footer">
-      <h4>Explore</h4>
-      {explore.map((item) => <a href={item.href}>{item.label}</a>)}
-    </nav>
 
     <div class="foot__contact">
       <h4>Visit</h4>
       <p>{CONTACT.address}</p>
       <p><a href={`tel:${CONTACT.phone.replace(/[^0-9+]/g, '')}`}>{CONTACT.phone}</a></p>
       <p><a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></p>
+    </div>
+
+    <div class="foot__map map-embed">
+      <iframe
+        src={mapSrc}
+        title="Map — RFDS Darwin Tourist Facility, Stokes Hill Wharf"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen
+      ></iframe>
     </div>
   </div>
 
@@ -41,23 +39,28 @@ const explore = [
 
   <div class="container foot__base">
     <span>© {year} {SITE.name}</span>
+    <a href="/terms">Terms &amp; Conditions</a>
     <span>Every on-site purchase supports the Royal Flying Doctor Service.</span>
   </div>
 </footer>
 
 <style>
   .foot { position: relative; z-index: 2; background: var(--char); border-top: 1px solid var(--line); padding: 64px 0 32px; }
-  .foot__grid { display: grid; grid-template-columns: 1.5fr 1fr 1.4fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid var(--line); }
-  .foot__brand img { height: 40px; width: auto; margin-bottom: 16px; }
+  .foot__grid { display: grid; grid-template-columns: 1.3fr 1fr 1.4fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid var(--line); }
+  .foot__brand img:first-child { height: 40px; width: auto; margin-bottom: 16px; }
   .foot__tag { color: var(--bone-dim); font-size: 0.92rem; max-width: 34ch; }
+  .foot__trip { width: 74px; height: 74px; border-radius: 50%; margin-top: 6px; }
   .foot h4 { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.24em; color: var(--gold); margin-bottom: 16px; text-transform: uppercase; font-weight: 500; }
-  .foot__nav { display: flex; flex-direction: column; gap: 10px; }
-  .foot__nav a { color: var(--bone-dim); font-size: 0.92rem; transition: color 0.2s var(--ease); }
-  .foot__nav a:hover { color: var(--bone); }
   .foot__contact p { color: var(--bone-dim); font-size: 0.92rem; margin: 0 0 8px; }
   .foot__contact a:hover { color: var(--gold-bright); }
+
+  .foot__map { border: 1px solid var(--line-strong); border-radius: 4px; overflow: hidden; min-height: 220px; }
+  .foot__map iframe { display: block; width: 100%; height: 100%; min-height: 220px; border: 0; filter: grayscale(1) contrast(0.95); }
+
   .foot__ack { padding-top: 24px; }
   .foot__ack p { color: var(--bone-mute); font-size: 0.8rem; line-height: 1.7; max-width: 82ch; font-style: italic; font-family: var(--font-serif); margin: 0; }
   .foot__base { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 24px; color: var(--bone-mute); font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.08em; }
-  @media (max-width: 820px) { .foot__grid { grid-template-columns: 1fr; gap: 32px; } }
+  .foot__base a { color: var(--bone-dim); border-bottom: 1px solid var(--line-strong); padding-bottom: 2px; transition: color 0.2s var(--ease), border-color 0.2s var(--ease); }
+  .foot__base a:hover { color: var(--gold-bright); border-color: var(--gold); }
+  @media (max-width: 860px) { .foot__grid { grid-template-columns: 1fr; gap: 32px; } }
 </style>

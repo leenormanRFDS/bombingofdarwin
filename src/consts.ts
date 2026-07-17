@@ -119,6 +119,7 @@ export const NAV: { label: string; href: string }[] = [
   { label: 'The Story', href: '/story' },
   { label: 'Visit', href: '/visit' },
   { label: 'Schools & Groups', href: '/schools' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 export const LOCALES: { code: string; label: string; name: string }[] = [
