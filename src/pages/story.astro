@@ -1,85 +1,155 @@
 ---
 import Base from '../layouts/Base.astro';
-import PageHeader from '../components/PageHeader.astro';
-import { SITE } from '../consts';
 
 const timeline = [
   { t: '08:00', h: 'The strike launches', d: 'One hundred and eighty‑eight aircraft — Zeros, dive bombers and level bombers — lift from the Japanese carrier fleet in the Timor Sea.' },
   { t: '09:35', h: 'The warning that wasn’t heard', d: 'The mission on Bathurst Island radios a large formation approaching. It is discounted as the returning American P‑40s.' },
   { t: '09:58', h: 'The first bombs fall', d: 'With no siren and no warning, the first raid breaks over the harbour and town. It will last about forty minutes.' },
-  { t: '≈10:00', h: 'The Post Office', d: 'A direct hit kills nine — the postmaster, his family and his staff — sheltering in a trench.' },
+  { t: '10:00', h: 'The Post Office', d: 'A direct hit kills nine — the postmaster, his family and his staff — sheltering in a trench.' },
   { t: '10:45', h: 'USS Peary', d: 'The American destroyer, one of the largest ships in the harbour, is struck by five bombs.' },
-  { t: '≈12:00', h: 'The second raid', d: 'Fifty‑four land‑based bombers return at high altitude to strike the RAAF base at Parap.' },
+  { t: '12:00', h: 'The second raid', d: 'Fifty‑four land‑based bombers return at high altitude to strike the RAAF base at Parap.' },
   { t: '13:00', h: 'Peary is lost', d: 'She sinks stern‑first. Ninety‑one of her crew go down with her — the heaviest single loss of American life in Australian waters.' },
   { t: 'Dusk', h: 'The reckoning begins', d: 'At least 235 are dead. Eight ships lie sunk, more than thirty aircraft destroyed. More bombs fell on Darwin than on Pearl Harbour.' },
 ];
 ---
-<Base title="The Story — 19 February 1942" description="The chronology of 19 February 1942: the raid on Darwin that no siren warned of, told from the first aircraft to the reckoning at dusk.">
-  <PageHeader
-    record="Chapter II · 19 February 1942"
-    title="09:58"
-    lede="For those first minutes there was no warning at all. The aircraft crossing the coast were taken for the returning American P‑40s. At 9:58 in the morning, the first bombs fell."
-  />
+<Base title="The Story — 19 February 1942" description="A chronological account of the first attacks on the Australian mainland — the raid on Darwin that no siren warned of.">
+  <!-- Intro — a full screen of silence -->
+  <section class="s-intro">
+    <div class="container s-intro__inner">
+      <p class="eyebrow s-el" style="--i:0">Chapter II · 19 February 1942</p>
+      <h1 class="s-monument s-el" style="--i:1">The Bombing<br />of Darwin</h1>
+      <div class="s-rule s-el" style="--i:2"></div>
+      <p class="s-lede s-el" style="--i:3">
+        A chronological account of the first attacks on the Australian mainland. Behind the timeline are
+        people — those who decided, those who fought, and those whose lives were changed forever.
+      </p>
+    </div>
+    <div class="s-scroll s-el" style="--i:4"><span class="s-scroll__label">Scroll to begin</span><span class="s-scroll__track"><span></span></span></div>
+  </section>
 
-  <section class="section">
+  <!-- The timeline -->
+  <section class="s-tl-section">
     <div class="container">
-      <ol class="tl">
+      <div class="tl" data-tl>
+        <div class="tl__line" aria-hidden="true"></div>
+        <div class="tl__progress" data-progress aria-hidden="true"></div>
+
         {timeline.map((e) => (
-          <li class="tl__item" data-reveal>
-            <div class="tl__time">{e.t}</div>
-            <div class="tl__node" aria-hidden="true"></div>
-            <div class="tl__body">
-              <h2 class="tl__h">{e.h}</h2>
-              <p class="tl__d">{e.d}</p>
+          <article class="tl__event">
+            <span class="tl__node" data-reveal aria-hidden="true"></span>
+            <div class="tl__row">
+              <div class="tl__time" data-reveal>{e.t}</div>
+              <div class="tl__body">
+                <h2 class="tl__title" data-reveal>{e.h}</h2>
+                <p class="tl__desc" data-reveal>{e.d}</p>
+              </div>
             </div>
-          </li>
+          </article>
         ))}
-      </ol>
+      </div>
     </div>
   </section>
 
-  <section class="section" style="border-top:1px solid var(--line);">
-    <div class="container reckon">
-      <p class="eyebrow">The Reckoning</p>
-      <h2 class="title measure">The bombing changed Australia forever.</h2>
-      <p class="prose prose--serif measure">
+  <!-- The Reckoning -->
+  <section class="s-reckon">
+    <div class="container">
+      <p class="eyebrow" data-reveal>The Reckoning</p>
+      <h2 class="s-reckon__h" data-reveal>The bombing changed<br />Australia forever.</h2>
+      <p class="s-reckon__p" data-reveal>
         Today Darwin stands as a place of remembrance and resilience. Across the city, memorials and wartime
-        sites continue to honour those who served, those who were lost, and the community that rebuilt. The
-        raids did not end that day — they were the first of more than sixty on northern Australia.
+        sites honour those who served, those who were lost, and the community that rebuilt. The raids did not
+        end that day — they were the first of more than sixty on northern Australia.
       </p>
-      <p class="reckon__lest">Lest we forget.</p>
+      <p class="s-reckon__lest" data-reveal>Lest we forget.</p>
     </div>
   </section>
 </Base>
 
 <style>
-  .tl { list-style: none; margin: 0; padding: 0; max-width: 760px; }
-  .tl__item {
-    position: relative; display: grid; grid-template-columns: 96px 1fr; gap: 28px;
-    padding: 0 0 clamp(38px, 6vw, 64px) 34px;
-    opacity: 0; transform: translateY(24px); transition: opacity 0.7s var(--ease-solemn), transform 0.7s var(--ease-solemn);
-  }
-  .tl__item[data-shown] { opacity: 1; transform: none; }
-  .tl__item::before { content: ''; position: absolute; left: 0; top: 6px; bottom: -6px; width: 1px; background: var(--line-strong); }
-  .tl__item:last-child::before { bottom: auto; height: 14px; }
-  .tl__node { position: absolute; left: -4px; top: 6px; width: 9px; height: 9px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 4px var(--ink); }
-  .tl__time { font-family: var(--font-mono); font-size: 0.9rem; letter-spacing: 0.06em; color: var(--gold); padding-top: 1px; }
-  .tl__h { font-family: var(--font-display); font-weight: 400; text-transform: none; font-size: clamp(1.3rem, 2.6vw, 1.75rem); margin: 0 0 8px; letter-spacing: 0.01em; }
-  .tl__d { font-family: var(--font-serif); font-size: 1.08rem; line-height: 1.65; color: var(--bone-dim); margin: 0; }
+  /* ---------- intro ---------- */
+  .s-intro { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; position: relative; padding-block: calc(var(--nav-h) + 40px) 40px; }
+  .s-intro__inner { max-width: 1000px; }
+  .s-monument { font-family: var(--font-display-xl); font-weight: 400; text-transform: uppercase; line-height: 0.92; letter-spacing: 0.01em; color: var(--bone); font-size: clamp(3.2rem, 12vw, 8.5rem); margin: 0 0 clamp(28px, 4vw, 48px); text-shadow: 0 0 50px rgba(236, 231, 219, 0.12); }
+  .s-rule { width: 64px; height: 1px; background: var(--line-strong); margin-bottom: clamp(28px, 4vw, 48px); }
+  .s-lede { font-family: var(--font-serif); font-size: clamp(1.25rem, 2.4vw, 1.9rem); line-height: 1.5; color: var(--bone-dim); max-width: 42ch; margin: 0; }
 
-  .reckon__lest { font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--bone-mute); margin-top: 40px; }
-  @media (max-width: 560px) { .tl__item { grid-template-columns: 72px 1fr; gap: 18px; } }
+  .s-scroll { position: absolute; bottom: clamp(28px, 5vh, 56px); left: var(--gutter); display: flex; align-items: flex-end; gap: 14px; }
+  .s-scroll__label { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--bone-mute); writing-mode: vertical-rl; transform: rotate(180deg); }
+  .s-scroll__track { width: 1px; height: 60px; background: var(--line); position: relative; overflow: hidden; }
+  .s-scroll__track span { position: absolute; inset: 0; background: var(--gold); animation: sScroll 2.2s linear infinite; }
+  @keyframes sScroll { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+
+  /* intro load reveal */
+  .s-el { opacity: 0; transform: translateY(40px); filter: blur(10px); animation: sRise 1.6s var(--ease-solemn) both; animation-delay: calc(var(--i) * 0.14s + 0.1s); }
+  @keyframes sRise { to { opacity: 1; transform: none; filter: blur(0); } }
+
+  /* ---------- timeline ---------- */
+  .s-tl-section { padding-bottom: clamp(60px, 10vh, 140px); }
+  .tl { position: relative; padding-left: clamp(24px, 5vw, 56px); --tl-pad: clamp(80px, 14vh, 190px); }
+  .tl__line, .tl__progress { position: absolute; left: 0; top: 0; bottom: 0; width: 1px; }
+  .tl__line { background: var(--line); }
+  .tl__progress { background: var(--gold); transform: scaleY(0); transform-origin: top; box-shadow: 0 0 12px rgba(198, 161, 91, 0.5); }
+
+  .tl__event { position: relative; padding-block: var(--tl-pad); }
+  .tl__node { position: absolute; left: -5px; top: var(--tl-pad); width: 11px; height: 11px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 5px var(--ink), 0 0 16px rgba(198, 161, 91, 0.6); }
+  .tl__row { display: grid; gap: clamp(10px, 3vw, 64px); }
+  @media (min-width: 820px) { .tl__row { grid-template-columns: 200px 1fr; align-items: start; } }
+
+  .tl__time { font-family: var(--font-display); font-weight: 400; text-transform: uppercase; letter-spacing: 0.04em; color: var(--gold); font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1; text-shadow: 0 0 24px rgba(198, 161, 91, 0.3); }
+  .tl__title { font-family: var(--font-display); font-weight: 400; text-transform: uppercase; letter-spacing: 0.01em; color: var(--bone); font-size: clamp(1.8rem, 4.4vw, 3.2rem); line-height: 1.02; margin: 0 0 clamp(16px, 2vw, 28px); }
+  .tl__desc { font-family: var(--font-serif); font-size: clamp(1.15rem, 2vw, 1.55rem); line-height: 1.6; color: var(--bone-dim); max-width: 34ch; margin: 0; }
+
+  /* ---------- reckoning ---------- */
+  .s-reckon { min-height: 90svh; display: flex; flex-direction: column; justify-content: center; border-top: 1px solid var(--line); padding-block: clamp(80px, 14vh, 180px); }
+  .s-reckon__h { font-family: var(--font-display-xl); font-weight: 400; text-transform: uppercase; line-height: 0.94; color: var(--bone); font-size: clamp(2.4rem, 8vw, 5.5rem); margin: 20px 0 clamp(28px, 4vw, 44px); }
+  .s-reckon__p { font-family: var(--font-serif); font-size: clamp(1.2rem, 2.2vw, 1.7rem); line-height: 1.55; color: var(--bone-dim); max-width: 44ch; margin: 0 0 clamp(40px, 6vw, 72px); }
+  .s-reckon__lest { font-family: var(--font-mono); font-size: 0.9rem; letter-spacing: 0.34em; text-transform: uppercase; color: var(--bone-mute); margin: 0; }
+
+  /* ---------- scroll-reveal (blur-in) ---------- */
+  [data-reveal] { opacity: 0; transform: translateY(30px); filter: blur(5px); transition: opacity 1.3s var(--ease-solemn), transform 1.3s var(--ease-solemn), filter 1.3s var(--ease-solemn); }
+  [data-reveal][data-shown] { opacity: 1; transform: none; filter: blur(0); }
+  .tl__title[data-reveal] { transition-delay: 0.1s; }
+  .tl__desc[data-reveal] { transition-delay: 0.2s; }
+  .tl__node[data-reveal] { transform: scale(0); filter: none; transition: opacity 1s var(--ease-solemn), transform 1s var(--ease-solemn); }
+  .tl__node[data-reveal][data-shown] { transform: scale(1); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .s-el { animation: none; opacity: 1; transform: none; filter: none; }
+    .s-scroll__track span { animation: none; }
+    [data-reveal] { opacity: 1; transform: none; filter: none; }
+    .tl__node[data-reveal] { transform: scale(1); }
+  }
 </style>
 
 <script>
-  const items = document.querySelectorAll<HTMLElement>('[data-reveal]');
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Blur-in reveals, triggered as each element reaches the centre
+  const items = document.querySelectorAll<HTMLElement>('[data-reveal]');
   if (reduce || !('IntersectionObserver' in window)) {
     items.forEach((i) => i.setAttribute('data-shown', ''));
   } else {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => { if (e.isIntersecting) { e.target.setAttribute('data-shown', ''); io.unobserve(e.target); } });
-    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.15 });
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.setAttribute('data-shown', ''); io.unobserve(e.target); } }),
+      { rootMargin: '0px 0px -30% 0px', threshold: 0.1 }
+    );
     items.forEach((i) => io.observe(i));
+  }
+
+  // The line draws itself as you descend the timeline
+  const tl = document.querySelector('.tl');
+  const progress = document.querySelector('.tl__progress');
+  if (tl && progress && !reduce) {
+    gsap.to(progress, {
+      scaleY: 1,
+      ease: 'none',
+      scrollTrigger: { trigger: tl, start: 'top center', end: 'bottom center', scrub: 0.6 },
+    });
+  } else if (progress && reduce) {
+    (progress as HTMLElement).style.transform = 'scaleY(1)';
   }
 </script>

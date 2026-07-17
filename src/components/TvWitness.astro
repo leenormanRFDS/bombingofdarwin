@@ -13,13 +13,28 @@ const frames = ['frame1', 'frame2', 'frame3'];
       <div class="tv__crt"></div>
     </div>
     <img class="tv__set" src="/images/witness/tv-set.webp" alt="A period television set" width="1600" height="1160" loading="lazy" decoding="async" />
+    <div class="tv__shroud" aria-hidden="true"></div>
   </div>
   <figcaption class="tv__cap record">Period television · the window to the archive</figcaption>
 </figure>
 
 <style>
   .tv { display: flex; flex-direction: column; align-items: center; gap: 18px; margin: 0; }
-  .tv__set-wrap { position: relative; width: 100%; max-width: 760px; aspect-ratio: 1600 / 1160; }
+  .tv__set-wrap { position: relative; width: 100%; max-width: 760px; aspect-ratio: 1600 / 1160; isolation: isolate; }
+
+  /* ambient light pooling out from the screen, behind the set */
+  .tv__set-wrap::before {
+    content: ''; position: absolute; z-index: 0;
+    left: 34%; top: 42%; width: 74%; height: 82%; transform: translate(-50%, -50%);
+    border-radius: 50%; filter: blur(34px);
+    background: radial-gradient(circle, rgba(150,170,190,0.16) 0%, rgba(130,115,90,0.08) 34%, transparent 66%);
+  }
+
+  /* the shroud — the set falls away into darkness, the screen stays lit */
+  .tv__shroud {
+    position: absolute; inset: 0; z-index: 5; pointer-events: none;
+    background: radial-gradient(118% 115% at 34% 42%, transparent 23%, rgba(7,7,6,0.52) 58%, rgba(7,7,6,0.93) 100%);
+  }
 
   /* screen positioned over the transparent hole (15.5% / 22% · 37% × 41%), slightly over-covered */
   .tv__screen {
@@ -44,6 +59,7 @@ const frames = ['frame1', 'frame2', 'frame3'];
 
   @media (prefers-reduced-motion: no-preference) {
     .tv__crt { animation: crtFlicker 6s steps(48) infinite; }
+    .tv__set-wrap::before { animation: crtFlicker 6s steps(48) infinite; }
   }
   @keyframes crtFlicker { 0%, 100% { opacity: 1; } 48% { opacity: 0.94; } 72% { opacity: 0.98; } 90% { opacity: 0.95; } }
 </style>
