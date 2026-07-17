@@ -19,11 +19,13 @@ export interface TicketPackage {
   slug: string;
   productCode: string;   // Rezdy product (allowlisted in api/availability.js)
   name: string;
-  desc: string;
-  duration: string;
-  from: number;          // display "from" price
+  image: string;         // card image in /public/images/tickets
+  lead: { label: string; price: number }; // honest headline price, e.g. Adult $30
+  includes: string[];    // the ✓ list — makes tiers compare naturally
+  meta: { icon: 'clock' | 'family' | 'plane' | 'headset' | 'bus' | 'ticket'; label: string }[];
   checkoutUrl: string;   // Rezdy secure checkout for this product
-  flag?: string;         // e.g. "Most popular"
+  flag?: string;         // e.g. "Best value"
+  glow?: boolean;        // the gold glowing panel
   tiers: TicketTier[];
 }
 
@@ -32,11 +34,18 @@ export const PACKAGES: TicketPackage[] = [
     slug: 'general-entry',
     productCode: 'PB1VKD',
     name: 'General Entry',
-    desc: 'The Bombing of Darwin and the Royal Flying Doctor Service experiences — history brought to life at Stokes Hill Wharf.',
-    duration: '≈ 2 hours',
-    from: 30,
+    image: '/images/tickets/general-entry.webp',
+    lead: { label: 'Adult', price: 30 },
+    includes: ['Bombing of Darwin Experience', 'RFDS Museum & hologram cinema'],
+    meta: [
+      { icon: 'clock', label: '2 hours' },
+      { icon: 'family', label: 'Great for families' },
+      { icon: 'plane', label: 'Step aboard the PC-12' },
+      { icon: 'headset', label: 'VR & holograms' },
+    ],
     checkoutUrl: 'https://rfdsdarwin1.rezdy.com/433258/rfds-darwin-tourist-facility-general-entry',
-    flag: 'Most popular',
+    flag: 'Best value',
+    glow: true,
     tiers: [
       { code: 'adult', label: 'Adult', price: 30, max: 20 },
       { code: 'child', label: 'Child', price: 18, note: 'Ages 5–15', max: 20 },
@@ -48,9 +57,14 @@ export const PACKAGES: TicketPackage[] = [
     slug: 'aviation-combo',
     productCode: 'PR6UUK',
     name: 'Aviation Combo',
-    desc: "Explore the Northern Territory's unique aviation history — two aviation attractions on one flexible ticket.",
-    duration: '1 day',
-    from: 47,
+    image: '/images/tickets/aviation-combo.webp',
+    lead: { label: 'Adult', price: 47 },
+    includes: ['Everything in General Entry', 'Second aviation attraction entry'],
+    meta: [
+      { icon: 'clock', label: 'Flexible · 1 day' },
+      { icon: 'plane', label: "NT's aviation story" },
+      { icon: 'ticket', label: 'One ticket, two venues' },
+    ],
     checkoutUrl: 'https://rfdsdarwin1.rezdy.com/433269/aviation-attraction-combo-ticket',
     tiers: [
       { code: 'adult', label: 'Adult', price: 47, max: 20 },
@@ -63,9 +77,14 @@ export const PACKAGES: TicketPackage[] = [
     slug: 'croc-n-history',
     productCode: 'P2Q41Q',
     name: 'Croc N History',
-    desc: 'Two of Darwin’s premier attractions, one ticket: full-day entry to Crocosaurus Cove plus the RFDS & Bombing of Darwin facility.',
-    duration: '≈ 6 hours',
-    from: 70,
+    image: '/images/tickets/croc-n-history.webp',
+    lead: { label: 'Adult', price: 70 },
+    includes: ['Everything in General Entry', 'Full-day entry to Crocosaurus Cove'],
+    meta: [
+      { icon: 'clock', label: '≈ 6 hours' },
+      { icon: 'family', label: 'Two premier attractions' },
+      { icon: 'ticket', label: 'Flexible entry, one ticket' },
+    ],
     checkoutUrl: 'https://rfdsdarwin1.rezdy.com/433980/croc-n-history-ticket',
     tiers: [
       { code: 'adult', label: 'Adult', price: 70, max: 20 },
@@ -77,9 +96,14 @@ export const PACKAGES: TicketPackage[] = [
     slug: 'croc-explorer',
     productCode: 'PWVVGE',
     name: 'Croc N History Explorer',
-    desc: 'Three attractions, one ticket: Crocosaurus Cove, the RFDS & Bombing of Darwin facility, and the Darwin Explorer hop-on hop-off bus.',
-    duration: '≈ 8 hours',
-    from: 118,
+    image: '/images/tickets/croc-explorer.webp',
+    lead: { label: 'Adult', price: 118 },
+    includes: ['Everything in Croc N History', 'Darwin Explorer hop-on hop-off bus'],
+    meta: [
+      { icon: 'clock', label: '≈ 8 hours' },
+      { icon: 'bus', label: 'See the whole city' },
+      { icon: 'ticket', label: 'Three attractions, one ticket' },
+    ],
     checkoutUrl: 'https://rfdsdarwin1.rezdy.com/435215/croc-n-history-explorer-ticket',
     flag: 'Best of Darwin',
     tiers: [

@@ -40,3 +40,9 @@ import BookingForm from '../components/BookingForm.astro';
   .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(24px, 4vw, 48px); }
   @media (max-width: 760px) { .facts { grid-template-columns: 1fr; } }
 </style>
+
+<style is:global>
+  /* On the booking page itself, the Your Visit panel is the CTA — hide the generic bars */
+  .bookbar { display: none !important; }
+  body { padding-bottom: 0 !important; }
+</style>

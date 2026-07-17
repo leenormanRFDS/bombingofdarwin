@@ -23,7 +23,7 @@ export const PEOPLE: Person[] = [
     faction: 'Australian Government',
     desc: 'Recognised the severity of the Japanese threat and made the controversial decision to bring Australian troops home from the Middle East to defend the mainland.',
     initials: 'JC',
-    image: 'https://i.imgur.com/DhH14Xt.jpg',
+    image: '/images/people/curtin.webp',
   },
   {
     id: 'grant',
@@ -32,7 +32,7 @@ export const PEOPLE: Person[] = [
     faction: 'Allied Naval Forces',
     desc: 'Commanded the naval defence of Darwin Harbour. Despite immense losses, he coordinated the rescue of hundreds of sailors from burning waters.',
     initials: 'EG',
-    image: 'https://i.imgur.com/8liPjWc.jpg',
+    image: '/images/people/grant.webp',
     draft: true,
   },
   {
@@ -42,7 +42,7 @@ export const PEOPLE: Person[] = [
     faction: 'Imperial Japanese Navy',
     desc: 'His Zero fighter was damaged during the raid. He crash-landed on Melville Island, becoming the first Japanese prisoner of war captured in Australia.',
     initials: 'HT',
-    image: 'https://i.imgur.com/Zc5UOCZ.jpg',
+    image: '/images/people/toyoshima.webp',
   },
   {
     id: 'ulungura',
@@ -51,7 +51,7 @@ export const PEOPLE: Person[] = [
     faction: 'Melville Island',
     desc: "A Tiwi man who captured Toyoshima using only a tomahawk, famously saying, 'Stick 'em up, two-fella'. His story endures through generations of Tiwi storytelling.",
     initials: 'MU',
-    image: 'https://i.imgur.com/vWEjcEB.jpg',
+    image: '/images/people/ulungura.webp',
     cultural: true,
   },
 ];
