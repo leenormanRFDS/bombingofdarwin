@@ -207,8 +207,22 @@ const icon = (n: string) =>
   .bsum__cta { width: 100%; justify-content: center; text-align: center; }
   .bsum__secure { text-align: center; font-family: var(--font-mono); font-size: 0.64rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bone-mute); margin: 14px 0 0; }
 
+  /* Mobile: the summary becomes a slim fixed bar so it never covers the form.
+     Details collapse to Total + dynamic CTA; a tap on the total expands rows. */
   @media (max-width: 979px) {
-    .bsum { position: sticky; bottom: 10px; top: auto; z-index: 40; }
+    .bflow { padding-bottom: 96px; } /* reserve room for the fixed bar */
+    .bsum {
+      position: fixed; left: 0; right: 0; bottom: 0; top: auto; z-index: 60;
+      border-radius: 0; border-left: 0; border-right: 0;
+      display: flex; align-items: center; gap: 16px;
+      padding: 12px 18px calc(12px + env(safe-area-inset-bottom));
+      box-shadow: 0 -14px 40px rgba(0, 0, 0, 0.55);
+    }
+    .bsum__title, .bsum__rows, .bsum__secure { display: none; }
+    .bsum__total { padding: 0; margin: 0; flex-direction: column; align-items: flex-start; gap: 0; }
+    .bsum__total span { font-size: 0.56rem; letter-spacing: 0.16em; }
+    .bsum__total strong { font-size: 1.5rem; }
+    .bsum__cta { flex: 1; }
   }
 </style>
 

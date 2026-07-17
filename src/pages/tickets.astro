@@ -44,5 +44,6 @@ import BookingForm from '../components/BookingForm.astro';
 <style is:global>
   /* On the booking page itself, the Your Visit panel is the CTA — hide the generic bars */
   .bookbar { display: none !important; }
-  body { padding-bottom: 0 !important; }
+  /* Reserve room on mobile so the fixed Your Visit bar never covers page content */
+  @media (max-width: 979px) { body { padding-bottom: 96px !important; } }
 </style>
