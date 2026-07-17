@@ -50,14 +50,18 @@ the kit works on any domain automatically, so there's nothing to configure. Just
 three Guildhall styles (Regular, Condensed, Compressed) are in that web project and it's
 published. If Guildhall can't load, the type falls back to a system sans.
 
-**Booking (Rezdy).** The booking skin at `/book` runs on realistic mock availability until
-you connect Rezdy. In Vercel → Settings → Environment Variables, add:
+**Booking (Rezdy) — headless availability is LIVE-ready.** The booking skin at `/book`
+pulls real sessions through the server-side proxy (`/api/availability.js`). Locally the
+secrets live in `.env` (gitignored). For the live site, add the same two variables in
+Vercel → Settings → Environment Variables:
 
-- `REZDY_API_KEY` — the Supplier API key (secret; stays server-side in `/api/availability.js`)
-- `REZDY_PRODUCT_CODE` — the product/booking code
+- `REZDY_API_KEY` — the Supplier API key (secret; server-side only, never in the repo)
+- `REZDY_PRODUCT_CODE` — `PB1VKD` (RFDS Darwin Tourist Facility General Entry:
+  Adult $30 / Senior $26 / Child $18 / 2A+3C $90 — matches the site's tiers)
 
-The Book button hands off to your Rezdy checkout (`rfdsdarwin1.rezdy.com`) for secure payment.
-Full in-site "headless" payment is a later phase.
+`/api/products` lists every product on the account if you ever need a different code.
+The Book button hands off to the Rezdy checkout (`rfdsdarwin1.rezdy.com`) for secure
+payment; full in-site payment (RezdyPay/Stripe tokenisation) is the remaining phase.
 
 ## To do next
 - The cinematic Experience opening, the narrative chapters, the "Meet the People" wheel, the Desk home.

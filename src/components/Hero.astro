@@ -1,28 +1,15 @@
 ---
 import { SITE } from '../consts';
-
-const layers = [
-  { src: 'deep-bg',           mouse: 4 },
-  { src: 'smoke',             mouse: 8 },
-  { src: 'splashes',          mouse: 6 },
-  { src: 'foreground',        mouse: 12 },
-  { src: 'plane-upper-right', mouse: 20 },
-  { src: 'plane-upper',       mouse: 18 },
-  { src: 'plane-right',       mouse: 24 },
-  { src: 'bomb-big',          mouse: 14 },
-  { src: 'bomb-small',        mouse: 16 },
-  { src: 'plane-lead',        mouse: 30 },
-];
 ---
-<section class="whero" id="top" aria-label="The Bombing of Darwin, 19 February 1942">
+<section class="whero" id="top" aria-label="The Bombing of Darwin, 19 February 1942 — then and now">
   <div class="whero__grid container">
     <div class="whero__void">
       <p class="record whero__rec">19 February 1942 — 09:58 ACST</p>
       <div class="whero__morse" aria-hidden="true">–··&nbsp;&nbsp;·–&nbsp;&nbsp;·–·&nbsp;&nbsp;·––&nbsp;&nbsp;··&nbsp;&nbsp;–·</div>
       <h1 class="whero__tagline"><span>WW2</span><span>Happened</span><span>Here</span></h1>
       <p class="whero__lede">
-        Stand on the wharf where the war reached Australia — the raid of <em>19 February 1942</em>,
-        in immersive VR, holograms and theatre, with the Royal Flying Doctor Service.
+        The same wharf. The same sky. Draw back the morning of <em>19 February 1942</em> —
+        then stand there yourself, in immersive VR, holograms and theatre, with the Royal Flying Doctor Service.
       </p>
       <div class="whero__cta">
         <a class="btn-book" href={SITE.bookPath}>Book Tickets</a>
@@ -30,15 +17,32 @@ const layers = [
       </div>
     </div>
 
-    <figure class="whero__window" data-window>
-      <div class="whero__scene" data-scene aria-hidden="true">
-        {layers.map((l, i) => (
-          <img class="l" src={`/images/hero/${l.src}.webp`} alt="" width="1600" height="2210"
-            style={`z-index:${i + 1}`} data-mouse={l.mouse} loading="eager" decoding="async" />
-        ))}
+    <figure class="whero__window" data-reveal-window>
+      <div class="rv" data-rv>
+        <!-- Present day (base) -->
+        <img class="rv__img" src="/images/hero/then-now.webp" alt="A family walks toward the visitor pavilion on Stokes Hill Wharf today" width="1500" height="1898" loading="eager" decoding="async" />
+        <!-- 1942 (clipped reveal) -->
+        <div class="rv__then" data-then>
+          <img class="rv__img" src="/images/hero/then-1942.webp" alt="The same wharf on 19 February 1942, under attack" width="1500" height="1898" loading="eager" decoding="async" />
+        </div>
+
+        <!-- Divider + handle -->
+        <div class="rv__bar" data-bar aria-hidden="true">
+          <span class="rv__stem"></span>
+          <span class="rv__knob"><i>←</i><i>→</i></span>
+        </div>
+
+        <!-- Era labels -->
+        <span class="rv__tag rv__tag--then record" data-tag-then>19 · 02 · 1942</span>
+        <span class="rv__tag rv__tag--now record" data-tag-now>Today</span>
+
+        <!-- Invisible native slider = keyboard & screen-reader control -->
+        <input class="rv__range" data-range type="range" min="0" max="100" step="1" value="50"
+          aria-label="Reveal 1942 — drag between today and the morning of the raid" />
       </div>
+
       <span class="tk tl"></span><span class="tk tr"></span><span class="tk bl"></span><span class="tk br"></span>
-      <figcaption class="whero__plate record">Plate 01 · Darwin Harbour · 12°27′S 130°50′E</figcaption>
+      <figcaption class="whero__plate record">Plate 01 · Stokes Hill Wharf · 12°27′S 130°50′E</figcaption>
     </figure>
   </div>
 
@@ -70,35 +74,55 @@ const layers = [
   .whero__lede em { color: var(--gold-bright); font-style: italic; }
   .whero__cta { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
 
+  /* ---- the reveal window ---- */
   .whero__window {
-    position: relative; margin: 0; width: 100%; aspect-ratio: 16 / 17; max-height: 74svh;
+    position: relative; margin: 0; width: 100%; aspect-ratio: 15 / 17; max-height: 76svh;
     border: 1px solid var(--line-strong); overflow: hidden; justify-self: end;
   }
-  .whero__scene { position: absolute; inset: 0; }
-  .whero__scene .l {
-    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-    object-position: 50% 72%; scale: 1.08; will-change: translate;
+  .rv { position: absolute; inset: 0; cursor: ew-resize; --p: 50%; }
+  .rv__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%; user-select: none; -webkit-user-drag: none; }
+  .rv__then { position: absolute; inset: 0; clip-path: inset(0 calc(100% - var(--p)) 0 0); }
+
+  .rv__bar { position: absolute; top: 0; bottom: 0; left: var(--p); z-index: 5; transform: translateX(-50%); display: flex; align-items: center; justify-content: center; pointer-events: none; }
+  .rv__stem { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(236, 231, 219, 0.85); box-shadow: 0 0 14px rgba(0, 0, 0, 0.8); }
+  .rv__knob {
+    position: relative; display: flex; align-items: center; gap: 7px;
+    padding: 9px 13px; border-radius: 100px;
+    background: rgba(12, 12, 11, 0.72); border: 1px solid rgba(236, 231, 219, 0.5);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6);
   }
-  .whero__window .tk { position: absolute; width: 15px; height: 15px; border: 1px solid var(--bone); opacity: 0.55; z-index: 3; }
+  .rv__knob i { font-style: normal; font-size: 0.72rem; color: var(--bone); line-height: 1; }
+
+  .rv__tag { position: absolute; bottom: 44px; z-index: 4; padding: 5px 10px; background: rgba(12, 12, 11, 0.62); border: 1px solid var(--line-strong); color: var(--bone); font-size: 0.6rem; backdrop-filter: blur(4px); transition: opacity 0.35s var(--ease); }
+  .rv__tag--then { left: 14px; }
+  .rv__tag--now { right: 14px; }
+
+  .rv__range { position: absolute; inset: 0; z-index: 6; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; -webkit-appearance: none; appearance: none; background: transparent; }
+  .rv__range::-webkit-slider-thumb { -webkit-appearance: none; width: 44px; height: 100%; }
+  .rv__range:focus-visible ~ .rv__bar .rv__knob, .rv:has(.rv__range:focus-visible) .rv__knob { outline: 2px solid var(--focus); outline-offset: 3px; }
+
+  .whero__window .tk { position: absolute; width: 15px; height: 15px; border: 1px solid var(--bone); opacity: 0.55; z-index: 7; pointer-events: none; }
   .tk.tl { top: 9px; left: 9px; border-right: 0; border-bottom: 0; }
   .tk.tr { top: 9px; right: 9px; border-left: 0; border-bottom: 0; }
   .tk.bl { bottom: 9px; left: 9px; border-right: 0; border-top: 0; }
   .tk.br { bottom: 9px; right: 9px; border-left: 0; border-top: 0; }
-  .whero__plate { position: absolute; bottom: 12px; left: 15px; z-index: 3; color: var(--bone-dim); font-size: 0.66rem; text-shadow: 0 1px 10px rgba(0, 0, 0, 0.85); }
+  .whero__plate { position: absolute; bottom: 12px; left: 15px; z-index: 7; color: var(--bone-dim); font-size: 0.66rem; text-shadow: 0 1px 10px rgba(0, 0, 0, 0.85); pointer-events: none; }
 
   .whero__scroll { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 4; display: flex; flex-direction: column; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--bone-mute); }
   .whero__scroll span { width: 1px; height: 38px; background: linear-gradient(to bottom, transparent, var(--bone-mute)); animation: wheroDrop 2.6s var(--ease) infinite; }
   @keyframes wheroDrop { 0% { transform: scaleY(0); transform-origin: top; } 45% { transform: scaleY(1); transform-origin: top; } 46% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
 
-  /* Mobile: the window becomes the full-bleed field; type sits over it */
+  /* Mobile: the reveal fills the field; type overlays at the base */
   @media (max-width: 919px) {
     .whero__grid { grid-template-columns: 1fr; align-items: end; }
     .whero__window { position: absolute; inset: 0; height: auto; width: auto; aspect-ratio: auto; max-height: none; border: 0; z-index: 0; }
     .whero__window .tk, .whero__plate { display: none; }
-    .whero__scene .l { object-position: 50% 55%; }
+    .rv__img { object-position: 50% 40%; }
+    .rv__tag { bottom: auto; top: calc(var(--nav-h) + 14px); }
     .whero__void { align-self: end; max-width: none; padding-bottom: 8px; }
     .whero::after { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-      background: linear-gradient(to bottom, rgba(12,12,11,0.55) 0%, transparent 26% 48%, rgba(12,12,11,0.94) 100%); }
+      background: linear-gradient(to bottom, rgba(12,12,11,0.5) 0%, transparent 24% 44%, rgba(12,12,11,0.95) 100%); }
   }
 </style>
 
@@ -106,30 +130,56 @@ const layers = [
   import gsap from 'gsap';
 
   const whero = document.querySelector<HTMLElement>('.whero');
-  if (whero) {
+  const rv = document.querySelector<HTMLElement>('[data-rv]');
+
+  if (whero && rv) {
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const layers = gsap.utils.toArray<HTMLElement>('.whero__scene .l');
+    const range = rv.querySelector<HTMLInputElement>('[data-range]')!;
+    const tagThen = rv.querySelector<HTMLElement>('[data-tag-then]')!;
+    const tagNow = rv.querySelector<HTMLElement>('[data-tag-now]')!;
+
+    let target = 50, cur = 50;
+    const apply = () => {
+      rv.style.setProperty('--p', cur.toFixed(2) + '%');
+      tagThen.style.opacity = String(Math.min(1, cur / 24));
+      tagNow.style.opacity = String(Math.min(1, (100 - cur) / 24));
+    };
+
+    const set = (v: number) => { target = Math.max(0, Math.min(100, v)); if (reduce) { cur = target; apply(); } };
+
+    // Pointer drag anywhere on the window
+    const fromEvent = (e: PointerEvent) => {
+      const r = rv.getBoundingClientRect();
+      set(((e.clientX - r.left) / r.width) * 100);
+    };
+    let dragging = false;
+    rv.addEventListener('pointerdown', (e) => { dragging = true; fromEvent(e); });
+    window.addEventListener('pointermove', (e) => { if (dragging) fromEvent(e); });
+    window.addEventListener('pointerup', () => { dragging = false; });
+
+    // Keyboard / AT via the native range
+    range.addEventListener('input', () => set(parseFloat(range.value)));
 
     if (!reduce) {
+      // weighted follow
+      gsap.ticker.add(() => {
+        cur += (target - cur) * 0.12;
+        range.value = String(Math.round(cur));
+        apply();
+      });
+      // entrance: a slow full wipe that settles at half — teaches the interaction wordlessly
       gsap.from('.whero__void > *', { autoAlpha: 0, y: 26, duration: 0.9, stagger: 0.1, ease: 'power3.out', delay: 0.15 });
       gsap.from('.whero__window', { autoAlpha: 0, duration: 1.2, ease: 'power2.out', delay: 0.1 });
-
-      if (matchMedia('(pointer:fine)').matches) {
-        let tx = 0, ty = 0, cx = 0, cy = 0;
-        whero.addEventListener('mousemove', (e) => {
-          const r = whero.getBoundingClientRect();
-          tx = (e.clientX - r.left) / r.width - 0.5;
-          ty = (e.clientY - r.top) / r.height - 0.5;
-        });
-        whero.addEventListener('mouseleave', () => { tx = 0; ty = 0; });
-        gsap.ticker.add(() => {
-          cx += (tx - cx) * 0.06; cy += (ty - cy) * 0.06;
-          layers.forEach((el) => {
-            const d = parseFloat(el.dataset.mouse || '0');
-            el.style.translate = `${(-cx * d).toFixed(1)}px ${(-cy * d * 0.7).toFixed(1)}px`;
-          });
-        });
-      }
+      const tl = gsap.timeline({ delay: 0.9 });
+      tl.fromTo({ v: 0 }, { v: 0 }, {
+        v: 100, duration: 1.6, ease: 'power2.inOut',
+        onUpdate() { target = this.targets()[0].v; },
+      }).to({ v: 100 }, {
+        v: 50, duration: 1.1, ease: 'power3.out',
+        onUpdate() { target = this.targets()[0].v; },
+      });
+    } else {
+      cur = target = 50; apply();
     }
   }
 </script>

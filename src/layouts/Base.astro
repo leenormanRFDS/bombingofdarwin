@@ -55,6 +55,11 @@ const fullTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} · ${SITE.t
       <a class="btn" href={SITE.bookPath}>Book Tickets</a>
     </div>
 
+    <!-- Desktop sticky Book Now — surfaces after the hero -->
+    {Astro.url.pathname !== SITE.bookPath && Astro.url.pathname !== `${SITE.bookPath}/` && (
+      <a class="btn-book bookfab" href={SITE.bookPath} data-bookfab aria-hidden="true" tabindex="-1">Book Now</a>
+    )}
+
     <!-- Global weighted smooth scroll, synced to GSAP ScrollTrigger -->
     <script>
       import Lenis from 'lenis';
@@ -67,6 +72,38 @@ const fullTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} · ${SITE.t
         gsap.ticker.add((t) => lenis.raf(t * 1000));
         gsap.ticker.lagSmoothing(0);
         (window as any).__lenis = lenis;
+      }
+
+      // Sitewide scroll reveal: section content resolves from soft focus.
+      // (Pages with bespoke reveals — e.g. [data-reveal] on The Story — are untouched.)
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+        const containers = document.querySelectorAll<HTMLElement>('main .section > .container, main .section--tight > .container');
+        const io = new IntersectionObserver(
+          (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }),
+          { rootMargin: '0px 0px -18% 0px', threshold: 0.05 }
+        );
+        containers.forEach((c) => {
+          Array.from(c.children).forEach((child, i) => {
+            const el = child as HTMLElement;
+            if (el.hasAttribute('data-reveal') || el.tagName === 'SCRIPT' || el.tagName === 'STYLE') return;
+            el.setAttribute('data-areveal', '');
+            el.style.setProperty('--ad', String(Math.min(i, 6)));
+            io.observe(el);
+          });
+        });
+      }
+
+      // Sticky Book Now: surfaces once the visitor is past the first screen
+      const fab = document.querySelector<HTMLElement>('[data-bookfab]');
+      if (fab) {
+        const toggle = () => {
+          const show = window.scrollY > innerHeight * 0.85;
+          fab.classList.toggle('is-live', show);
+          fab.setAttribute('aria-hidden', String(!show));
+          fab.tabIndex = show ? 0 : -1;
+        };
+        toggle();
+        window.addEventListener('scroll', toggle, { passive: true });
       }
     </script>
   </body>

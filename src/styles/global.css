@@ -218,6 +218,24 @@ h1, h2, h3, h4 {
 .skip { position: absolute; left: -999px; top: 0; z-index: 200; background: var(--gold); color: var(--ink); padding: 10px 16px; border-radius: 0 0 var(--radius) 0; font-family: var(--font-mono); font-size: 0.8rem; }
 .skip:focus { left: 0; }
 
+/* ---------- sitewide scroll reveal (auto-applied in Base) ---------- */
+[data-areveal] {
+  opacity: 0; transform: translateY(26px); filter: blur(5px);
+  transition: opacity 1.15s var(--ease-solemn), transform 1.15s var(--ease-solemn), filter 1.15s var(--ease-solemn);
+  transition-delay: calc(var(--ad, 0) * 0.09s);
+}
+[data-areveal].is-in { opacity: 1; transform: none; filter: blur(0); }
+
+/* ---------- desktop sticky Book Now ---------- */
+.bookfab {
+  position: fixed; right: clamp(20px, 3vw, 44px); bottom: clamp(20px, 3vw, 40px); z-index: 92;
+  padding: 0.9em 1.9em; font-size: 0.76rem;
+  opacity: 0; transform: translateY(16px); pointer-events: none;
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+}
+.bookfab.is-live { opacity: 1; transform: none; pointer-events: auto; }
+@media (max-width: 820px) { .bookfab { display: none; } } /* mobile has the bookbar */
+
 /* ---------- mobile sticky booking bar ---------- */
 .bookbar {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 90; display: none;

@@ -6,7 +6,7 @@ import { SITE } from '../consts';
 const tiers = [
   { tier: 'Adult', price: 30, who: 'One adult' },
   { tier: 'Child', price: 18, who: 'Ages 5–15' },
-  { tier: 'Concession', price: 26, who: 'Seniors & concession card holders, on presentation of proof' },
+  { tier: 'Concession', price: 26, who: 'Seniors & concession card holders, with proof' },
   { tier: 'Family', price: 90, who: '2 adults + 3 children', best: true },
 ];
 ---
@@ -21,12 +21,16 @@ const tiers = [
     <div class="container">
       <div class="tiers">
         {tiers.map((t) => (
-          <div class={`card tier ${t.best ? 'tier--best' : ''}`}>
-            {t.best && <span class="tier__flag">Best value</span>}
-            <span class="record tier__name">{t.tier}</span>
-            <span class="tier__price">${t.price}</span>
+          <a class={`tier ${t.best ? 'tier--best' : ''}`} href={SITE.bookPath} aria-label={`${t.tier} ticket — $${t.price}. Book now`}>
+            <span class="tier__top">
+              <span class="record tier__name">{t.tier}</span>
+              {t.best && <span class="tier__flag">Best value</span>}
+            </span>
+            <span class="tier__price"><em>$</em>{t.price}</span>
             <span class="tier__who">{t.who}</span>
-          </div>
+            <span class="tier__go" aria-hidden="true">Book now <i>→</i></span>
+            <span class="tier__sheen" aria-hidden="true"></span>
+          </a>
         ))}
       </div>
 
@@ -50,7 +54,7 @@ const tiers = [
         </div>
         <div>
           <p class="eyebrow eyebrow--gold">Combination packages</p>
-          <p class="prose">Pair your visit with other Darwin harbour experiences. Ask at the desk or enquire about group and trade rates.</p>
+          <p class="prose">Pair your visit with harbour cruises and other Darwin experiences. Ask at the desk or enquire about group and trade rates.</p>
         </div>
       </div>
     </div>
@@ -58,13 +62,62 @@ const tiers = [
 </Base>
 
 <style>
-  .tiers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 44px; }
-  .tier { position: relative; display: flex; flex-direction: column; gap: 8px; padding: 26px 22px; }
-  .tier--best { border-color: var(--gold); }
-  .tier__flag { position: absolute; top: -1px; right: -1px; font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); background: var(--gold); padding: 4px 9px; border-radius: 0 var(--radius) 0 var(--radius); }
-  .tier__price { font-family: var(--font-display-xl); font-weight: 400; font-size: 3rem; color: var(--gold-bright); line-height: 1; }
-  .tier__who { font-size: 0.86rem; color: var(--bone-dim); }
-  .book { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .tiers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 48px; }
+
+  .tier {
+    position: relative; display: flex; flex-direction: column; gap: 10px;
+    padding: 28px 24px 24px; overflow: hidden; isolation: isolate;
+    background: linear-gradient(165deg, var(--char-2) 0%, var(--char) 70%);
+    border: 1px solid var(--line); border-radius: var(--radius);
+    box-shadow: inset 0 1px 0 rgba(236, 231, 219, 0.04), 0 18px 44px rgba(0, 0, 0, 0.35);
+    transition: transform 0.35s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
+  }
+  .tier::after {
+    content: ''; position: absolute; left: 24px; right: 24px; bottom: 0; height: 1px;
+    background: var(--gold); transform: scaleX(0); transform-origin: left;
+    transition: transform 0.45s var(--ease);
+  }
+  .tier:hover, .tier:focus-visible {
+    transform: translateY(-5px);
+    border-color: rgba(198, 161, 91, 0.55);
+    box-shadow: inset 0 1px 0 rgba(236, 231, 219, 0.06), 0 26px 60px rgba(0, 0, 0, 0.5), 0 0 34px rgba(198, 161, 91, 0.08);
+  }
+  .tier:hover::after, .tier:focus-visible::after { transform: scaleX(1); }
+
+  .tier__top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .tier__name { color: var(--bone-dim); }
+  .tier__flag {
+    font-family: var(--font-mono); font-size: 0.56rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink); background: var(--gold); padding: 3px 8px; border-radius: 2px; white-space: nowrap;
+  }
+  .tier__price { font-family: var(--font-display-xl); font-weight: 400; font-size: clamp(2.8rem, 4.5vw, 3.8rem); color: var(--gold-bright); line-height: 0.95; }
+  .tier__price em { font-style: normal; font-size: 0.55em; vertical-align: 0.5em; color: var(--gold); margin-right: 2px; }
+  .tier__who { font-size: 0.84rem; color: var(--bone-dim); min-height: 2.4em; }
+
+  .tier__go {
+    display: inline-flex; align-items: center; gap: 8px; margin-top: 4px;
+    font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--bone-mute); transition: color 0.3s var(--ease);
+  }
+  .tier__go i { font-style: normal; transition: transform 0.3s var(--ease); }
+  .tier:hover .tier__go, .tier:focus-visible .tier__go { color: var(--gold-bright); }
+  .tier:hover .tier__go i, .tier:focus-visible .tier__go i { transform: translateX(5px); }
+
+  .tier__sheen {
+    position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0;
+    background: linear-gradient(115deg, transparent 30%, rgba(236, 231, 219, 0.045) 48%, transparent 62%);
+    transform: translateX(-70%); transition: opacity 0.3s var(--ease);
+  }
+  .tier:hover .tier__sheen { opacity: 1; animation: tierSheen 1.4s var(--ease) forwards; }
+  @keyframes tierSheen { to { transform: translateX(70%); } }
+
+  .tier--best { border-color: rgba(198, 161, 91, 0.4); }
+
+  .book { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
   .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(24px, 4vw, 48px); }
-  @media (max-width: 760px) { .tiers { grid-template-columns: repeat(2, 1fr); } .facts { grid-template-columns: 1fr; } }
+
+  @media (max-width: 900px) { .tiers { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 460px) { .tiers { grid-template-columns: 1fr; } }
+  @media (max-width: 760px) { .facts { grid-template-columns: 1fr; } }
+  @media (prefers-reduced-motion: reduce) { .tier__sheen { display: none; } }
 </style>
