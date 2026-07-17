@@ -9,8 +9,9 @@ import { SITE } from '../consts';
 interface Props {
   title?: string;
   description?: string;
+  bare?: boolean; // landing page: hero only, no footer / booking bars
 }
-const { title, description = SITE.description } = Astro.props;
+const { title, description = SITE.description, bare = false } = Astro.props;
 const fullTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} · ${SITE.tagline}`;
 ---
 <!doctype html>
@@ -47,16 +48,18 @@ const fullTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} · ${SITE.t
     <main id="main">
       <slot />
     </main>
-    <Footer />
+    {!bare && <Footer />}
 
-    <!-- Mobile sticky booking bar -->
-    <div class="bookbar">
-      <span class="bookbar__from">FROM <b>$18</b> · CHILD</span>
-      <a class="btn" href={SITE.bookPath}>Book Tickets</a>
-    </div>
+    {!bare && (
+      <!-- Mobile sticky booking bar -->
+      <div class="bookbar">
+        <span class="bookbar__from">FROM <b>$18</b> · CHILD</span>
+        <a class="btn" href={SITE.bookPath}>Book Tickets</a>
+      </div>
+    )}
 
     <!-- Desktop sticky Book Now — surfaces after the hero -->
-    {Astro.url.pathname !== SITE.bookPath && Astro.url.pathname !== `${SITE.bookPath}/` && (
+    {!bare && Astro.url.pathname !== SITE.bookPath && Astro.url.pathname !== `${SITE.bookPath}/` && (
       <a class="btn-book bookfab" href={SITE.bookPath} data-bookfab aria-hidden="true" tabindex="-1">Book Now</a>
     )}
 

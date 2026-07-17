@@ -107,10 +107,19 @@ import { SITE } from '../consts';
   .tk.br { bottom: 9px; right: 9px; border-left: 0; border-top: 0; }
   .whero__plate { position: absolute; bottom: 12px; left: 15px; z-index: 7; color: var(--bone-dim); font-size: 0.66rem; text-shadow: 0 1px 10px rgba(0, 0, 0, 0.85); pointer-events: none; }
 
-  /* Mobile: the window sits in normal flow below the brand column — always renders */
+  /* Mobile hierarchy: LOGO · TAGLINE · SLIDER · COPY · CTA+badge.
+     The void becomes display:contents so its children + the window share one
+     flex column and can be reordered; the window is in normal flow (always renders). */
   @media (max-width: 919px) {
     .whero { align-items: start; }
-    .whero__window { aspect-ratio: 4 / 5; max-height: none; justify-self: stretch; }
+    .whero__grid { display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .whero__void { display: contents; }
+    .whero__logo    { order: 1; margin-bottom: 18px; }
+    .whero__tagline { order: 2; margin-bottom: 20px; }
+    .whero__window  { order: 3; width: 100%; align-self: stretch; aspect-ratio: 4 / 5; max-height: none; margin-bottom: 26px; }
+    .whero__rec     { order: 4; margin: 0 0 14px; }
+    .whero__lede    { order: 5; margin-left: auto; margin-right: auto; }
+    .whero__cta     { order: 6; }
     .whero__trip { width: 72px; height: 72px; }
   }
 

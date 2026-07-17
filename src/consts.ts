@@ -118,7 +118,7 @@ export const NAV: { label: string; href: string }[] = [
   { label: 'The Experience', href: '/experience' },
   { label: 'The Story', href: '/story' },
   { label: 'Visit', href: '/visit' },
-  { label: 'Schools & Groups', href: '/schools' },
+  { label: 'Programs', href: '/schools' },
   { label: 'Contact', href: '/contact' },
 ];
 

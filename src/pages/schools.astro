@@ -59,6 +59,43 @@ const groupEmail = 'bookingsdrw@flyingdoctor.net.au';
       </div>
     </div>
   </section>
+
+  <!-- Trade Partnerships & Venue Hire -->
+  <section class="section trade" style="border-top:1px solid var(--line);">
+    <div class="container">
+      <p class="eyebrow eyebrow--gold">Trade Partnerships &amp; Venue Hire</p>
+      <h2 class="trade__h">Work with us.</h2>
+
+      <div class="trade__grid">
+        <div class="trade__col">
+          <h3 class="trade__t">Tourism Operators</h3>
+          <p class="prose prose--serif">
+            We offer bespoke trade rates, product documentation, and marketing resources, distributed
+            upon request via the trade desk.
+          </p>
+          <a class="link-gold" href="mailto:bek.garrett@flyingdoctor.net">Contact the trade desk →</a>
+        </div>
+        <div class="trade__col">
+          <h3 class="trade__t">Exclusive Venue Hire</h3>
+          <p class="prose prose--serif">
+            Located on historic Stokes Hill Wharf overlooking Darwin Harbour, the venue offers unique
+            backdrops for corporate functions, networking events, cocktail receptions, or exclusive
+            pre- and post-tour bookings. Fully customisable capacities range from intimate gatherings
+            to large-scale functions.
+          </p>
+          <a class="link-gold" href="mailto:bek.garrett@flyingdoctor.net">Enquire about venue hire →</a>
+        </div>
+      </div>
+    </div>
+
+    <figure class="venue" data-reveal>
+      <img src="/images/BOD_Wharf.webp" alt="The Bombing of Darwin venue on Stokes Hill Wharf, lit at dusk over Darwin Harbour" width="1280" height="720" loading="lazy" decoding="async" />
+      <figcaption class="venue__cap">
+        <span class="record">Stokes Hill Wharf · Darwin Harbour</span>
+        <p>An address the harbour remembers — yours for an evening.</p>
+      </figcaption>
+    </figure>
+  </section>
 </Base>
 
 <style>
@@ -77,5 +114,20 @@ const groupEmail = 'bookingsdrw@flyingdoctor.net.au';
   .curric li::before { content: '—'; color: var(--gold); margin-right: 12px; }
 
   .cta { padding-top: clamp(32px, 5vw, 56px); border-top: 1px solid var(--line); }
-  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+
+  /* ---- Trade & Venue Hire ---- */
+  .trade__h { font-family: var(--font-display); font-weight: 400; text-transform: uppercase; font-size: clamp(1.7rem, 3.4vw, 2.6rem); line-height: 1; margin: 12px 0 clamp(32px, 5vw, 52px); color: var(--bone); }
+  .trade__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 72px); }
+  .trade__t { font-family: var(--font-display-reg); font-weight: 500; font-size: 1.3rem; margin: 0 0 14px; color: var(--bone); letter-spacing: 0; text-transform: none; }
+  .link-gold { display: inline-block; margin-top: 16px; font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-bright); border-bottom: 1px solid var(--line-strong); padding-bottom: 3px; transition: border-color 0.25s var(--ease); }
+  .link-gold:hover { border-color: var(--gold); }
+
+  .venue { position: relative; margin: clamp(40px, 6vw, 72px) 0 0; height: clamp(340px, 52vw, 620px); overflow: hidden; }
+  .venue img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.04); }
+  .venue::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(12,12,11,0.15) 0%, rgba(12,12,11,0) 32%, rgba(12,12,11,0.72) 100%); }
+  .venue__cap { position: absolute; left: clamp(20px, 5vw, 64px); bottom: clamp(20px, 4vw, 48px); z-index: 2; max-width: 30ch; }
+  .venue__cap .record { color: var(--gold-bright); }
+  .venue__cap p { font-family: var(--font-serif); font-style: italic; font-size: clamp(1.2rem, 2.4vw, 1.7rem); line-height: 1.3; color: var(--bone); margin: 8px 0 0; text-shadow: 0 2px 24px rgba(0,0,0,0.7); }
+
+  @media (max-width: 760px) { .grid, .trade__grid { grid-template-columns: 1fr; } }
 </style>
