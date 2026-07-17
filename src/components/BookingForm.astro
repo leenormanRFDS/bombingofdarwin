@@ -1,22 +1,45 @@
 ---
-import { BOOKING_TIERS, SITE } from '../consts';
+import { PACKAGES } from '../consts';
 ---
-<section class="booking" aria-label="Book tickets">
+<section class="booking" aria-label="Book tickets" data-booking>
+  <!-- 01 · The pathways -->
   <div class="step">
-    <div class="step__head"><span class="step__n">01</span><h2 class="step__t">Choose a date</h2></div>
+    <div class="step__head"><span class="step__n">01</span><h2 class="step__t">Choose your experience</h2></div>
+    <div class="paths">
+      {PACKAGES.map((p) => (
+        <button type="button" class="path" data-pkg={p.slug} aria-pressed="false">
+          <span class="path__top">
+            <span class="record path__name">{p.name}</span>
+            {p.flag && <span class="path__flag">{p.flag}</span>}
+          </span>
+          <span class="path__price"><i>from</i> <em>$</em>{p.from}</span>
+          <span class="path__desc">{p.desc}</span>
+          <span class="path__meta record">{p.duration}</span>
+          <span class="path__go" aria-hidden="true"><b>Select</b> <i>→</i></span>
+          <span class="path__sheen" aria-hidden="true"></span>
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <!-- 02 · Date -->
+  <div class="step" data-step-date hidden>
+    <div class="step__head"><span class="step__n">02</span><h2 class="step__t">Choose a date</h2></div>
     <div class="dates" data-dates><p class="record loading">Loading availability…</p></div>
     <p class="record mock-note" data-mocknote hidden>Example times shown — live availability connects once Rezdy is linked.</p>
   </div>
 
+  <!-- 03 · Time -->
   <div class="step" data-step-session hidden>
-    <div class="step__head"><span class="step__n">02</span><h2 class="step__t">Choose a time</h2></div>
+    <div class="step__head"><span class="step__n">03</span><h2 class="step__t">Choose a time</h2></div>
     <div class="sessions" data-sessions></div>
   </div>
 
+  <!-- 04 · Tickets -->
   <div class="step" data-step-tickets hidden>
-    <div class="step__head"><span class="step__n">03</span><h2 class="step__t">Tickets</h2></div>
+    <div class="step__head"><span class="step__n">04</span><h2 class="step__t">Tickets</h2></div>
     <div class="tickets" data-tickets></div>
-    <p class="record incl">Every ticket includes both the Bombing of Darwin and the Royal Flying Doctor Service experiences.</p>
+    <p class="record incl" data-incl></p>
   </div>
 
   <div class="summary" data-summary hidden>
@@ -25,18 +48,60 @@ import { BOOKING_TIERS, SITE } from '../consts';
     <p class="record summary__secure">Secure payment via Rezdy</p>
   </div>
 
-  <script type="application/json" data-tiers set:html={JSON.stringify(BOOKING_TIERS)}></script>
-  <script type="application/json" data-config set:html={JSON.stringify({ bookingUrl: SITE.bookingUrl })}></script>
+  <script type="application/json" data-packages set:html={JSON.stringify(PACKAGES)}></script>
 </section>
 
 <style>
-  .booking { max-width: 720px; margin-inline: auto; }
-  .step { padding: 30px 0; border-top: 1px solid var(--line); }
+  .booking { max-width: 860px; margin-inline: auto; }
+  .step { padding: 34px 0; border-top: 1px solid var(--line); }
   .step:first-of-type { border-top: 0; padding-top: 0; }
-  .step__head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 20px; }
+  .step__head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px; }
   .step__n { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.1em; color: var(--gold); }
   .step__t { font-family: var(--font-display-reg); font-weight: 500; text-transform: none; font-size: 1.3rem; margin: 0; letter-spacing: 0; }
 
+  /* ---- 01: pathway cards (the premium blocks, doing real work) ---- */
+  .paths { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .path {
+    position: relative; display: flex; flex-direction: column; gap: 10px; text-align: left;
+    padding: 26px 24px 22px; overflow: hidden; isolation: isolate; cursor: pointer;
+    background: linear-gradient(165deg, var(--char-2) 0%, var(--char) 70%);
+    border: 1px solid var(--line); border-radius: var(--radius); color: var(--bone);
+    box-shadow: inset 0 1px 0 rgba(236, 231, 219, 0.04), 0 18px 44px rgba(0, 0, 0, 0.35);
+    transition: transform 0.35s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
+    font-family: inherit;
+  }
+  .path::after {
+    content: ''; position: absolute; left: 24px; right: 24px; bottom: 0; height: 1px;
+    background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 0.45s var(--ease);
+  }
+  .path:hover, .path:focus-visible {
+    transform: translateY(-4px); border-color: rgba(198, 161, 91, 0.55);
+    box-shadow: inset 0 1px 0 rgba(236, 231, 219, 0.06), 0 26px 60px rgba(0, 0, 0, 0.5), 0 0 34px rgba(198, 161, 91, 0.08);
+  }
+  .path:hover::after, .path:focus-visible::after { transform: scaleX(1); }
+  .path[aria-pressed='true'] { border-color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold), 0 26px 60px rgba(0, 0, 0, 0.5), 0 0 44px rgba(198, 161, 91, 0.14); }
+  .path[aria-pressed='true']::after { transform: scaleX(1); }
+  .path[aria-pressed='true'] .path__go b::before { content: 'Selected'; }
+  .path[aria-pressed='true'] .path__go b { font-size: 0; }
+  .path[aria-pressed='true'] .path__go b::before { font-size: 0.66rem; }
+
+  .path__top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .path__name { color: var(--bone); font-size: 0.85rem; }
+  .path__flag { font-family: var(--font-mono); font-size: 0.56rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); background: var(--gold); padding: 3px 8px; border-radius: 2px; white-space: nowrap; }
+  .path__price { font-family: var(--font-display-xl); font-weight: 400; font-size: 2.4rem; color: var(--gold-bright); line-height: 0.95; }
+  .path__price i { font-style: normal; font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bone-mute); margin-right: 6px; vertical-align: 0.9em; }
+  .path__price em { font-style: normal; font-size: 0.55em; vertical-align: 0.5em; color: var(--gold); margin-right: 1px; }
+  .path__desc { font-size: 0.86rem; line-height: 1.55; color: var(--bone-dim); }
+  .path__meta { color: var(--bone-mute); font-size: 0.62rem; }
+  .path__go { display: inline-flex; align-items: center; gap: 8px; margin-top: 2px; font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--bone-mute); transition: color 0.3s var(--ease); }
+  .path__go i { font-style: normal; transition: transform 0.3s var(--ease); }
+  .path:hover .path__go, .path[aria-pressed='true'] .path__go { color: var(--gold-bright); }
+  .path:hover .path__go i { transform: translateX(5px); }
+  .path__sheen { position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0; background: linear-gradient(115deg, transparent 30%, rgba(236, 231, 219, 0.045) 48%, transparent 62%); transform: translateX(-70%); transition: opacity 0.3s var(--ease); }
+  .path:hover .path__sheen { opacity: 1; animation: pathSheen 1.4s var(--ease) forwards; }
+  @keyframes pathSheen { to { transform: translateX(70%); } }
+
+  /* ---- 02–04 ---- */
   .dates { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: thin; }
   .chip {
     flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 3px;
@@ -55,7 +120,6 @@ import { BOOKING_TIERS, SITE } from '../consts';
   .chip__time { font-family: var(--font-mono); font-size: 0.92rem; letter-spacing: 0.05em; }
   .chip__seats { font-family: var(--font-mono); font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--signal); }
 
-  .tickets { }
   .trow { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 0; border-top: 1px solid var(--line); }
   .trow:first-child { border-top: 0; }
   .trow__info { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
@@ -68,40 +132,68 @@ import { BOOKING_TIERS, SITE } from '../consts';
   .stepper__n { min-width: 20px; text-align: center; font-family: var(--font-mono); }
 
   .incl { margin-top: 18px; color: var(--bone-mute); }
-  .summary { display: flex; flex-direction: column; align-items: center; gap: 16px; padding-top: 30px; border-top: 1px solid var(--line); }
+  .summary { display: flex; flex-direction: column; align-items: center; gap: 16px; padding-top: 34px; border-top: 1px solid var(--line); }
   .summary__total { display: flex; align-items: baseline; gap: 14px; }
   .summary__amt { font-family: var(--font-display-xl); font-weight: 400; font-size: 2.4rem; color: var(--bone); line-height: 1; }
   .summary__secure { color: var(--bone-mute); }
   .mock-note, .loading { color: var(--bone-mute); }
   .mock-note { margin-top: 12px; }
+
+  @media (max-width: 640px) { .paths { grid-template-columns: 1fr; } }
+  @media (prefers-reduced-motion: reduce) { .path__sheen { display: none; } }
 </style>
 
 <script>
-  const root = document.querySelector<HTMLElement>('.booking');
+  const root = document.querySelector<HTMLElement>('[data-booking]');
   if (root) {
-    const tiers = JSON.parse(root.querySelector('[data-tiers]')!.textContent || '[]');
-    const config = JSON.parse(root.querySelector('[data-config]')!.textContent || '{}');
+    const PACKAGES = JSON.parse(root.querySelector('[data-packages]')!.textContent || '[]');
     const el = (s: string) => root.querySelector(s) as HTMLElement;
 
-    const state: any = { byDate: {}, dates: [], date: null, session: null, qty: {} };
-    tiers.forEach((t: any) => (state.qty[t.code] = 0));
+    const state: any = { pkg: null, byDate: {}, dates: [], date: null, session: null, qty: {} };
 
     const WD = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const MO = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const fmt = (iso: string) => { const d = new Date(iso + 'T00:00:00'); return { wd: WD[d.getDay()], day: d.getDate(), mo: MO[d.getMonth()] }; };
     const money = (n: number) => '$' + n.toLocaleString();
 
-    async function load() {
+    // ---- 01: pathway selection ----
+    const pathBtns = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-pkg]'));
+    function selectPkg(slug: string, scroll = true) {
+      const pkg = PACKAGES.find((p: any) => p.slug === slug);
+      if (!pkg) return;
+      state.pkg = pkg; state.date = null; state.session = null; state.qty = {};
+      pkg.tiers.forEach((t: any) => (state.qty[t.code] = 0));
+      pathBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.pkg === slug)));
+      el('[data-step-date]').hidden = false;
+      el('[data-step-session]').hidden = true;
+      el('[data-step-tickets]').hidden = true;
+      el('[data-summary]').hidden = true;
+      el('[data-tickets]').innerHTML = '';
+      el('[data-incl]').textContent =
+        pkg.slug === 'general-entry'
+          ? 'Every ticket includes both the Bombing of Darwin and the Royal Flying Doctor Service experiences.'
+          : `${pkg.name} · ${pkg.duration} · flexible entry across the included attractions.`;
+      load(pkg);
+      if (scroll) el('[data-step-date]').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    pathBtns.forEach((b) => b.addEventListener('click', () => selectPkg(b.dataset.pkg!)));
+
+    // deep link: /tickets?pkg=slug
+    const want = new URLSearchParams(location.search).get('pkg');
+    if (want) setTimeout(() => selectPkg(want, true), 60);
+
+    // ---- 02: availability ----
+    async function load(pkg: any) {
+      el('[data-dates]').innerHTML = '<p class="record loading">Loading availability…</p>';
       let data: any = null;
-      try { const r = await fetch('/api/availability'); data = await r.json(); } catch (e) { data = null; }
+      try { const r = await fetch(`/api/availability?product=${encodeURIComponent(pkg.productCode)}`); data = await r.json(); } catch (e) { data = null; }
       if (!data || !data.sessions) data = { mock: true, sessions: [] };
-      if (data.mock) el('[data-mocknote]').hidden = false;
+      el('[data-mocknote]').hidden = !data.mock;
       state.byDate = {};
       data.sessions.forEach((s: any) => { if (s.seatsAvailable === 0) return; (state.byDate[s.date] = state.byDate[s.date] || []).push(s); });
       state.dates = Object.keys(state.byDate).sort();
       renderDates();
     }
-
     function renderDates() {
       const c = el('[data-dates]'); c.innerHTML = '';
       if (!state.dates.length) { c.innerHTML = '<p class="record">No sessions available right now. Please check back soon.</p>'; return; }
@@ -138,7 +230,7 @@ import { BOOKING_TIERS, SITE } from '../consts';
     }
     function renderTickets() {
       const c = el('[data-tickets]'); c.innerHTML = '';
-      tiers.forEach((t: any) => {
+      state.pkg.tiers.forEach((t: any) => {
         const row = document.createElement('div'); row.className = 'trow';
         row.innerHTML =
           `<div class="trow__info"><span class="trow__label">${t.label}</span>${t.note ? `<span class="trow__note">${t.note}</span>` : ''}<span class="trow__price">${money(t.price)}</span></div>` +
@@ -149,21 +241,18 @@ import { BOOKING_TIERS, SITE } from '../consts';
         c.appendChild(row);
       });
     }
-    const total = () => tiers.reduce((s: number, t: any) => s + t.price * state.qty[t.code], 0);
-    const count = () => tiers.reduce((s: number, t: any) => s + state.qty[t.code], 0);
+    const total = () => state.pkg.tiers.reduce((s: number, t: any) => s + t.price * (state.qty[t.code] || 0), 0);
+    const count = () => state.pkg.tiers.reduce((s: number, t: any) => s + (state.qty[t.code] || 0), 0);
     function update() {
       el('[data-total]').textContent = money(total());
       (el('[data-book]') as HTMLButtonElement).disabled = !(state.session && count() > 0);
     }
 
     el('[data-book]').addEventListener('click', () => {
-      if (!state.session || count() === 0) return;
+      if (!state.pkg || !state.session || count() === 0) return;
       const params = new URLSearchParams({ date: state.date, time: state.session.time });
-      tiers.forEach((t: any) => { if (state.qty[t.code]) params.set(t.code, String(state.qty[t.code])); });
-      // Hand off to Rezdy's secure checkout, carrying the selection.
-      window.open(`${config.bookingUrl}?${params.toString()}`, '_blank', 'noopener');
+      state.pkg.tiers.forEach((t: any) => { if (state.qty[t.code]) params.set(t.code, String(state.qty[t.code])); });
+      window.open(`${state.pkg.checkoutUrl}?${params.toString()}`, '_blank', 'noopener');
     });
-
-    load();
   }
 </script>

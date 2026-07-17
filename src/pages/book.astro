@@ -1,16 +1,15 @@
 ---
-import Base from '../layouts/Base.astro';
-import PageHeader from '../components/PageHeader.astro';
-import BookingForm from '../components/BookingForm.astro';
+// /book has moved — booking now lives at /tickets. Keep old links working.
 ---
-<Base title="Book Tickets" description="Book your visit to the Bombing of Darwin Experience at Stokes Hill Wharf. One ticket includes both the Bombing of Darwin and the Royal Flying Doctor Service experiences.">
-  <PageHeader
-    record="Admission · Book"
-    title="Book Your Visit"
-    lede="Choose a date and time. One ticket includes both the Bombing of Darwin Experience and the Royal Flying Doctor Service Experience."
-  />
-
-  <section class="section">
-    <BookingForm />
-  </section>
-</Base>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Book — The Bombing of Darwin Experience</title>
+    <meta http-equiv="refresh" content="0; url=/tickets" />
+    <link rel="canonical" href="/tickets" />
+  </head>
+  <body style="background:#0c0c0b;color:#ece7db;font-family:system-ui;display:grid;place-items:center;min-height:100vh;margin:0;">
+    <p>Booking has moved — <a href="/tickets" style="color:#e4c583;">continue to tickets</a>.</p>
+  </body>
+</html>

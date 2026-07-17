@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
-import { PRICES } from '../consts';
+import { PACKAGES } from '../consts';
 ---
 <Base>
   <Hero />
@@ -19,15 +19,15 @@ import { PRICES } from '../consts';
       </p>
 
       <div class="tiers">
-        {PRICES.map((t) => (
-          <a class={`tier ${t.note ? 'tier--best' : ''}`} href="/tickets" aria-label={`${t.tier} ticket — $${t.price}. View tickets`}>
+        {PACKAGES.map((p) => (
+          <a class={`tier ${p.flag ? 'tier--best' : ''}`} href={`/tickets?pkg=${p.slug}`} aria-label={`${p.name} — from $${p.from}. Book now`}>
             <span class="tier__top">
-              <span class="record tier__name">{t.tier}</span>
-              {t.note && <span class="tier__flag">Best value</span>}
+              <span class="record tier__name">{p.name}</span>
+              {p.flag && <span class="tier__flag">{p.flag}</span>}
             </span>
-            <span class="tier__price"><em>$</em>{t.price}</span>
-            <span class="tier__note">{t.note ?? 'Both experiences included'}</span>
-            <span class="tier__go" aria-hidden="true">View tickets <i>→</i></span>
+            <span class="tier__price"><i>from</i> <em>$</em>{p.from}</span>
+            <span class="tier__note">{p.duration}</span>
+            <span class="tier__go" aria-hidden="true">Book now <i>→</i></span>
             <span class="tier__sheen" aria-hidden="true"></span>
           </a>
         ))}
@@ -72,6 +72,7 @@ import { PRICES } from '../consts';
   }
   .tier__price { font-family: var(--font-display-xl); font-weight: 400; font-size: clamp(2.6rem, 4vw, 3.4rem); color: var(--gold-bright); line-height: 0.95; letter-spacing: 0.01em; }
   .tier__price em { font-style: normal; font-size: 0.55em; vertical-align: 0.5em; color: var(--gold); margin-right: 2px; }
+  .tier__price i { font-style: normal; font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bone-mute); margin-right: 6px; vertical-align: 0.95em; }
   .tier__note { font-size: 0.8rem; color: var(--bone-mute); min-height: 2.2em; }
 
   .tier__go {

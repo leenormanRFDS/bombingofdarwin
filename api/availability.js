@@ -55,6 +55,9 @@ async function discoverProductCode(key) {
   return p ? p.productCode : null;
 }
 
+// Products the front-end may request (each is a booking pathway on /tickets).
+const ALLOWED_PRODUCTS = ['PB1VKD', 'PR6UUK', 'P2Q41Q', 'PWVVGE'];
+
 export default async function handler(req, res) {
   const key = process.env.REZDY_API_KEY;
 
@@ -65,7 +68,9 @@ export default async function handler(req, res) {
       return;
     }
 
-    let product = process.env.REZDY_PRODUCT_CODE;
+    // ?product=CODE selects a pathway; only allowlisted codes are accepted.
+    const requested = String(req.query?.product || '').toUpperCase();
+    let product = ALLOWED_PRODUCTS.includes(requested) ? requested : process.env.REZDY_PRODUCT_CODE;
     if (!product) product = await discoverProductCode(key);
     if (!product) throw new Error('no products found on the Rezdy account');
 
