@@ -151,43 +151,8 @@ const icon = (n: string) =>
   .pack:hover .pack__go { color: var(--gold-bright); }
   .pack:hover .pack__go i { transform: translateX(5px); }
 
-  /* ---------- 02 · steppers ---------- */
-  .trow { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; border-top: 1px solid var(--line); }
-  .trow:first-child { border-top: 0; padding-top: 0; }
-  .trow__info { display: flex; flex-direction: column; gap: 3px; }
-  .trow__label { color: var(--bone); font-weight: 500; font-size: 1.05rem; }
-  .trow__sub { color: var(--bone-mute); font-size: 0.85rem; }
-  .trow__sub b { color: var(--gold); font-weight: 500; }
-  .stepper { display: flex; align-items: center; gap: 0; border: 1px solid var(--line-strong); border-radius: 100px; overflow: hidden; }
-  .stepper__b { width: 44px; height: 44px; border: 0; background: transparent; color: var(--bone); font-size: 1.3rem; line-height: 1; cursor: pointer; display: grid; place-items: center; transition: background 0.2s var(--ease), color 0.2s var(--ease); }
-  .stepper__b:hover { background: var(--char-3); color: var(--gold-bright); }
-  .stepper__b:disabled { opacity: 0.3; cursor: default; background: transparent; }
-  .stepper__n { min-width: 40px; text-align: center; font-family: var(--font-display-reg); font-weight: 500; font-size: 1.15rem; }
-
-  /* ---------- 03 · date timeline ---------- */
-  .cal { display: flex; gap: 12px; overflow-x: auto; padding: 4px 2px 14px; scrollbar-width: thin; scroll-snap-type: x proximity; }
-  .day {
-    flex: 0 0 auto; width: 98px; scroll-snap-align: start;
-    display: flex; flex-direction: column; align-items: center; gap: 4px;
-    padding: 16px 10px 14px; background: var(--char-2); border: 1px solid var(--line); border-radius: 6px;
-    color: var(--bone-dim); cursor: pointer; font-family: inherit;
-    transition: border-color 0.25s var(--ease), background 0.25s var(--ease), color 0.25s var(--ease), transform 0.25s var(--ease);
-  }
-  .day:hover:not(:disabled) { border-color: var(--gold); color: var(--bone); transform: translateY(-2px); }
-  .day:disabled { opacity: 0.32; cursor: default; }
-  .day[aria-pressed='true'] { background: var(--gold); border-color: var(--gold); color: var(--ink); box-shadow: 0 0 30px rgba(198, 161, 91, 0.35); }
-  .day__wd { font-family: var(--font-mono); font-size: 0.64rem; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.8; }
-  .day__num { font-family: var(--font-display-reg); font-weight: 500; font-size: 1.9rem; line-height: 1; }
-  .day__mo { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.8; }
-
-  /* ---------- 04 · time chips ---------- */
-  .sessions { display: flex; flex-wrap: wrap; gap: 12px; }
-  .slot { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; background: var(--char-2); border: 1px solid var(--line); border-radius: 100px; color: var(--bone-dim); cursor: pointer; font-family: inherit; transition: border-color 0.25s var(--ease), background 0.25s var(--ease), color 0.25s var(--ease); }
-  .slot:hover { border-color: var(--gold); color: var(--bone); }
-  .slot[aria-pressed='true'] { background: var(--gold); border-color: var(--gold); color: var(--ink); }
-  .slot__t { font-family: var(--font-mono); font-size: 1rem; letter-spacing: 0.04em; }
-  .slot__seats { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--signal); }
-  .slot[aria-pressed='true'] .slot__seats { color: rgba(12, 12, 11, 0.7); }
+  /* NB: steppers, date tiles and time chips are built in JS, so their styles
+     live in the is:global block below (scoped styles can't reach JS-made nodes). */
 
   /* ---------- Your Visit ---------- */
   .bsum {
@@ -225,6 +190,125 @@ const icon = (n: string) =>
     .bsum__cta { flex: 1; }
   }
 </style>
+
+<!-- Global styles for JS-built controls (scoped CSS can't reach dynamic nodes).
+     These are the premium date tiles, steppers and time chips. -->
+<style is:global>
+  /* ---------- Who's coming — steppers ---------- */
+  .bflow .trow { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 20px 0; border-top: 1px solid var(--line); }
+  .bflow .trow:first-child { border-top: 0; padding-top: 4px; }
+  .bflow .trow__info { display: flex; flex-direction: column; gap: 4px; }
+  .bflow .trow__label { color: var(--bone); font-weight: 500; font-size: 1.12rem; font-family: var(--font-display-reg); letter-spacing: 0.01em; }
+  .bflow .trow__sub { color: var(--bone-mute); font-size: 0.86rem; font-family: var(--font-serif); }
+  .bflow .trow__sub b { color: var(--gold-bright); font-weight: 500; font-family: var(--font-mono); font-size: 0.8rem; }
+
+  .bflow .stepper {
+    display: flex; align-items: center; gap: 0; border-radius: 100px;
+    background: linear-gradient(180deg, var(--char-3), var(--char-2));
+    border: 1px solid var(--line-strong);
+    box-shadow: inset 0 1px 0 rgba(236,231,219,0.05), 0 6px 18px rgba(0,0,0,0.35);
+  }
+  .bflow .stepper__b {
+    width: 46px; height: 46px; border: 0; background: transparent; color: var(--bone);
+    font-size: 1.4rem; line-height: 1; cursor: pointer; display: grid; place-items: center;
+    border-radius: 50%; transition: color 0.2s var(--ease), background 0.2s var(--ease), transform 0.1s var(--ease);
+  }
+  .bflow .stepper__b:hover { color: var(--ink); background: var(--gold); }
+  .bflow .stepper__b:active { transform: scale(0.92); }
+  .bflow .stepper__b:disabled { opacity: 0.28; cursor: default; background: transparent; color: var(--bone); }
+  .bflow .stepper__n {
+    min-width: 46px; text-align: center; font-family: var(--font-display-reg); font-weight: 500;
+    font-size: 1.3rem; color: var(--bone); font-variant-numeric: tabular-nums;
+  }
+  .bflow .stepper__n[data-count]:not([data-count='0']) { color: var(--gold-bright); }
+
+  /* ---------- Select a date — premium tiles ---------- */
+  .bflow .cal { display: flex; gap: 12px; overflow-x: auto; padding: 6px 2px 16px; scrollbar-width: thin; scroll-snap-type: x proximity; scroll-padding-left: 2px; }
+  .bflow .cal::-webkit-scrollbar { height: 4px; }
+  .bflow .cal::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 2px; }
+  .bflow .day {
+    flex: 0 0 auto; width: 104px; scroll-snap-align: start;
+    display: flex; flex-direction: column; align-items: center; gap: 5px;
+    padding: 18px 10px 15px; border-radius: 10px; cursor: pointer; font-family: inherit;
+    color: var(--bone-dim); position: relative; overflow: hidden;
+    background: linear-gradient(165deg, var(--char-3) 0%, var(--char) 78%);
+    border: 1px solid var(--line);
+    box-shadow: inset 0 1px 0 rgba(236,231,219,0.04), 0 10px 26px rgba(0,0,0,0.3);
+    transition: border-color 0.28s var(--ease), color 0.28s var(--ease), transform 0.28s var(--ease), box-shadow 0.28s var(--ease);
+  }
+  .bflow .day::before {
+    content: ''; position: absolute; left: 14px; right: 14px; bottom: 0; height: 1px;
+    background: var(--gold); transform: scaleX(0); transform-origin: center; transition: transform 0.3s var(--ease);
+  }
+  .bflow .day:hover:not(:disabled) { border-color: rgba(198,161,91,0.6); color: var(--bone); transform: translateY(-3px); box-shadow: inset 0 1px 0 rgba(236,231,219,0.06), 0 16px 34px rgba(0,0,0,0.42); }
+  .bflow .day:hover:not(:disabled)::before { transform: scaleX(1); }
+  .bflow .day:disabled { opacity: 0.26; cursor: default; }
+  .bflow .day[aria-pressed='true'] {
+    color: var(--ink); border-color: var(--gold-bright);
+    background: linear-gradient(165deg, var(--gold-bright), var(--gold));
+    box-shadow: 0 0 0 1px var(--gold), 0 0 38px rgba(198,161,91,0.4), 0 16px 34px rgba(0,0,0,0.4);
+    transform: translateY(-2px);
+  }
+  .bflow .day__wd { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.75; }
+  .bflow .day__num { font-family: var(--font-display); font-weight: 400; font-size: 2.1rem; line-height: 1; letter-spacing: 0.01em; }
+  .bflow .day[aria-pressed='true'] .day__wd, .bflow .day[aria-pressed='true'] .day__mo { opacity: 0.85; }
+  .bflow .day__mo { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.75; }
+
+  /* ---------- Select a time — premium chips ---------- */
+  .bflow .sessions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .bflow .slot {
+    display: inline-flex; align-items: center; gap: 11px; padding: 15px 24px; cursor: pointer; font-family: inherit;
+    color: var(--bone-dim); border-radius: 100px; border: 1px solid var(--line);
+    background: linear-gradient(180deg, var(--char-3), var(--char-2));
+    box-shadow: inset 0 1px 0 rgba(236,231,219,0.04), 0 8px 20px rgba(0,0,0,0.28);
+    transition: border-color 0.25s var(--ease), color 0.25s var(--ease), transform 0.2s var(--ease);
+  }
+  .bflow .slot:hover { border-color: rgba(198,161,91,0.6); color: var(--bone); transform: translateY(-2px); }
+  .bflow .slot[aria-pressed='true'] {
+    color: var(--ink); border-color: var(--gold-bright);
+    background: linear-gradient(180deg, var(--gold-bright), var(--gold));
+    box-shadow: 0 0 30px rgba(198,161,91,0.35);
+  }
+  .bflow .slot__t { font-family: var(--font-mono); font-size: 1.02rem; letter-spacing: 0.04em; }
+  .bflow .slot__seats { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--signal); }
+  .bflow .slot[aria-pressed='true'] .slot__seats { color: rgba(12,12,11,0.65); }
+
+  /* ---------- In-site checkout modal (Rezdy embed, stays on our domain) ---------- */
+  .co-modal { position: fixed; inset: 0; z-index: 200; display: none; }
+  .co-modal.is-open { display: block; }
+  .co-modal__scrim { position: absolute; inset: 0; background: rgba(8,8,7,0.82); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+  .co-modal__panel {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: min(760px, 94vw); height: min(88vh, 900px); display: flex; flex-direction: column;
+    background: var(--char); border: 1px solid var(--line-strong); border-radius: 10px; overflow: hidden;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.7);
+  }
+  .co-modal__bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 18px; border-bottom: 1px solid var(--line); flex: 0 0 auto; }
+  .co-modal__brand { display: flex; flex-direction: column; gap: 2px; }
+  .co-modal__brand b { font-family: var(--font-display-reg); font-weight: 500; font-size: 0.98rem; color: var(--bone); letter-spacing: 0.01em; }
+  .co-modal__brand span { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bone-mute); }
+  .co-modal__close { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line-strong); background: transparent; color: var(--bone); font-size: 1.3rem; line-height: 1; cursor: pointer; display: grid; place-items: center; transition: border-color 0.2s var(--ease), color 0.2s var(--ease); }
+  .co-modal__close:hover { border-color: var(--gold); color: var(--gold-bright); }
+  .co-modal__frame { flex: 1; position: relative; background: #fff; }
+  .co-modal__frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .co-modal__load { position: absolute; inset: 0; display: grid; place-items: center; background: var(--char); color: var(--bone-mute); font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; }
+  body.co-open { overflow: hidden; }
+  @media (max-width: 560px) { .co-modal__panel { width: 100vw; height: 100dvh; border-radius: 0; top: 0; left: 0; transform: none; } }
+</style>
+
+<!-- In-site checkout: the Rezdy booking widget in a branded overlay -->
+<div class="co-modal" data-comodal aria-hidden="true" role="dialog" aria-modal="true" aria-label="Secure checkout">
+  <div class="co-modal__scrim" data-coclose></div>
+  <div class="co-modal__panel">
+    <div class="co-modal__bar">
+      <span class="co-modal__brand"><b data-cotitle>Complete your booking</b><span>Secure checkout · RFDS Darwin</span></span>
+      <button class="co-modal__close" data-coclose aria-label="Close checkout">×</button>
+    </div>
+    <div class="co-modal__frame">
+      <div class="co-modal__load" data-coload>Loading secure checkout…</div>
+    </div>
+  </div>
+</div>
 
 <script>
   const root = document.querySelector<HTMLElement>('[data-booking]');
@@ -348,14 +432,45 @@ const icon = (n: string) =>
       else if (!state.date || !state.session) { cta.textContent = `Book ${n} Ticket${n > 1 ? 's' : ''} • ${money(total())}`; cta.disabled = false; }
       else { cta.textContent = `Secure Checkout • ${money(total())}`; cta.disabled = false; }
     }
+    /* ---- In-site checkout modal (Rezdy embed — the visitor never leaves us) ---- */
+    const modal = document.querySelector<HTMLElement>('[data-comodal]')!;
+    const frame = modal.querySelector<HTMLElement>('.co-modal__frame')!;
+    const coTitle = modal.querySelector<HTMLElement>('[data-cotitle]')!;
+    let lenisPaused = false;
+
+    function openCheckout() {
+      const params = new URLSearchParams({ iframe: 'true', date: state.date, time: state.session.time });
+      state.pkg.tiers.forEach((t: any) => { if (state.qty[t.code]) params.set(t.code, String(state.qty[t.code])); });
+      // fresh iframe each open so availability is current
+      frame.querySelectorAll('iframe').forEach((f) => f.remove());
+      const load = document.createElement('div');
+      load.className = 'co-modal__load'; load.textContent = 'Loading secure checkout…';
+      frame.innerHTML = ''; frame.appendChild(load);
+      const iframe = document.createElement('iframe');
+      iframe.src = `${state.pkg.checkoutUrl}?${params.toString()}`;
+      iframe.title = 'Secure checkout';
+      iframe.allow = 'payment';
+      iframe.addEventListener('load', () => load.remove());
+      frame.appendChild(iframe);
+      coTitle.textContent = state.pkg.name;
+      modal.classList.add('is-open'); modal.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('co-open');
+      const lenis = (window as any).__lenis; if (lenis) { lenis.stop(); lenisPaused = true; }
+    }
+    function closeCheckout() {
+      modal.classList.remove('is-open'); modal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('co-open');
+      const lenis = (window as any).__lenis; if (lenis && lenisPaused) { lenis.start(); lenisPaused = false; }
+    }
+    modal.querySelectorAll('[data-coclose]').forEach((b) => b.addEventListener('click', closeCheckout));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('is-open')) closeCheckout(); });
+
     cta.addEventListener('click', () => {
       if (!state.pkg) return;
       if (count() === 0) { document.getElementById('step-who')?.scrollIntoView({ behavior: 'smooth' }); return; }
       if (!state.date) { document.getElementById('step-date')?.scrollIntoView({ behavior: 'smooth' }); return; }
       if (!state.session) { document.getElementById('step-time')?.scrollIntoView({ behavior: 'smooth' }); return; }
-      const params = new URLSearchParams({ date: state.date, time: state.session.time });
-      state.pkg.tiers.forEach((t: any) => { if (state.qty[t.code]) params.set(t.code, String(state.qty[t.code])); });
-      window.open(`${state.pkg.checkoutUrl}?${params.toString()}`, '_blank', 'noopener');
+      openCheckout();
     });
     sync();
   }

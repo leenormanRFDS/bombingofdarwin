@@ -14,6 +14,7 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-stopped { overflow: hidden; }
 .lenis.lenis-smooth iframe { pointer-events: none; }
 .lenis.lenis-smooth .map-embed iframe { pointer-events: auto; } /* maps stay interactive */
+.lenis.lenis-smooth .co-modal iframe { pointer-events: auto; } /* checkout stays interactive */
 
 body {
   margin: 0;
