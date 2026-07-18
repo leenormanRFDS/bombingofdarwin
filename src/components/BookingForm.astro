@@ -87,7 +87,10 @@ const icon = (n: string) =>
 </section>
 
 <style>
-  .bflow { display: grid; gap: clamp(28px, 4vw, 56px); align-items: start; }
+  /* Base is a single constrained column (minmax(0,1fr) stops the track growing
+     to the images' intrinsic width — the mobile horizontal-overflow bug). */
+  .bflow { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(28px, 4vw, 56px); align-items: start; }
+  .bflow__steps { min-width: 0; }
   @media (min-width: 980px) { .bflow { grid-template-columns: minmax(0, 1fr) 330px; } }
 
   .step { padding: 36px 0 8px; }

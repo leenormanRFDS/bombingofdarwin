@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
+import Interstitial from '../components/Interstitial.astro';
 import CulturalWarning from '../components/CulturalWarning.astro';
 import PeopleWheel from '../components/PeopleWheel.astro';
 import { SITE } from '../consts';
@@ -29,6 +30,15 @@ const features = [
       ))}
     </div>
   </section>
+
+  <Interstitial
+    src="/images/story/gallery-floor.webp"
+    alt="Visitors on the exhibition floor — VR stations and a suspended aircraft under the wharf's steel roof"
+    record="Inside the experience"
+    line="Step onto the floor where history is standing."
+    register="present"
+    align="left"
+  />
 
   <CulturalWarning />
 

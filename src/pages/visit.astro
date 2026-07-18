@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
+import Interstitial from '../components/Interstitial.astro';
 import { CONTACT, SITE } from '../consts';
 const directions = 'https://www.google.com/maps/dir/?api=1&destination=Stokes+Hill+Wharf+Darwin+NT';
 ---
@@ -9,6 +10,16 @@ const directions = 'https://www.google.com/maps/dir/?api=1&destination=Stokes+Hi
     record="Plan your visit"
     title="Visit"
     lede="On historic Stokes Hill Wharf, overlooking Darwin Harbour — entirely indoors and air-conditioned. Allow around 90 minutes for both experiences."
+  />
+
+  <Interstitial
+    src="/images/story/gallery-plane.webp"
+    alt="Inside the facility — a suspended aircraft above the exhibition floor at Stokes Hill Wharf"
+    record="The facility · Stokes Hill Wharf"
+    line="Two Territory stories, under one roof on the wharf."
+    register="present"
+    align="left"
+    height="clamp(360px, 56vh, 620px)"
   />
 
   <section class="section">

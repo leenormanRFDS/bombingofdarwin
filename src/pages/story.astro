@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Interstitial from '../components/Interstitial.astro';
 
 const timeline = [
   { t: '08:00', h: 'The strike launches', d: 'One hundred and eighty‑eight aircraft — Zeros, dive bombers and level bombers — lift from the Japanese carrier fleet in the Timor Sea.' },
@@ -26,6 +27,16 @@ const timeline = [
     </div>
     <div class="s-scroll s-el" style="--i:4"><span class="s-scroll__label">Scroll to begin</span><span class="s-scroll__track"><span></span></span></div>
   </section>
+
+  <!-- Archival interstitial — the raid breaks -->
+  <Interstitial
+    src="/images/story/raid-wide.webp"
+    alt="Japanese aircraft over Darwin Harbour as the first bombs fall, 19 February 1942"
+    record="09:58 ACST · 19 February 1942"
+    line="With no siren and no warning, the first bombs broke over the harbour."
+    register="archival"
+    align="left"
+  />
 
   <!-- The timeline -->
   <section class="s-tl-section">
@@ -65,6 +76,16 @@ const timeline = [
       </div>
     </div>
   </section>
+
+  <!-- Present-day resolve — the then/now payoff after the descent -->
+  <Interstitial
+    src="/images/story/harbour-today.webp"
+    alt="Stokes Hill Wharf and Darwin Harbour today, calm under a clear sky"
+    record="The same harbour · today"
+    line="Today the same water lies calm. The wharf remembers."
+    register="present"
+    align="left"
+  />
 
   <!-- The Reckoning -->
   <section class="s-reckon">
