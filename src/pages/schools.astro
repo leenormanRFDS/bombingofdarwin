@@ -103,7 +103,7 @@ const groupEmail = 'bookingsdrw@flyingdoctor.net.au';
   @media (min-width: 820px) { .papa { grid-template-columns: 52% 1fr; } }
   .papa__media { position: relative; aspect-ratio: 16 / 10; }
   @media (min-width: 820px) { .papa__media { aspect-ratio: auto; min-height: 320px; } }
-  .papa__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .papa__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(0.62) contrast(1.03); }
   .papa__body { padding: clamp(26px, 4vw, 44px); display: flex; flex-direction: column; justify-content: center; }
   .papa__h { font-family: var(--font-display); font-weight: 400; text-transform: uppercase; font-size: clamp(1.5rem, 3vw, 2.2rem); line-height: 1.05; margin: 0 0 18px; color: var(--bone); }
 
@@ -123,7 +123,7 @@ const groupEmail = 'bookingsdrw@flyingdoctor.net.au';
   .link-gold:hover { border-color: var(--gold); }
 
   .venue { position: relative; margin: clamp(40px, 6vw, 72px) 0 0; height: clamp(340px, 52vw, 620px); overflow: hidden; }
-  .venue img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.04); }
+  .venue img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.04); filter: saturate(0.62) contrast(1.03); }
   .venue::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(12,12,11,0.15) 0%, rgba(12,12,11,0) 32%, rgba(12,12,11,0.72) 100%); }
   .venue__cap { position: absolute; left: clamp(20px, 5vw, 64px); bottom: clamp(20px, 4vw, 48px); z-index: 2; max-width: 30ch; }
   .venue__cap .record { color: var(--gold-bright); }

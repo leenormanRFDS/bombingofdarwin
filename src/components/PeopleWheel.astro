@@ -109,7 +109,10 @@ import { PEOPLE } from '../data/people';
   }
   .dfl__cue { display: none; color: var(--gold); margin: 12px 0 0; }
   @media (max-width: 719px) { .dfl__cue { display: block; } }
-  .dfl__plate img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.1); opacity: 0.85; }
+  /* archival register — the people are of 1942; treat them as recovered records */
+  .dfl__plate img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) sepia(0.32) contrast(1.08) brightness(0.92); opacity: 0.9; }
+  .dfl__plate::after { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.1; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
   .dfl__plate span { font-family: var(--font-display-xl); font-size: 5rem; color: var(--bone-mute); }
   .dfl__plate em { position: absolute; top: 10px; left: 12px; color: var(--bone-mute); font-style: normal; }
   .dfl__faction { color: var(--gold); }
@@ -155,7 +158,7 @@ import { PEOPLE } from '../data/people';
   .wcard__frame { position: absolute; inset: 16px; border: 1px solid var(--line); z-index: 4; mix-blend-mode: overlay; }
   .wcard__noise { position: absolute; inset: 0; z-index: 2; opacity: 0.14; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='wn'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23wn)'/%3E%3C/svg%3E"); }
   .wcard__figure { position: absolute; inset: 0; z-index: 1; display: grid; place-items: center; will-change: transform; }
-  .wcard__figure img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.2) sepia(0.25); opacity: 0.8; }
+  .wcard__figure img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) sepia(0.32) contrast(1.08) brightness(0.92); opacity: 0.85; }
   .wcard__initials { font-family: var(--font-display-xl); font-weight: 400; font-size: clamp(6rem, 16vw, 11rem); color: rgba(236, 231, 219, 0.8); mix-blend-mode: plus-lighter; letter-spacing: -0.02em; }
   .wcard__vig { position: absolute; inset: 0; z-index: 5; pointer-events: none; background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.8) 100%); }
   .wcard__dark { position: absolute; inset: 0; z-index: 5; pointer-events: none; background: #000; opacity: 0; }
