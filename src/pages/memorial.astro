@@ -25,7 +25,29 @@ const fallen = [
   { n: '235+', label: 'The town and the Territory', note: 'Servicemen, wharf workers, postal staff, hospital patients and civilians. By nightfall at least 235 were dead — a toll historians still count today.' },
 ];
 ---
-<Base title="In Memoriam" description="In memory of those who died in the Bombing of Darwin, 19 February 1942 — including the ten members of the Darwin Post Office staff who chose to stay. Lest we forget.">
+<Base title="In Memoriam" description="In memory of those who died in the Bombing of Darwin, 19 February 1942 — including the ten members of the Darwin Post Office staff who chose to stay. Lest we forget." depth="seabed">
+  <!-- The seabed: the harbour floor beneath the page. The ships are still there.
+       An evocation of the chart, not a navigation chart — positions indicative. -->
+  <div class="seabed" aria-hidden="true">
+    <svg viewBox="0 0 1400 1600" preserveAspectRatio="xMidYMid slice">
+      <g fill="none" stroke="#ECE7DB" stroke-opacity="0.045" stroke-width="1.1">
+        <path d="M-40 420 C 240 350, 520 400, 760 340 C 1020 275, 1260 330, 1460 280" />
+        <path d="M-40 560 C 260 490, 540 545, 780 485 C 1040 420, 1270 480, 1460 430" />
+        <path d="M-40 730 C 280 660, 560 720, 800 660 C 1050 600, 1280 660, 1460 615" />
+        <path d="M-40 930 C 300 860, 580 925, 820 865 C 1070 805, 1290 865, 1460 825" />
+        <path d="M-40 1160 C 320 1090, 600 1160, 840 1100 C 1080 1040, 1300 1100, 1460 1065" />
+        <path d="M-40 1400 C 340 1330, 620 1405, 860 1345 C 1100 1285, 1310 1345, 1460 1315" />
+      </g>
+      <g class="seabed__wrecks" fill="none" stroke="#ECE7DB" stroke-opacity="0.1" stroke-width="1.2">
+        <g transform="translate(320 1020)"><path d="M-7 -7 L7 7 M-7 7 L7 -7" /><text x="0" y="26">USS PEARY</text></g>
+        <g transform="translate(640 880)"><path d="M-7 -7 L7 7 M-7 7 L7 -7" /><text x="0" y="26">NEPTUNA</text></g>
+        <g transform="translate(920 1090)"><path d="M-7 -7 L7 7 M-7 7 L7 -7" /><text x="0" y="26">ZEALANDIA</text></g>
+        <g transform="translate(480 1260)"><path d="M-7 -7 L7 7 M-7 7 L7 -7" /><text x="0" y="26">MAUNA LOA</text></g>
+        <g transform="translate(1080 1330)"><path d="M-7 -7 L7 7 M-7 7 L7 -7" /><text x="0" y="26">MEIGS</text></g>
+      </g>
+    </svg>
+  </div>
+
   <!-- Monument header -->
   <section class="mem-intro">
     <div class="container mem-intro__inner">
@@ -102,6 +124,16 @@ const fallen = [
 </Base>
 
 <style>
+  /* ---- the seabed layer ---- */
+  .seabed { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+  .seabed svg { width: 100%; height: 100%; }
+  .seabed__wrecks text {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em;
+    fill: rgba(236, 231, 219, 0.11); stroke: none; text-anchor: middle;
+  }
+  /* content floats above the floor */
+  section { position: relative; z-index: 1; }
+
   /* ---- monument header ---- */
   .mem-intro { min-height: 84svh; display: flex; align-items: center; position: relative; padding-block: calc(var(--nav-h) + 40px) 40px; }
   .mem-intro__inner { max-width: 1000px; }

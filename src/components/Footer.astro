@@ -46,7 +46,16 @@ const mapSrc = 'https://www.google.com/maps?q=Royal%20Flying%20Doctor%20Service%
 </footer>
 
 <style>
-  .foot { position: relative; z-index: 2; background: var(--char); border-top: 1px solid var(--line); padding: 64px 0 32px; }
+  .foot { position: relative; z-index: 2; background: var(--char); border-top: 1px solid var(--line); padding: 64px 0 32px; overflow: hidden; }
+  /* the chart surfaces here — depth contours rising to near-legibility */
+  .foot::before {
+    content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='700' viewBox='0 0 1200 700'%3E%3Cg fill='none' stroke='%23ECE7DB' stroke-opacity='0.05' stroke-width='1.1'%3E%3Cpath d='M-20 160 C 200 110, 420 155, 620 105 C 830 55, 1030 100, 1220 60'/%3E%3Cpath d='M-20 280 C 220 230, 440 278, 640 228 C 850 178, 1040 222, 1220 185'/%3E%3Cpath d='M-20 420 C 240 370, 460 420, 660 370 C 866 320, 1050 365, 1220 330'/%3E%3Cpath d='M-20 570 C 260 520, 480 572, 680 522 C 880 472, 1060 518, 1220 485'/%3E%3C/g%3E%3Cg stroke='%23ECE7DB' stroke-opacity='0.045' stroke-width='1'%3E%3Cpath d='M900 90 v-40 M900 140 v40 M860 115 h-40 M940 115 h40'/%3E%3Ccircle cx='900' cy='115' r='17' fill='none'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: max(1200px, 100%) auto;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+  }
+  .foot > .container { position: relative; z-index: 1; }
   .foot__grid { display: grid; grid-template-columns: 1.3fr 1fr 1.4fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid var(--line); }
   .foot__brand img:first-child { height: 40px; width: auto; margin-bottom: 16px; }
   .foot__tag { color: var(--bone-dim); font-size: 0.92rem; max-width: 34ch; }
