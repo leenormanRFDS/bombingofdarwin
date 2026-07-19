@@ -26,24 +26,46 @@ const fallen = [
 ];
 ---
 <Base title="In Memoriam" description="In memory of those who died in the Bombing of Darwin, 19 February 1942 — including the ten members of the Darwin Post Office staff who chose to stay. Lest we forget." depth="seabed">
-  <!-- The seabed: the harbour floor beneath the page. The ships are still there.
-       An evocation of the chart, not a navigation chart — positions indicative. -->
+  <!-- The seabed: the whole harbour beneath the page — a radar of remembrance.
+       The same engraved geography as the operations plot; each wreck an ✕ with
+       a low gold presence, breathing out of phase. Seen faintly, felt strongly.
+       An evocation, not a navigation chart — positions indicative. -->
   <div class="seabed" aria-hidden="true">
-    <svg viewBox="0 0 1400 1600" preserveAspectRatio="xMidYMid slice">
-      <g fill="none" stroke="#ECE7DB" stroke-opacity="0.045" stroke-width="1.1">
-        <path d="M-40 420 C 240 350, 520 400, 760 340 C 1020 275, 1260 330, 1460 280" />
-        <path d="M-40 560 C 260 490, 540 545, 780 485 C 1040 420, 1270 480, 1460 430" />
-        <path d="M-40 730 C 280 660, 560 720, 800 660 C 1050 600, 1280 660, 1460 615" />
-        <path d="M-40 930 C 300 860, 580 925, 820 865 C 1070 805, 1290 865, 1460 825" />
-        <path d="M-40 1160 C 320 1090, 600 1160, 840 1100 C 1080 1040, 1300 1100, 1460 1065" />
-        <path d="M-40 1400 C 340 1330, 620 1405, 860 1345 C 1100 1285, 1310 1345, 1460 1315" />
+    <svg viewBox="0 0 600 760" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <radialGradient id="memglow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#E4C583" stop-opacity="0.5" />
+          <stop offset="55%" stop-color="#C6A15B" stop-opacity="0.15" />
+          <stop offset="100%" stop-color="#C6A15B" stop-opacity="0" />
+        </radialGradient>
+      </defs>
+
+      <!-- the coasts, as on the plot -->
+      <g class="sb__coast">
+        <path d="M600 120 C 540 128, 480 148, 436 170 C 414 180, 398 172, 386 184 C 374 198, 382 214, 398 226 C 418 240, 434 256, 440 286 C 444 306, 442 322, 438 338 C 432 362, 412 390, 380 416 C 362 430, 344 440, 336 450 C 330 460, 336 470, 348 472 C 362 474, 376 466, 388 456 C 402 444, 420 448, 430 464 C 442 482, 460 492, 488 498 C 528 506, 568 506, 600 502" />
+        <path d="M0 552 C 48 548, 92 540, 122 548 C 148 556, 168 574, 196 592 C 232 616, 276 644, 324 664 C 380 688, 456 702, 528 706 C 556 708, 582 706, 600 702" />
       </g>
-      <g class="seabed__wrecks" fill="none" stroke="#ECE7DB" stroke-opacity="0.1" stroke-width="1.2">
-        <g transform="translate(320 1020)"><path d="M-7 -7 L7 7 M-7 7 L7 -7" /><text x="0" y="26">USS PEARY</text></g>
-        <g transform="translate(640 880)"><path d="M-7 -7 L7 7 M-7 7 L7 -7" /><text x="0" y="26">NEPTUNA</text></g>
-        <g transform="translate(920 1090)"><path d="M-7 -7 L7 7 M-7 7 L7 -7" /><text x="0" y="26">ZEALANDIA</text></g>
-        <g transform="translate(480 1260)"><path d="M-7 -7 L7 7 M-7 7 L7 -7" /><text x="0" y="26">MAUNA LOA</text></g>
-        <g transform="translate(1080 1330)"><path d="M-7 -7 L7 7 M-7 7 L7 -7" /><text x="0" y="26">MEIGS</text></g>
+
+      <!-- the water: depth contours through the sea and the harbour -->
+      <g class="sb__contours">
+        <path d="M-20 150 C 70 146, 150 158, 220 184" />
+        <path d="M-20 230 C 80 222, 170 238, 250 270" />
+        <path d="M-20 320 C 90 310, 190 330, 280 366" />
+        <path d="M-20 415 C 100 404, 200 428, 292 464" />
+        <path d="M40 476 C 120 466, 200 486, 264 514" />
+        <path d="M28 524 C 110 515, 192 536, 254 568" />
+        <path d="M56 614 C 140 603, 222 622, 292 650" />
+        <path d="M448 542 C 500 550, 550 554, 610 552" />
+        <path d="M470 590 C 520 598, 564 602, 610 600" />
+      </g>
+
+      <!-- the wrecks: each a loss, each a low gold presence -->
+      <g class="seabed__wrecks">
+        <g transform="translate(240 500)"><circle class="mg" r="34" /><path class="wx" d="M-6 -6 L6 6 M-6 6 L6 -6" /><text x="-18" y="5" text-anchor="end">USS PEARY</text></g>
+        <g transform="translate(352 470)"><circle class="mg" r="34" /><path class="wx" d="M-6 -6 L6 6 M-6 6 L6 -6" /><text x="16" y="5">NEPTUNA</text></g>
+        <g transform="translate(415 548)"><circle class="mg" r="34" /><path class="wx" d="M-6 -6 L6 6 M-6 6 L6 -6" /><text x="16" y="5">ZEALANDIA</text></g>
+        <g transform="translate(155 565)"><circle class="mg" r="34" /><path class="wx" d="M-6 -6 L6 6 M-6 6 L6 -6" /><text x="-18" y="5" text-anchor="end">MAUNA LOA</text></g>
+        <g transform="translate(100 468)"><circle class="mg" r="34" /><path class="wx" d="M-6 -6 L6 6 M-6 6 L6 -6" /><text x="16" y="5">MEIGS</text></g>
       </g>
     </svg>
   </div>
@@ -124,13 +146,26 @@ const fallen = [
 </Base>
 
 <style>
-  /* ---- the seabed layer ---- */
+  /* ---- the seabed layer: a radar of remembrance ---- */
   .seabed { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
   .seabed svg { width: 100%; height: 100%; }
-  .seabed__wrecks text {
-    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em;
-    fill: rgba(236, 231, 219, 0.11); stroke: none; text-anchor: middle;
+  /* the geography — quieter than before; present, not read */
+  .sb__coast path { stroke: rgba(236, 231, 219, 0.05); stroke-width: 1.2; fill: none; stroke-linecap: round; }
+  .sb__contours path { stroke: rgba(236, 231, 219, 0.028); stroke-width: 1; fill: none; stroke-linecap: round; }
+  /* the wrecks — gold, low, breathing out of phase: felt more than seen */
+  .seabed__wrecks .wx { stroke: var(--gold); stroke-opacity: 0.42; stroke-width: 1.3; fill: none; }
+  .seabed__wrecks text { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; fill: rgba(236, 231, 219, 0.09); }
+  .mg { fill: url(#memglow); opacity: 0.09; animation: memBreathe 17s ease-in-out infinite; }
+  .seabed__wrecks g:nth-child(1) .mg { animation-delay: 0s; }
+  .seabed__wrecks g:nth-child(2) .mg { animation-delay: -3.4s; }
+  .seabed__wrecks g:nth-child(3) .mg { animation-delay: -6.8s; }
+  .seabed__wrecks g:nth-child(4) .mg { animation-delay: -10.2s; }
+  .seabed__wrecks g:nth-child(5) .mg { animation-delay: -13.6s; }
+  @keyframes memBreathe {
+    0%, 100% { opacity: 0.06; }
+    50% { opacity: 0.2; }
   }
+  @media (prefers-reduced-motion: reduce) { .mg { animation: none; opacity: 0.11; } }
   /* content floats above the floor */
   section { position: relative; z-index: 1; }
 

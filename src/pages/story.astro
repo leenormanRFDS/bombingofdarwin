@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Interstitial from '../components/Interstitial.astro';
+import PlotBoard from '../components/PlotBoard.astro';
 
 const timeline = [
   { t: '08:00', h: 'The strike launches', d: 'One hundred and eighty‑eight aircraft — Zeros, dive bombers and level bombers — lift from the Japanese carrier fleet in the Timor Sea.' },
@@ -38,6 +39,14 @@ const timeline = [
     align="left"
   />
 
+  <!-- Mobile: the plot lives BEHIND the timeline — surfacing between events,
+       re-framing toward each contact as its moment passes -->
+  <div class="s-plotbg" data-plotbg aria-hidden="true">
+    <div class="s-plotbg__pan" data-plotpan>
+      <PlotBoard mode="live" />
+    </div>
+  </div>
+
   <!-- The morning's clock — ticks forward as you scroll -->
   <div class="s-clock" data-clock aria-hidden="true">
     <span class="s-clock__t record" data-clock-t>08:00</span>
@@ -47,9 +56,9 @@ const timeline = [
   <div class="s-flash" data-flash aria-hidden="true"></div>
   <div class="s-smoke" data-smoke aria-hidden="true"></div>
 
-  <!-- The timeline -->
+  <!-- The timeline, with the operations plot alongside -->
   <section class="s-tl-section">
-    <div class="container">
+    <div class="container s-tl-grid">
       <div class="tl" data-tl>
         <div class="tl__line" aria-hidden="true"></div>
         <div class="tl__progress" data-progress aria-hidden="true"></div>
@@ -67,6 +76,20 @@ const timeline = [
           </article>
         ))}
       </div>
+
+      <aside class="s-plotwrap" aria-label="The morning plotted on Darwin Harbour">
+        <div class="s-plotstick">
+          <PlotBoard mode="live" />
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Mobile: the completed plot, the morning as one artifact -->
+  <section class="s-plot-mobile">
+    <div class="container">
+      <p class="eyebrow" data-reveal>The morning, plotted</p>
+      <div data-reveal><PlotBoard mode="complete" /></div>
     </div>
   </section>
 
@@ -184,6 +207,56 @@ const timeline = [
   .film .tk.br { bottom: 10px; right: 10px; border-left: 0; border-top: 0; }
   .film iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 
+  /* ---------- the plot board layout ---------- */
+  .s-plotwrap { display: none; }
+  /* the completed-plot section serves reduced-motion visitors only —
+     everyone else gets the living board behind the timeline */
+  .s-plot-mobile { display: none; padding-block: clamp(48px, 8vw, 90px); border-top: 1px solid var(--line); }
+  .s-plot-mobile .eyebrow { margin-bottom: 24px; }
+  .s-plot-mobile .plot { max-width: 560px; }
+  @media (max-width: 1099px) and (prefers-reduced-motion: reduce) {
+    .s-plot-mobile { display: block; }
+  }
+  @media (min-width: 1100px) {
+    /* NB: no align-items:start — the plot column must stretch to the full row
+       height or the sticky board has no track to travel (it would scroll away) */
+    .s-tl-grid { display: grid; grid-template-columns: minmax(0, 1fr) 400px; gap: clamp(48px, 5vw, 88px); }
+    .s-plotwrap { display: block; min-width: 0; align-self: stretch; }
+    .s-plotstick { position: sticky; top: calc(var(--nav-h) + 36px); }
+    /* contacts are instruments: click to travel to that moment */
+    .s-plotstick :global([data-ev]) { cursor: pointer; outline: none; }
+    .s-plotstick :global([data-ev]:hover .pm__l),
+    .s-plotstick :global([data-ev]:focus-visible .pm__l) { fill: rgba(236, 231, 219, 0.85); }
+    .s-plotstick :global([data-ev]:hover .pm__dot),
+    .s-plotstick :global([data-ev]:focus-visible .pm__dot) { fill: var(--gold-bright); }
+  }
+
+  /* ---------- the plot behind the story (mobile) ---------- */
+  .s-plotbg {
+    display: none; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.5s linear;
+  }
+  @media (max-width: 1099px) and (prefers-reduced-motion: no-preference) {
+    .s-plotbg { display: flex; }
+    /* the timeline floats above the board; each event becomes a record card
+       so the type stays sovereign over the drawing */
+    .s-tl-section { position: relative; z-index: 1; }
+    .tl__row {
+      background: linear-gradient(175deg, rgba(19, 18, 16, 0.88), rgba(12, 12, 11, 0.78));
+      border: 1px solid var(--line); padding: 18px 18px 20px;
+    }
+    /* interludes: space between events where the board comes forward */
+    .tl__event { padding-bottom: 44vh; }
+    .tl__event:last-child { padding-bottom: 12vh; }
+  }
+  .s-plotbg__pan {
+    width: min(96vw, 74vh); will-change: transform;
+    transition: transform 1.6s var(--ease-solemn);
+  }
+  .s-plotbg :global(.plot__head), .s-plotbg :global(.plot__cap) { display: none; }
+  .s-plotbg :global(.plot__board) { border: 0; background: none; }
+
   /* ---------- the clock ---------- */
   .s-clock {
     position: fixed; right: var(--gutter); top: 50%; transform: translateY(-50%);
@@ -194,6 +267,8 @@ const timeline = [
   .s-clock__t { font-size: 1.05rem; letter-spacing: 0.2em; color: var(--gold-bright); }
   .s-clock__z { font-size: 0.56rem; color: var(--bone-mute); }
   @media (max-width: 900px) { .s-clock { display: none; } }
+  /* on wide screens the plot board carries the clock instead */
+  @media (min-width: 1100px) { .s-clock { display: none; } }
 
   /* ---------- 09:58 ---------- */
   /* not a strobe — a bloom of light, like the sky brightening through eyelids */
@@ -279,6 +354,46 @@ const timeline = [
   if (clock && clockT && events.length) {
     const times = events.map((e) => e.querySelector('.tl__time')?.textContent?.trim() || '');
     const bombIdx = times.indexOf('09:58');
+    // the live plot boards (desktop companion + mobile backdrop): contacts
+    // kindle as their events pass; every board is driven identically
+    const livePlots = Array.from(document.querySelectorAll<HTMLElement>('[data-plot="live"]')).map((pl) => ({
+      pl,
+      marks: Array.from(pl.querySelectorAll<HTMLElement>('[data-ev]')),
+      bearing: pl.querySelector<SVGPathElement>('[data-bearing]'),
+      clockEl: pl.querySelector<HTMLElement>('.plot__d'),
+      lost: pl.querySelector<HTMLElement>('[data-lost]'),
+    }));
+    if (reduce) livePlots.forEach(({ pl }) => pl.classList.add('plot--complete'));
+
+    // the mobile backdrop: focus between slides, re-frame toward each contact
+    const bg = document.querySelector<HTMLElement>('[data-plotbg]');
+    const pan = document.querySelector<HTMLElement>('[data-plotpan]');
+    // svg-space centres of each event's contact (ev6 = Peary again; ev7 = overview)
+    const CONTACTS: Array<[number, number] | null> =
+      [[22, 36], [132, 180], [352, 468], [396, 408], [240, 500], [452, 278], [240, 500], null];
+    let lastPan = -2;
+
+    // each contact on the desktop board navigates to its moment in the story
+    const deskBoard = document.querySelector<HTMLElement>('.s-plotstick [data-plot="live"]');
+    deskBoard?.querySelectorAll<SVGGElement>('[data-ev]').forEach((m) => {
+      const i = Number(m.dataset.ev);
+      const target = events[Math.min(i, events.length - 1)];
+      if (!target) return;
+      m.setAttribute('role', 'link');
+      m.setAttribute('tabindex', '0');
+      m.setAttribute('aria-label', `Go to ${times[i] || ''} in the timeline`);
+      const go = () => {
+        const y = target.offsetTop - window.innerHeight * 0.32;
+        const lenis = (window as any).__lenis;
+        if (lenis) lenis.scrollTo(y, { duration: 1.4 });
+        else window.scrollTo({ top: y, behavior: 'smooth' });
+      };
+      m.addEventListener('click', go);
+      m.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); }
+      });
+    });
+
     let flashed = false;
     let raf = 0;
     const update = () => {
@@ -292,6 +407,8 @@ const timeline = [
       if (cur >= 0 && clockT.textContent !== times[cur]) {
         clockT.textContent = times[cur];
         if (!reduce) clockT.animate([{ opacity: 0.2 }, { opacity: 1 }], { duration: 500, easing: 'ease-out' });
+        const t = times[cur] === 'Dusk' ? 'Dusk' : `${times[cur]} ACST`;
+        livePlots.forEach(({ clockEl }) => { if (clockEl) clockEl.textContent = t; });
       }
       const past958 = bombIdx >= 0 && cur >= bombIdx;
       if (past958 && !flashed) {
@@ -299,6 +416,48 @@ const timeline = [
         if (!reduce && flash) flash.classList.add('is-flash');
       }
       smoke?.classList.toggle('is-on', past958);
+
+      // drive every board: kindle contacts, draw the bearing in reaches, mark the loss
+      if (!reduce) {
+        livePlots.forEach(({ pl, marks, bearing, lost }) => {
+          marks.forEach((m) => m.classList.toggle('is-lit', cur >= Number(m.dataset.ev)));
+          // The head of the bearing = the formation's position at each recorded
+          // moment: launched (08:00), over Bathurst at exactly t=1/3 (09:35, the
+          // transmission), over the harbour (09:58). Timing honoured in geometry.
+          if (bearing) bearing.style.strokeDashoffset = String(cur >= 2 ? 0 : cur >= 1 ? 0.667 : cur >= 0 ? 0.88 : 1);
+          lost?.classList.toggle('is-x', cur >= 6);
+          pl.classList.toggle('is-dusk', cur >= 7);
+        });
+      }
+
+      // the backdrop board: recede under text, surface between slides,
+      // and re-frame toward the current contact
+      if (bg && pan && !reduce && window.innerWidth < 1100) {
+        let nd = 1;
+        for (const e of events) {
+          const r = e.getBoundingClientRect();
+          const d = Math.abs(r.top + r.height / 2 - window.innerHeight / 2) / (window.innerHeight * 0.5);
+          if (d < nd) nd = d;
+        }
+        // 0 when an event card is centred → board recedes; 1 in the interludes
+        const focus = Math.min(1, Math.max(0, (nd - 0.22) / 0.55));
+        bg.style.opacity = inTl ? String(0.24 + focus * 0.52) : '0';
+
+        if (cur !== lastPan) {
+          lastPan = cur;
+          const c = cur >= 0 ? CONTACTS[Math.min(cur, CONTACTS.length - 1)] : null;
+          if (!c) {
+            pan.style.transform = 'none';
+          } else {
+            const s = pan.clientWidth / 600; // svg units → px
+            const Z = 1.5;
+            const px = (c[0] - 300) * s, py = (c[1] - 380) * s;
+            pan.style.transform = `translate(${(-px * Z).toFixed(1)}px, ${(-py * Z).toFixed(1)}px) scale(${Z})`;
+          }
+        }
+      } else if (bg) {
+        bg.style.opacity = '0';
+      }
     };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
     window.addEventListener('scroll', onScroll, { passive: true });
