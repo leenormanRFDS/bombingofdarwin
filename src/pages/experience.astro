@@ -44,6 +44,13 @@ const features = [
 
   <PeopleWheel />
 
+  <!-- the page's one heartbeat -->
+  <section class="section beat" aria-label="You will stand where they stood">
+    <div class="container">
+      <p class="beat__line">You will stand where they stood.</p>
+    </div>
+  </section>
+
   <!-- Included: the RFDS Experience -->
   <section class="section rfds" style="border-top:1px solid var(--line);">
     <div class="container rfds__grid">
@@ -108,6 +115,14 @@ const features = [
   .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(28px, 4vw, 52px); }
   .pillar__t { margin-top: 20px; font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
   @media (max-width: 760px) { .pillars { grid-template-columns: 1fr; gap: 40px; } }
+
+  /* ---- the heartbeat ---- */
+  .beat { padding-block: clamp(90px, 18vh, 200px); border-top: 1px solid var(--line); text-align: center; }
+  .beat__line {
+    font-family: var(--font-serif); font-style: italic;
+    font-size: clamp(1.6rem, 3.6vw, 2.7rem); line-height: 1.4;
+    color: var(--bone); margin: 0;
+  }
 
   /* ---- Included: RFDS ---- */
   .rfds__grid { display: grid; gap: clamp(32px, 5vw, 72px); align-items: start; }

@@ -1,7 +1,7 @@
 ---
 import { SITE, CONTACT } from '../consts';
 const year = new Date().getFullYear();
-const mapSrc = 'https://www.google.com/maps?q=Royal%20Flying%20Doctor%20Service%20Darwin%20Tourist%20Facility%2C%2045%20Stokes%20Hill%20Road%2C%20Darwin%20NT&output=embed';
+const directions = 'https://www.google.com/maps/dir/?api=1&destination=Royal+Flying+Doctor+Service+Darwin+Tourist+Facility+Stokes+Hill+Wharf';
 ---
 <footer class="foot">
   <div class="container foot__grid">
@@ -16,16 +16,8 @@ const mapSrc = 'https://www.google.com/maps?q=Royal%20Flying%20Doctor%20Service%
       <p>{CONTACT.address}</p>
       <p><a href={`tel:${CONTACT.phone.replace(/[^0-9+]/g, '')}`}>{CONTACT.phone}</a></p>
       <p><a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></p>
-    </div>
-
-    <div class="foot__map map-embed">
-      <iframe
-        src={mapSrc}
-        title="Map — RFDS Darwin Tourist Facility, Stokes Hill Wharf"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-        allowfullscreen
-      ></iframe>
+      <p class="foot__dir"><a href={directions} target="_blank" rel="noopener">Open in Google Maps →</a></p>
+      <p class="foot__coord record">12°27′S · 130°50′E</p>
     </div>
   </div>
 
@@ -56,16 +48,17 @@ const mapSrc = 'https://www.google.com/maps?q=Royal%20Flying%20Doctor%20Service%
     background-repeat: no-repeat;
   }
   .foot > .container { position: relative; z-index: 1; }
-  .foot__grid { display: grid; grid-template-columns: 1.3fr 1fr 1.4fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid var(--line); }
+  .foot__grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid var(--line); }
+  .foot__dir { margin-top: 14px !important; }
+  .foot__dir a { color: var(--gold-bright); border-bottom: 1px solid var(--line-strong); padding-bottom: 2px; transition: border-color 0.2s var(--ease); }
+  .foot__dir a:hover { border-color: var(--gold); }
+  .foot__coord { color: var(--bone-mute); margin-top: 10px !important; font-size: 0.62rem; }
   .foot__brand img:first-child { height: 40px; width: auto; margin-bottom: 16px; }
   .foot__tag { color: var(--bone-dim); font-size: 0.92rem; max-width: 34ch; }
   .foot__trip { width: 74px; height: 74px; border-radius: 50%; margin-top: 6px; }
   .foot h4 { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.24em; color: var(--gold); margin-bottom: 16px; text-transform: uppercase; font-weight: 500; }
   .foot__contact p { color: var(--bone-dim); font-size: 0.92rem; margin: 0 0 8px; }
   .foot__contact a:hover { color: var(--gold-bright); }
-
-  .foot__map { border: 1px solid var(--line-strong); border-radius: 4px; overflow: hidden; min-height: 220px; }
-  .foot__map iframe { display: block; width: 100%; height: 100%; min-height: 220px; border: 0; filter: grayscale(1) contrast(0.95); }
 
   .foot__ack { padding-top: 24px; }
   .foot__ack p { color: var(--bone-mute); font-size: 0.8rem; line-height: 1.7; max-width: 82ch; font-style: italic; font-family: var(--font-serif); margin: 0; }

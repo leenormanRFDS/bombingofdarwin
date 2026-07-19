@@ -79,6 +79,10 @@ const MESSAGE = 'An unusually large air formation bearing down on us from the no
     transition: color 0.25s var(--ease), border-color 0.25s var(--ease);
   }
   .opening__skip:hover { color: var(--gold-bright); border-color: var(--gold); }
+  /* short viewports: keep Skip clear of the monument's descenders */
+  @media (max-height: 700px) {
+    .opening__skip { bottom: auto; top: clamp(16px, 3vh, 28px); }
+  }
 </style>
 
 <script>
