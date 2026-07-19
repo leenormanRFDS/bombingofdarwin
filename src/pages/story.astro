@@ -383,7 +383,8 @@ const timeline = [
       m.setAttribute('tabindex', '0');
       m.setAttribute('aria-label', `Go to ${times[i] || ''} in the timeline`);
       const go = () => {
-        const y = target.offsetTop - window.innerHeight * 0.32;
+        // document-space Y (offsetTop is relative to the positioned .tl — wrong)
+        const y = target.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.34;
         const lenis = (window as any).__lenis;
         if (lenis) lenis.scrollTo(y, { duration: 1.4 });
         else window.scrollTo({ top: y, behavior: 'smooth' });
@@ -398,12 +399,15 @@ const timeline = [
     let raf = 0;
     const update = () => {
       raf = 0;
-      const mid = window.scrollY + window.innerHeight * 0.55;
-      const first = events[0], last = events[events.length - 1];
-      const inTl = mid > first.offsetTop && window.scrollY < last.offsetTop + last.offsetHeight + 200;
+      // measure in viewport space via rects — offsetTop is relative to the
+      // positioned .tl container and reads events several screens early
+      const midY = window.innerHeight * 0.55;
+      const rects = events.map((e) => e.getBoundingClientRect());
+      const first = rects[0], last = rects[rects.length - 1];
+      const inTl = first.top < midY && last.bottom > -200;
       clock.classList.toggle('is-on', inTl);
       let cur = -1;
-      for (let i = 0; i < events.length; i++) if (events[i].offsetTop < mid) cur = i;
+      for (let i = 0; i < rects.length; i++) if (rects[i].top < midY) cur = i;
       if (cur >= 0 && clockT.textContent !== times[cur]) {
         clockT.textContent = times[cur];
         if (!reduce) clockT.animate([{ opacity: 0.2 }, { opacity: 1 }], { duration: 500, easing: 'ease-out' });
@@ -434,8 +438,7 @@ const timeline = [
       // and re-frame toward the current contact
       if (bg && pan && !reduce && window.innerWidth < 1100) {
         let nd = 1;
-        for (const e of events) {
-          const r = e.getBoundingClientRect();
+        for (const r of rects) {
           const d = Math.abs(r.top + r.height / 2 - window.innerHeight / 2) / (window.innerHeight * 0.5);
           if (d < nd) nd = d;
         }
