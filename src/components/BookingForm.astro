@@ -379,6 +379,8 @@ const icon = (n: string) =>
       el('[data-mocknote]').hidden = !data.mock;
       state.byDate = {};
       data.sessions.forEach((s: any) => { if (s.seatsAvailable === 0) return; (state.byDate[s.date] = state.byDate[s.date] || []).push(s); });
+      // all-day products (combos): every session starts 00:00 — no time to choose
+      state.allDay = data.sessions.length > 0 && data.sessions.every((s: any) => !s.time || s.time === '00:00');
       state.loaded = true;
       renderCal();
     }
@@ -393,11 +395,19 @@ const icon = (n: string) =>
         b.type = 'button'; b.className = 'day'; b.disabled = !has; b.setAttribute('aria-pressed', 'false');
         b.innerHTML = `<span class="day__wd">${WD[d.getDay()]}</span><span class="day__num">${d.getDate()}</span><span class="day__mo">${MO[d.getMonth()]}</span>`;
         if (has) b.addEventListener('click', () => {
-          state.date = iso; state.session = null;
+          state.date = iso;
           c.querySelectorAll('.day').forEach((x) => x.setAttribute('aria-pressed', 'false'));
           b.setAttribute('aria-pressed', 'true');
-          el('[data-step-session]').hidden = false;
-          renderSessions(); sync();
+          if (state.allDay) {
+            // no time to choose — the day's session IS the selection
+            state.session = state.byDate[iso][0];
+            el('[data-step-session]').hidden = true;
+          } else {
+            state.session = null;
+            el('[data-step-session]').hidden = false;
+            renderSessions();
+          }
+          sync();
         });
         c.appendChild(b);
       }
@@ -431,7 +441,7 @@ const icon = (n: string) =>
         const d = new Date(state.date + 'T00:00:00');
         el('[data-sum-date]').textContent = `${WD[d.getDay()]} ${d.getDate()} ${MO[d.getMonth()]}`;
       } else el('[data-sum-date]').textContent = '—';
-      el('[data-sum-time]').textContent = state.session ? state.session.time : '—';
+      el('[data-sum-time]').textContent = state.session ? (state.allDay ? 'Valid all day' : state.session.time) : '—';
       el('[data-total]').textContent = money(total());
 
       const n = count();
