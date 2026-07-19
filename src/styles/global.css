@@ -267,9 +267,9 @@ body[data-depth='seabed'].grain::after { animation-duration: 0.9s; }
    sits IN the stock, not on the screen. Keeps each face's existing glow. */
 .pagehead__monument, .s-monument, .mem-monument, .whero__tagline, .rfds__h, .s-reckon__h {
   text-shadow:
-    0 -1px 0 rgba(0, 0, 0, 0.55),
-    0 1px 0 rgba(236, 231, 219, 0.05),
-    0 0 50px rgba(236, 231, 219, 0.12);
+    0 -1px 0 rgba(0, 0, 0, 0.6),
+    0 1px 0 rgba(236, 231, 219, 0.04),
+    0 0 12px rgba(236, 231, 219, 0.05);
 }
 
 /* ---------- gold leaf: light travels the gilding ----------

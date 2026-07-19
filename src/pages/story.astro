@@ -38,6 +38,15 @@ const timeline = [
     align="left"
   />
 
+  <!-- The morning's clock — ticks forward as you scroll -->
+  <div class="s-clock" data-clock aria-hidden="true">
+    <span class="s-clock__t record" data-clock-t>08:00</span>
+    <span class="s-clock__z record">ACST</span>
+  </div>
+  <!-- 09:58 — one frame of white, then the light never recovers -->
+  <div class="s-flash" data-flash aria-hidden="true"></div>
+  <div class="s-smoke" data-smoke aria-hidden="true"></div>
+
   <!-- The timeline -->
   <section class="s-tl-section">
     <div class="container">
@@ -101,13 +110,25 @@ const timeline = [
       <a class="s-reckon__mem" href="/memorial" data-reveal>In Memoriam — those who were lost →</a>
     </div>
   </section>
+
+  <!-- The threshold — the story stops here; the experience continues at the wharf -->
+  <section class="s-threshold">
+    <div class="container">
+      <p class="s-threshold__line" data-reveal>
+        What those forty minutes felt like cannot be scrolled.<br />
+        It is told standing where it happened.
+      </p>
+      <a class="btn-book" href="/tickets" data-reveal>Continue at the Wharf</a>
+      <p class="record s-threshold__sub" data-reveal>Every ticket includes both experiences · Stokes Hill Wharf, Darwin</p>
+    </div>
+  </section>
 </Base>
 
 <style>
   /* ---------- intro ---------- */
   .s-intro { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; position: relative; padding-block: calc(var(--nav-h) + 40px) 40px; }
   .s-intro__inner { max-width: 1000px; }
-  .s-monument { font-family: var(--font-display-xl); font-weight: 400; text-transform: uppercase; line-height: 0.92; letter-spacing: 0.01em; color: var(--bone); font-size: clamp(3.2rem, 12vw, 8.5rem); margin: 0 0 clamp(28px, 4vw, 48px); text-shadow: 0 0 50px rgba(236, 231, 219, 0.12); }
+  .s-monument { font-family: var(--font-display-xl); font-weight: 400; text-transform: uppercase; line-height: 0.92; letter-spacing: 0.01em; color: var(--bone); font-size: clamp(3.2rem, 12vw, 8.5rem); margin: 0 0 clamp(28px, 4vw, 48px); text-shadow: 0 -1px 0 rgba(0,0,0,0.6), 0 1px 0 rgba(236,231,219,0.04), 0 0 12px rgba(236,231,219,0.05); }
   .s-rule { width: 64px; height: 1px; background: var(--line-strong); margin-bottom: clamp(28px, 4vw, 48px); }
   .s-lede { font-family: var(--font-serif); font-size: clamp(1.25rem, 2.4vw, 1.9rem); line-height: 1.5; color: var(--bone-dim); max-width: 42ch; margin: 0; }
 
@@ -163,6 +184,41 @@ const timeline = [
   .film .tk.br { bottom: 10px; right: 10px; border-left: 0; border-top: 0; }
   .film iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 
+  /* ---------- the clock ---------- */
+  .s-clock {
+    position: fixed; right: var(--gutter); top: 50%; transform: translateY(-50%);
+    z-index: 40; display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
+    opacity: 0; transition: opacity 0.8s var(--ease); pointer-events: none;
+  }
+  .s-clock.is-on { opacity: 1; }
+  .s-clock__t { font-size: 1.05rem; letter-spacing: 0.2em; color: var(--gold-bright); }
+  .s-clock__z { font-size: 0.56rem; color: var(--bone-mute); }
+  @media (max-width: 900px) { .s-clock { display: none; } }
+
+  /* ---------- 09:58 ---------- */
+  /* not a strobe — a bloom of light, like the sky brightening through eyelids */
+  .s-flash {
+    position: fixed; inset: 0; z-index: 90; opacity: 0; pointer-events: none;
+    background: radial-gradient(120% 90% at 50% 30%, var(--bone) 0%, rgba(236, 231, 219, 0.6) 45%, transparent 100%);
+  }
+  .s-flash.is-flash { animation: flashOnce 1.8s cubic-bezier(0.2, 0, 0.4, 1) forwards; }
+  @keyframes flashOnce {
+    0% { opacity: 0; }
+    18% { opacity: 0.34; }
+    100% { opacity: 0; }
+  }
+  .s-smoke {
+    position: fixed; inset: 0; z-index: 55; pointer-events: none; opacity: 0;
+    background: linear-gradient(180deg, rgba(10, 8, 6, 0.12) 0%, rgba(10, 8, 6, 0.34) 60%, rgba(8, 6, 5, 0.5) 100%);
+    transition: opacity 3s var(--ease);
+  }
+  .s-smoke.is-on { opacity: 1; }
+
+  /* ---------- the threshold ---------- */
+  .s-threshold { text-align: center; padding-block: clamp(80px, 16vh, 180px); border-top: 1px solid var(--line); position: relative; z-index: 1; }
+  .s-threshold__line { font-family: var(--font-serif); font-style: italic; font-size: clamp(1.4rem, 3.2vw, 2.3rem); line-height: 1.5; color: var(--bone); margin: 0 0 clamp(36px, 5vw, 52px); }
+  .s-threshold__sub { color: var(--bone-mute); margin: 18px 0 0; }
+
   /* ---------- scroll-reveal (blur-in) ---------- */
   [data-reveal] { opacity: 0; transform: translateY(30px); filter: blur(5px); transition: opacity 1.3s var(--ease-solemn), transform 1.3s var(--ease-solemn), filter 1.3s var(--ease-solemn); }
   [data-reveal][data-shown] { opacity: 1; transform: none; filter: blur(0); }
@@ -210,6 +266,43 @@ const timeline = [
       iframe.title = 'Archival footage — the Bombing of Darwin';
       player.replaceWith(iframe);
     });
+  }
+
+  // The morning's clock + the 09:58 moment.
+  // The scroll advances the clock through the timeline's hours; crossing 09:58
+  // fires one frame of white (once), and the light never quite recovers.
+  const clock = document.querySelector<HTMLElement>('[data-clock]');
+  const clockT = document.querySelector<HTMLElement>('[data-clock-t]');
+  const flash = document.querySelector<HTMLElement>('[data-flash]');
+  const smoke = document.querySelector<HTMLElement>('[data-smoke]');
+  const events = Array.from(document.querySelectorAll<HTMLElement>('.tl__event'));
+  if (clock && clockT && events.length) {
+    const times = events.map((e) => e.querySelector('.tl__time')?.textContent?.trim() || '');
+    const bombIdx = times.indexOf('09:58');
+    let flashed = false;
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const mid = window.scrollY + window.innerHeight * 0.55;
+      const first = events[0], last = events[events.length - 1];
+      const inTl = mid > first.offsetTop && window.scrollY < last.offsetTop + last.offsetHeight + 200;
+      clock.classList.toggle('is-on', inTl);
+      let cur = -1;
+      for (let i = 0; i < events.length; i++) if (events[i].offsetTop < mid) cur = i;
+      if (cur >= 0 && clockT.textContent !== times[cur]) {
+        clockT.textContent = times[cur];
+        if (!reduce) clockT.animate([{ opacity: 0.2 }, { opacity: 1 }], { duration: 500, easing: 'ease-out' });
+      }
+      const past958 = bombIdx >= 0 && cur >= bombIdx;
+      if (past958 && !flashed) {
+        flashed = true;
+        if (!reduce && flash) flash.classList.add('is-flash');
+      }
+      smoke?.classList.toggle('is-on', past958);
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    update();
   }
 
   // The line draws itself as you descend the timeline
