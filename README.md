@@ -4,8 +4,8 @@ A repository-ready operating system for Google AI Studio, GitHub and production 
 
 ## Files
 
-- `.agents/AGENTS.md` — compact constitution and agent execution protocol.
-- `.agents/skills/*/SKILL.md` — task-specific workflows.
+- `agents/AGENTS.md` — compact constitution and agent execution protocol.
+- `agents/skills/*/SKILL.md` — task-specific workflows.
 - `AI_SYSTEM.md` — copy/paste system-instruction version.
 - `docs/` — detailed human-readable doctrine.
 - `config/` — exact machine-readable design, motion and routing rules.
@@ -17,10 +17,10 @@ A repository-ready operating system for Google AI Studio, GitHub and production 
 ### AI Studio Build mode
 Keep this folder inside the website repository and sync/import the repo through GitHub. In the first prompt tell the agent:
 
-> Read `.agents/AGENTS.md`, `config/decision-matrix.json` and the relevant `.agents/skills/*/SKILL.md` before changing the application. Treat these as project governance. Inspect existing implementation first. Preserve unrelated functionality.
+> Read `agents/AGENTS.md`, `config/decision-matrix.json` and the relevant `agents/skills/*/SKILL.md` before changing the application. Treat these as project governance. Inspect existing implementation first. Preserve unrelated functionality.
 
 ### AI Studio Managed Agents / Agents Playground
-Keep `.agents/AGENTS.md` and `.agents/skills/` intact. This structure matches Google's managed-agent configuration model.
+Keep `agents/AGENTS.md` and `agents/skills/` intact. This structure matches Google's managed-agent configuration model.
 
 ### System Instructions field
 If the AI Studio surface exposes a System Instructions field, paste `AI_SYSTEM.md`. Do not paste the whole `/docs` directory into the system field.
@@ -56,7 +56,7 @@ Verify the requested outcome and stop.
 1. Verified historical/cultural evidence and approved cultural authority.
 2. `data/historical-canon.json` and linked sources.
 3. `config/` machine-readable rules.
-4. `.agents/AGENTS.md`.
+4. `agents/AGENTS.md`.
 5. `/docs`.
 6. Current task brief.
 7. Existing conventions, unless they conflict with the above.
