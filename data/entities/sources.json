@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "sources": [],
+  "template": {
+    "id": "SOURCE_001",
+    "title": null,
+    "institution": null,
+    "catalogueId": null,
+    "url": null,
+    "date": null,
+    "sourceType": "PRIMARY_OR_SECONDARY",
+    "notes": null
+  }
+}

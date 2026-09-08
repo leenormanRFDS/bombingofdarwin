@@ -1,0 +1,44 @@
+{
+  "version": "0.2.0",
+  "status": "STARTER_STORY_STRUCTURE",
+  "beats": [
+    {
+      "id": "WARNING_0935",
+      "chapter": "THE_WARNING",
+      "historicalTime": "1942-02-19T09:35:00+09:30",
+      "headline": "A warning reaches Darwin.",
+      "truthRefs": [
+        "WARNING_TIME_0935"
+      ],
+      "spatial": {
+        "cameraPreset": "TO_BE_AUTHORED",
+        "visibleEntityIds": [],
+        "historicalLayerIds": []
+      },
+      "motion": {
+        "mode": "CINEMATIC_FLIGHT",
+        "reducedMotion": "STATIC_COMPOSITION"
+      },
+      "status": "REQUIRES_HISTORICAL_AND_CAMERA_AUTHORING"
+    },
+    {
+      "id": "ATTACK_0958",
+      "chapter": "THE_ATTACK",
+      "historicalTime": "1942-02-19T09:58:00+09:30",
+      "headline": "09:58.",
+      "truthRefs": [
+        "ATTACK_TIME_0958"
+      ],
+      "spatial": {
+        "cameraPreset": "TO_BE_AUTHORED",
+        "visibleEntityIds": [],
+        "historicalLayerIds": []
+      },
+      "motion": {
+        "mode": "CINEMATIC_FLIGHT",
+        "reducedMotion": "STATIC_COMPOSITION"
+      },
+      "status": "REQUIRES_HISTORICAL_AND_CAMERA_AUTHORING"
+    }
+  ]
+}

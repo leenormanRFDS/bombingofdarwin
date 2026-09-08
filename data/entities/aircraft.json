@@ -1,0 +1,11 @@
+{
+  "version": "0.2.0",
+  "entities": [],
+  "template": {
+    "id": "AIRCRAFT_OR_FORMATION_ID",
+    "modelAsset": null,
+    "positions": [],
+    "sourceRefs": [],
+    "confidence": "UNKNOWN"
+  }
+}
