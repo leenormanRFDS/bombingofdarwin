@@ -121,9 +121,8 @@ Verify the requested outcome and stop.
 3. `config/` machine-readable rules.
 4. `AGENTS.md`.
 5. `docs/`.
-6. Existing project documents such as `PROJECT.md` and `PHOTOGRAPHY-BRIEF.md`.
-7. Current task brief.
-8. Existing code conventions, unless they conflict with the above.
+6. Current task brief.
+7. Existing code conventions, unless they conflict with the above.
 
 If sources conflict, report the conflict rather than silently inventing a resolution.
 
