@@ -390,10 +390,9 @@ For production release, use:
 
 The repository may also contain existing documents such as:
 
-- `PROJECT.md`
 - `PHOTOGRAPHY-BRIEF.md`
 
-Treat them as project context.
+Treat them as project context and as a reference, not authority.
 
 If they conflict with this constitution or structured governance files, report the conflict rather than silently choosing a side.
 
