@@ -1,4 +1,18 @@
-# The Bombing of Darwin Experience — Project Brief & Handoff
+# LEGACY PROJECT DOCUMENT
+
+This document is retained for historical reference only.
+
+It is not an active source of project governance.
+
+Current project governance is defined by:
+
+- AGENTS.md
+- config/
+- data/
+- skills/
+- docs/
+
+Where this document conflicts with current governance, current governance prevails.# The Bombing of Darwin Experience — Project Brief & Handoff
 
 This document is the memory of the project. It captures the *why* behind the code — the
 design philosophy, the decisions, the state, and what's next — so anyone (a new machine, a
