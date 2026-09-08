@@ -1,0 +1,11 @@
+{
+  "version": "0.1.0",
+  "entities": [],
+  "template": {
+    "id": "VESSEL_ID",
+    "name": null,
+    "position": null,
+    "sourceRefs": [],
+    "confidence": "UNKNOWN"
+  }
+}

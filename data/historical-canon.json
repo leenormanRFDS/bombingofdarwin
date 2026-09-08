@@ -1,0 +1,49 @@
+{
+  "version": "0.1.0",
+  "status": "STARTER_STRUCTURE_REQUIRES_CURATORIAL_POPULATION",
+  "rules": {
+    "classifications": [
+      "PRIMARY_SOURCE",
+      "ARCHIVAL_MATERIAL",
+      "ESTABLISHED_FACT",
+      "HISTORICAL_INTERPRETATION",
+      "INFERENCE",
+      "DIGITAL_RECONSTRUCTION"
+    ],
+    "confidence": [
+      "VERIFIED",
+      "HIGH",
+      "MODERATE",
+      "LOW",
+      "DISPUTED",
+      "UNKNOWN"
+    ],
+    "publication": "Do not publish disputed/unknown claims as certain. Link claims to sources."
+  },
+  "claims": [
+    {
+      "id": "EVENT_DATE",
+      "value": "1942-02-19",
+      "classification": "ESTABLISHED_FACT",
+      "confidence": "VERIFIED",
+      "sources": [],
+      "note": "Add approved institutional sources to the evidence register."
+    },
+    {
+      "id": "WARNING_TIME_0935",
+      "value": "09:35",
+      "classification": "HISTORICAL_INTERPRETATION",
+      "confidence": "UNKNOWN",
+      "sources": [],
+      "note": "Narrative motif; verify against approved source set before promoting to VERIFIED."
+    },
+    {
+      "id": "ATTACK_TIME_0958",
+      "value": "09:58",
+      "classification": "HISTORICAL_INTERPRETATION",
+      "confidence": "UNKNOWN",
+      "sources": [],
+      "note": "Narrative motif; verify against approved source set before promoting to VERIFIED."
+    }
+  ]
+}

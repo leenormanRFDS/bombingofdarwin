@@ -1,0 +1,19 @@
+{
+  "version": "0.1.0",
+  "entities": [
+    {
+      "id": "STOKES_HILL_WHARF",
+      "name": "Stokes Hill Wharf",
+      "position": null,
+      "sourceRefs": [],
+      "confidence": "UNKNOWN"
+    },
+    {
+      "id": "DARWIN_HARBOUR",
+      "name": "Darwin Harbour",
+      "geometry": null,
+      "sourceRefs": [],
+      "confidence": "UNKNOWN"
+    }
+  ]
+}
